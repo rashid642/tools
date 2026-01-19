@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Beautiful README.md viewer with live markdown rendering and syntax highlighting">
+    <title>📖 README Viewer - Tool Studio</title>
+    
+    <!-- Marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" id="highlight-theme">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        
+        /* Dark Theme (Default) */
+        :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --code-bg: #1a1b26;
+        }
+        
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --code-bg: #f8fafc;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        h1 .emoji {
+            font-size: 1.5rem;
+        }
+        
+        h1 .title-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 968px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            header {
+                padding: 12px 16px;
+            }
+        }
+        
+        .panel {
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .panel:last-child {
+            border-right: none;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .panel-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        textarea {
+            flex: 1;
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--text);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: none;
+            transition: all 0.3s ease;
+            cursor: text;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+        
+        /* Text selection styling */
+        textarea::selection {
+            background: #6366f1;
+            color: white;
+        }
+        
+        #preview {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        /* Markdown Styles */
+        #preview h1, #preview h2, #preview h3, #preview h4, #preview h5, #preview h6 {
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        #preview h1 {
+            font-size: 2rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+        }
+        
+        #preview h2 {
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+        }
+        
+        #preview h3 {
+            font-size: 1.3rem;
+        }
+        
+        #preview p {
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        
+        #preview a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        #preview a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        #preview code {
+            background: var(--bg-hover);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        #preview pre {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid var(--border);
+        }
+        
+        #preview pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        
+        /* Ensure code blocks are readable in light mode */
+        [data-theme="light"] #preview pre {
+            background: #282c34;
+        }
+        
+        [data-theme="light"] #preview pre code {
+            color: #abb2bf;
+        }
+        
+        #preview ul, #preview ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+        
+        #preview li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        #preview blockquote {
+            border-left: 4px solid var(--primary);
+            padding-left: 16px;
+            margin: 16px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        #preview table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        
+        #preview table th,
+        #preview table td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+        
+        #preview table th {
+            background: var(--bg-hover);
+            font-weight: 600;
+        }
+        
+        #preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        #preview hr {
+            border: none;
+            border-top: 2px solid var(--border);
+            margin: 24px 0;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state-text {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        
+        .empty-state-hint {
+            font-size: 0.95rem;
+        }
+        
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-input);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .char-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>
+                    <span class="emoji">📖</span>
+                    <span class="title-text">README Viewer</span>
+                </h1>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                <span id="theme-icon">🌙</span>
+                <span id="theme-text">Dark</span>
+            </button>
+        </header>
+        
+        <div class="layout">
+            <!-- Editor Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <span>✍️</span>
+                        <span>Markdown Editor</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="clearEditor()">
+                            <span>🗑️</span>
+                            <span>Clear</span>
+                        </button>
+                        <button class="btn-secondary" onclick="loadExample()">
+                            <span>📝</span>
+                            <span>Example</span>
+                        </button>
+                    </div>
+                </div>
+                <textarea id="markdown-input" placeholder="# Welcome to README Viewer
+
+Paste or type your markdown content here...
+
+## Features
+- 🎨 Beautiful syntax highlighting
+- 📱 Mobile-friendly design
+- ⚡ Real-time preview
+- 🌙 Dark theme
+
+Try typing some markdown!"></textarea>
+                <div class="char-count" id="char-count">0 characters</div>
+            </div>
+            
+            <!-- Preview Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <span>👁️</span>
+                        <span>Live Preview</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="copyHTML()">
+                            <span>📋</span>
+                            <span>Copy HTML</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="preview">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📖</div>
+                        <div class="empty-state-text">No content yet</div>
+                        <div class="empty-state-hint">Start typing in the editor to see the preview</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">✓ Copied to clipboard!</div>
+    
+    <script>
+    (function() {
+        'use strict';
+        
+        // Theme Management
+        const savedTheme = localStorage.getItem('readme-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+        
+        window.toggleTheme = function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('readme-theme', newTheme);
+            updateThemeButton(newTheme);
+        };
+        
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            }
+        }
+        
+        // Configure marked
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                }
+                return hljs.highlightAuto(code).value;
+            },
+            breaks: true,
+            gfm: true
+        });
+        
+        const input = document.getElementById('markdown-input');
+        const preview = document.getElementById('preview');
+        const charCount = document.getElementById('char-count');
+        const toast = document.getElementById('toast');
+        
+        // Load from localStorage on init
+        const savedContent = localStorage.getItem('readme-content');
+        if (savedContent) {
+            input.value = savedContent;
+            updatePreview();
+        }
+        
+        // Update preview on input
+        input.addEventListener('input', function() {
+            updatePreview();
+            updateCharCount();
+            // Auto-save to localStorage
+            localStorage.setItem('readme-content', input.value);
+        });
+        
+        function updatePreview() {
+            const markdown = input.value.trim();
+            
+            if (!markdown) {
+                preview.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📖</div>
+                        <div class="empty-state-text">No content yet</div>
+                        <div class="empty-state-hint">Start typing in the editor to see the preview</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            try {
+                preview.innerHTML = marked.parse(markdown);
+                // Re-highlight code blocks
+                preview.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+            } catch (error) {
+                preview.innerHTML = `<div style="color: var(--danger); padding: 20px;">
+                    <h3>❌ Error rendering markdown</h3>
+                    <p>${error.message}</p>
+                </div>`;
+            }
+        }
+        
+        function updateCharCount() {
+            const count = input.value.length;
+            charCount.textContent = `${count.toLocaleString()} characters`;
+        }
+        
+        window.clearEditor = function() {
+            if (input.value && !confirm('Are you sure you want to clear all content?')) {
+                return;
+            }
+            input.value = '';
+            localStorage.removeItem('readme-content');
+            updatePreview();
+            updateCharCount();
+        };
+        
+        window.loadExample = function() {
+            const exampleMarkdown = `# 📚 Project Title
+
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+A comprehensive README example showcasing all markdown features.
+
+## ✨ Features
+
+- 🚀 Fast and lightweight
+- 🎨 Beautiful UI components
+- 📱 Fully responsive design
+- 🔒 Secure authentication
+- 🌐 Multi-language support
+- ⚡ Real-time updates
+
+## 📋 Table of Contents
+
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [API Reference](#api-reference)
+4. [Contributing](#contributing)
+5. [License](#license)
+
+## 🚀 Installation
+
+\`\`\`bash
+# Clone the repository
+git clone https://github.com/username/project.git
+
+# Navigate to project directory
+cd project
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+\`\`\`
+
+## 💻 Usage
+
+Here's a quick example to get you started:
+
+\`\`\`javascript
+import { initialize } from 'awesome-library';
+
+// Initialize the library
+const app = initialize({
+  apiKey: 'your-api-key',
+  theme: 'dark'
+});
+
+// Use the features
+app.render('#app');
+\`\`\`
+
+### Configuration
+
+You can customize the behavior by passing options:
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| \`apiKey\` | string | - | Your API key (required) |
+| \`theme\` | string | 'light' | UI theme ('light' or 'dark') |
+| \`debug\` | boolean | false | Enable debug mode |
+
+## 🎯 API Reference
+
+### \`initialize(options)\`
+
+Creates a new instance of the application.
+
+**Parameters:**
+- \`options\` (Object): Configuration options
+
+**Returns:** Application instance
+
+### \`render(selector)\`
+
+Renders the application to the DOM.
+
+**Parameters:**
+- \`selector\` (string): CSS selector for the target element
+
+**Example:**
+
+\`\`\`python
+# Python example
+def hello_world():
+    print("Hello, World!")
+    return {"status": "success"}
+\`\`\`
+
+## 📝 Code Examples
+
+### TypeScript
+
+\`\`\`typescript
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+async function fetchUser(id: number): Promise<User> {
+  const response = await fetch(\`/api/users/\${id}\`);
+  return response.json();
+}
+\`\`\`
+
+### Python
+
+\`\`\`python
+from typing import List, Dict
+
+class DataProcessor:
+    def __init__(self, data: List[Dict]):
+        self.data = data
+    
+    def process(self) -> Dict:
+        return {
+            "count": len(self.data),
+            "processed": True
+        }
+\`\`\`
+
+## 📌 Important Notes
+
+> ⚠️ **Warning**: Always keep your API keys secure and never commit them to version control.
+
+> 💡 **Tip**: Use environment variables to manage sensitive configuration.
+
+> 📖 **Note**: For detailed documentation, visit our [official docs](https://docs.example.com).
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (\`git checkout -b feature/amazing-feature\`)
+3. Commit your changes (\`git commit -m 'Add amazing feature'\`)
+4. Push to the branch (\`git push origin feature/amazing-feature\`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Thanks to all contributors
+- Inspired by various open-source projects
+- Built with ❤️ by the community
+
+---
+
+**Made with 💜 by Tool Studio**`;
+            
+            input.value = exampleMarkdown;
+            updatePreview();
+            updateCharCount();
+            localStorage.setItem('readme-content', exampleMarkdown);
+        };
+        
+        window.copyHTML = function() {
+            const html = preview.innerHTML;
+            
+            if (!html || html.includes('empty-state')) {
+                showToast('❌ Nothing to copy!', 'danger');
+                return;
+            }
+            
+            navigator.clipboard.writeText(html).then(() => {
+                showToast('✓ HTML copied to clipboard!', 'success');
+            }).catch(() => {
+                showToast('❌ Failed to copy', 'danger');
+            });
+        };
+        
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.style.background = type === 'success' ? 'var(--success)' : 'var(--danger)';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Initial char count
+        updateCharCount();
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K to clear
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                clearEditor();
+            }
+            
+            // Ctrl/Cmd + E to load example
+            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                e.preventDefault();
+                loadExample();
+            }
+            
+            // Ctrl/Cmd + D to toggle theme
+            if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+        
+    })();
+    </script>
+</body>
+</html>
+

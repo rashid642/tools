@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test your microphone and speakers with left/right channel control">
+    <title>🎤 Microphone & Speaker Test - Tool Studio</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+        
+        /* Light Theme (Default) */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        h1 .emoji {
+            font-size: 1.5rem;
+        }
+        
+        h1 .title-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .visualizer-container {
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .visualizer {
+            width: 100%;
+            height: 120px;
+            background: var(--bg-main);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #waveform {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .level-meter {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .meter {
+            flex: 1;
+        }
+        
+        .meter-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .meter-bar {
+            height: 8px;
+            background: var(--bg-hover);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover:not(:disabled) {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-input);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .btn-group button {
+            flex: 1;
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--text);
+            border: none;
+        }
+        
+        .btn-group button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-group button:hover:not(:disabled) {
+            background: var(--bg-hover);
+        }
+        
+        .btn-group button.active:hover {
+            background: var(--primary-dark);
+        }
+        
+        .status {
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+        }
+        
+        .status.recording {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .status.playing {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .recording-time {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 16px 0;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .info-card {
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .speaker-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 24px 0;
+        }
+        
+        .speaker-icon {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .speaker-icon.active {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .speaker-icon .icon {
+            font-size: 3rem;
+            margin-bottom: 8px;
+        }
+        
+        .speaker-icon .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+            color: white;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--danger);
+        }
+        
+        .toast.warning {
+            background: var(--warning);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            header {
+                padding: 12px 16px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .speaker-icons {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>
+                    <span class="emoji">🎤</span>
+                    <span class="title-text">Microphone & Speaker Test</span>
+                </h1>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                <span id="theme-icon">☀️</span>
+                <span id="theme-text">Light</span>
+            </button>
+        </header>
+        
+        <div class="main-content">
+            <!-- Microphone Test -->
+            <div class="card">
+                <div class="section-title">
+                    <span>🎙️</span>
+                    <span>Microphone Test</span>
+                </div>
+                
+                <div class="visualizer-container">
+                    <div class="visualizer">
+                        <canvas id="waveform"></canvas>
+                    </div>
+                    <div class="level-meter">
+                        <div class="meter">
+                            <div class="meter-label">Input Level</div>
+                            <div class="meter-bar">
+                                <div class="meter-fill" id="input-meter"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="recording-time" class="recording-time" style="display: none;">00:00</div>
+                
+                <div class="controls">
+                    <button class="btn-primary" id="start-record-btn" onclick="startRecording()">
+                        <span>🔴</span>
+                        <span>Start Recording</span>
+                    </button>
+                    <button class="btn-danger" id="stop-record-btn" onclick="stopRecording()" disabled>
+                        <span>⏹️</span>
+                        <span>Stop Recording</span>
+                    </button>
+                </div>
+                
+                <div id="recording-status"></div>
+                
+                <div class="info-grid" id="mic-info" style="display: none;">
+                    <div class="info-card">
+                        <div class="info-label">Recording Status</div>
+                        <div class="info-value" id="rec-status">Ready</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Duration</div>
+                        <div class="info-value" id="rec-duration">0:00</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Sample Rate</div>
+                        <div class="info-value" id="sample-rate">-</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Speaker Test -->
+            <div class="card" id="playback-section" style="display: none;">
+                <div class="section-title">
+                    <span>🔊</span>
+                    <span>Speaker Test</span>
+                </div>
+                
+                <div class="speaker-icons">
+                    <div class="speaker-icon" id="left-icon">
+                        <div class="icon">🔈</div>
+                        <div class="label">Left</div>
+                    </div>
+                    <div class="speaker-icon" id="both-icon">
+                        <div class="icon">🔊</div>
+                        <div class="label">Both</div>
+                    </div>
+                    <div class="speaker-icon" id="right-icon">
+                        <div class="icon">🔉</div>
+                        <div class="label">Right</div>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button onclick="setChannel('left')" id="left-btn">
+                        <span>🔈</span>
+                        <span>Left Only</span>
+                    </button>
+                    <button onclick="setChannel('both')" id="both-btn" class="active">
+                        <span>🔊</span>
+                        <span>Both</span>
+                    </button>
+                    <button onclick="setChannel('right')" id="right-btn">
+                        <span>🔉</span>
+                        <span>Right Only</span>
+                    </button>
+                </div>
+                
+                <div class="controls" style="margin-top: 20px;">
+                    <button class="btn-success" id="play-btn" onclick="playAudio()">
+                        <span>▶️</span>
+                        <span>Play Recording</span>
+                    </button>
+                    <button class="btn-danger" id="pause-btn" onclick="pauseAudio()" disabled>
+                        <span>⏸️</span>
+                        <span>Pause</span>
+                    </button>
+                    <button class="btn-secondary" id="download-btn" onclick="downloadRecording()">
+                        <span>💾</span>
+                        <span>Download</span>
+                    </button>
+                </div>
+                
+                <div id="playback-status"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+    (function() {
+        'use strict';
+        
+        // Theme Management
+        const savedTheme = localStorage.getItem('audio-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+        
+        window.toggleTheme = function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('audio-theme', newTheme);
+            updateThemeButton(newTheme);
+        };
+        
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            }
+        }
+        
+        // Audio variables
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let audioBlob = null;
+        let audioContext = null;
+        let analyser = null;
+        let dataArray = null;
+        let source = null;
+        let recordingStartTime = null;
+        let recordingTimer = null;
+        let animationId = null;
+        
+        // Playback variables
+        let audioElement = null;
+        let gainNode = null;
+        let pannerNode = null;
+        let currentChannel = 'both';
+        
+        // Canvas setup
+        const canvas = document.getElementById('waveform');
+        const canvasCtx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // Start Recording
+        window.startRecording = async function() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                // Setup audio context for visualization
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyser);
+                
+                analyser.fftSize = 2048;
+                const bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+                
+                // Setup media recorder
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+                
+                mediaRecorder.onstop = () => {
+                    audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    document.getElementById('playback-section').style.display = 'block';
+                    document.getElementById('playback-section').scrollIntoView({ behavior: 'smooth' });
+                };
+                
+                mediaRecorder.start();
+                recordingStartTime = Date.now();
+                
+                // Update UI
+                document.getElementById('start-record-btn').disabled = true;
+                document.getElementById('stop-record-btn').disabled = false;
+                document.getElementById('recording-time').style.display = 'block';
+                document.getElementById('mic-info').style.display = 'grid';
+                document.getElementById('rec-status').textContent = 'Recording';
+                document.getElementById('sample-rate').textContent = audioContext.sampleRate + ' Hz';
+                
+                // Start visualization
+                visualize();
+                
+                // Start timer
+                updateRecordingTime();
+                recordingTimer = setInterval(updateRecordingTime, 100);
+                
+                showToast('Recording started!', 'success');
+                
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                showToast('Failed to access microphone. Please grant permission.', 'error');
+            }
+        };
+        
+        // Stop Recording
+        window.stopRecording = function() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                
+                // Stop all tracks
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                
+                // Stop visualization
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+                
+                // Stop timer
+                clearInterval(recordingTimer);
+                
+                // Update UI
+                document.getElementById('start-record-btn').disabled = false;
+                document.getElementById('stop-record-btn').disabled = true;
+                document.getElementById('rec-status').textContent = 'Stopped';
+                
+                showToast('Recording stopped!', 'success');
+            }
+        };
+        
+        // Visualization
+        function visualize() {
+            animationId = requestAnimationFrame(visualize);
+            
+            analyser.getByteTimeDomainData(dataArray);
+            
+            // Draw waveform
+            canvasCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg-main');
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            canvasCtx.lineWidth = 2;
+            canvasCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+            canvasCtx.beginPath();
+            
+            const sliceWidth = canvas.width / dataArray.length;
+            let x = 0;
+            
+            for (let i = 0; i < dataArray.length; i++) {
+                const v = dataArray[i] / 128.0;
+                const y = v * canvas.height / 2;
+                
+                if (i === 0) {
+                    canvasCtx.moveTo(x, y);
+                } else {
+                    canvasCtx.lineTo(x, y);
+                }
+                
+                x += sliceWidth;
+            }
+            
+            canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            canvasCtx.stroke();
+            
+            // Update level meter
+            analyser.getByteFrequencyData(dataArray);
+            const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+            const level = (average / 255) * 100;
+            document.getElementById('input-meter').style.width = level + '%';
+        }
+        
+        // Update recording time
+        function updateRecordingTime() {
+            if (!recordingStartTime) return;
+            
+            const elapsed = Date.now() - recordingStartTime;
+            const seconds = Math.floor(elapsed / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            
+            const timeStr = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('recording-time').textContent = timeStr;
+            document.getElementById('rec-duration').textContent = timeStr;
+        }
+        
+        // Set audio channel
+        window.setChannel = function(channel) {
+            currentChannel = channel;
+            
+            // Update button states
+            document.querySelectorAll('.btn-group button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`${channel}-btn`).classList.add('active');
+            
+            // Update icons
+            document.querySelectorAll('.speaker-icon').forEach(icon => icon.classList.remove('active'));
+            document.getElementById(`${channel}-icon`).classList.add('active');
+            
+            // Apply panning if audio is playing
+            if (audioElement && pannerNode) {
+                applyPanning();
+            }
+        };
+        
+        function applyPanning() {
+            if (!pannerNode) return;
+            
+            switch(currentChannel) {
+                case 'left':
+                    pannerNode.pan.value = -1; // Full left
+                    break;
+                case 'right':
+                    pannerNode.pan.value = 1; // Full right
+                    break;
+                case 'both':
+                default:
+                    pannerNode.pan.value = 0; // Center
+                    break;
+            }
+        }
+        
+        // Play audio
+        window.playAudio = function() {
+            if (!audioBlob) return;
+            
+            if (audioElement) {
+                audioElement.pause();
+            }
+            
+            const audioUrl = URL.createObjectURL(audioBlob);
+            audioElement = new Audio(audioUrl);
+            
+            // Create audio context for panning
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            const track = audioContext.createMediaElementSource(audioElement);
+            gainNode = audioContext.createGain();
+            pannerNode = audioContext.createStereoPanner();
+            
+            track.connect(pannerNode);
+            pannerNode.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            applyPanning();
+            
+            audioElement.play();
+            
+            // Update UI
+            document.getElementById('play-btn').disabled = true;
+            document.getElementById('pause-btn').disabled = false;
+            
+            audioElement.onended = () => {
+                document.getElementById('play-btn').disabled = false;
+                document.getElementById('pause-btn').disabled = true;
+            };
+            
+            showToast(`Playing on ${currentChannel} speaker(s)`, 'success');
+        };
+        
+        // Pause audio
+        window.pauseAudio = function() {
+            if (audioElement) {
+                audioElement.pause();
+                document.getElementById('play-btn').disabled = false;
+                document.getElementById('pause-btn').disabled = true;
+            }
+        };
+        
+        // Download recording
+        window.downloadRecording = function() {
+            if (!audioBlob) return;
+            
+            const url = URL.createObjectURL(audioBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `audio-test-${Date.now()}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Recording downloaded!', 'success');
+        };
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Set initial channel
+        setChannel('both');
+        
+    })();
+    </script>
+</body>
+</html>
+

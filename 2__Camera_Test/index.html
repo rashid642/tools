@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test your camera, capture photos, and download images instantly">
+    <title>📷 Camera Test - Tool Studio</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+        
+        /* Light Theme (Default) */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        h1 .emoji {
+            font-size: 1.5rem;
+        }
+        
+        h1 .title-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            overflow-y: auto;
+            gap: 24px;
+        }
+        
+        .camera-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+        
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #canvas {
+            display: none;
+        }
+        
+        .camera-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover:not(:disabled) {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+        }
+        
+        .preview-section {
+            display: none;
+        }
+        
+        .preview-section.active {
+            display: block;
+        }
+        
+        .preview-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        #preview-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .camera-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .info-card {
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+            color: white;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--danger);
+        }
+        
+        .toast.warning {
+            background: var(--warning);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .flash-animation {
+            animation: flash 0.3s ease;
+        }
+        
+        @keyframes flash {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            header {
+                padding: 12px 16px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+            
+            .camera-section {
+                padding: 16px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>
+                    <span class="emoji">📷</span>
+                    <span class="title-text">Camera Test</span>
+                </h1>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                <span id="theme-icon">☀️</span>
+                <span id="theme-text">Light</span>
+            </button>
+        </header>
+        
+        <div class="main-content">
+            <!-- Camera Section -->
+            <div class="camera-section">
+                <div class="section-title">
+                    <span>📹</span>
+                    <span>Live Camera</span>
+                </div>
+                
+                <div class="video-container">
+                    <video id="video" autoplay playsinline></video>
+                    <div class="camera-overlay" id="camera-overlay">
+                        <div>
+                            <div style="font-size: 3rem; margin-bottom: 16px;">📷</div>
+                            <div>Click "Start Camera" to begin</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <canvas id="canvas"></canvas>
+                
+                <div class="controls">
+                    <button class="btn-primary" id="start-btn" onclick="startCamera()">
+                        <span>▶️</span>
+                        <span>Start Camera</span>
+                    </button>
+                    <button class="btn-success" id="capture-btn" onclick="capturePhoto()" disabled>
+                        <span>📸</span>
+                        <span>Capture Photo</span>
+                    </button>
+                    <button class="btn-danger" id="stop-btn" onclick="stopCamera()" disabled>
+                        <span>⏹️</span>
+                        <span>Stop Camera</span>
+                    </button>
+                    <button class="btn-secondary" id="switch-btn" onclick="switchCamera()" disabled>
+                        <span>🔄</span>
+                        <span>Switch Camera</span>
+                    </button>
+                </div>
+                
+                <div class="camera-info" id="camera-info" style="display: none;">
+                    <div class="info-card">
+                        <div class="info-label">Camera Status</div>
+                        <div class="info-value" id="camera-status">Inactive</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Resolution</div>
+                        <div class="info-value" id="resolution">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Active Camera</div>
+                        <div class="info-value" id="active-camera">-</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Photos Captured</div>
+                        <div class="info-value" id="photo-count">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preview Section -->
+            <div class="camera-section preview-section" id="preview-section">
+                <div class="section-title">
+                    <span>🖼️</span>
+                    <span>Photo Preview</span>
+                </div>
+                
+                <div class="preview-container">
+                    <img id="preview-image" alt="Captured photo">
+                </div>
+                
+                <div class="controls">
+                    <button class="btn-success" onclick="downloadPhoto()">
+                        <span>💾</span>
+                        <span>Download Photo</span>
+                    </button>
+                    <button class="btn-secondary" onclick="closePreview()">
+                        <span>❌</span>
+                        <span>Close Preview</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+    (function() {
+        'use strict';
+        
+        // Theme Management
+        const savedTheme = localStorage.getItem('camera-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+        
+        window.toggleTheme = function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('camera-theme', newTheme);
+            updateThemeButton(newTheme);
+        };
+        
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            }
+        }
+        
+        // Camera functionality
+        let stream = null;
+        let currentFacingMode = 'user'; // 'user' for front, 'environment' for back
+        let photoCount = 0;
+        let capturedImageData = null;
+        
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const overlay = document.getElementById('camera-overlay');
+        const startBtn = document.getElementById('start-btn');
+        const captureBtn = document.getElementById('capture-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const switchBtn = document.getElementById('switch-btn');
+        const cameraInfo = document.getElementById('camera-info');
+        const previewSection = document.getElementById('preview-section');
+        const previewImage = document.getElementById('preview-image');
+        
+        window.startCamera = async function() {
+            try {
+                const constraints = {
+                    video: {
+                        facingMode: currentFacingMode,
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    },
+                    audio: false
+                };
+                
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+                
+                overlay.style.display = 'none';
+                startBtn.disabled = true;
+                captureBtn.disabled = false;
+                stopBtn.disabled = false;
+                switchBtn.disabled = false;
+                cameraInfo.style.display = 'grid';
+                
+                // Update info
+                document.getElementById('camera-status').textContent = 'Active';
+                document.getElementById('active-camera').textContent = currentFacingMode === 'user' ? 'Front' : 'Back';
+                
+                // Get resolution
+                video.addEventListener('loadedmetadata', () => {
+                    const resolution = `${video.videoWidth} × ${video.videoHeight}`;
+                    document.getElementById('resolution').textContent = resolution;
+                });
+                
+                showToast('Camera started successfully!', 'success');
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                showToast('Failed to access camera. Please grant camera permissions.', 'error');
+            }
+        };
+        
+        window.stopCamera = function() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                video.srcObject = null;
+                
+                overlay.style.display = 'flex';
+                startBtn.disabled = false;
+                captureBtn.disabled = true;
+                stopBtn.disabled = true;
+                switchBtn.disabled = true;
+                
+                document.getElementById('camera-status').textContent = 'Inactive';
+                document.getElementById('active-camera').textContent = '-';
+                document.getElementById('resolution').textContent = '-';
+                
+                showToast('Camera stopped', 'warning');
+            }
+        };
+        
+        window.switchCamera = async function() {
+            currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+            
+            if (stream) {
+                stopCamera();
+                await startCamera();
+            }
+        };
+        
+        window.capturePhoto = function() {
+            if (!stream) return;
+            
+            // Set canvas size to video size
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Draw video frame to canvas
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Flash effect
+            video.classList.add('flash-animation');
+            setTimeout(() => video.classList.remove('flash-animation'), 300);
+            
+            // Get image data
+            capturedImageData = canvas.toDataURL('image/png');
+            
+            // Update photo count
+            photoCount++;
+            document.getElementById('photo-count').textContent = photoCount;
+            
+            // Show preview
+            previewImage.src = capturedImageData;
+            previewSection.classList.add('active');
+            previewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            showToast('Photo captured successfully!', 'success');
+        };
+        
+        window.downloadPhoto = function() {
+            if (!capturedImageData) return;
+            
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            const filename = `camera-test-${timestamp}.png`;
+            
+            const link = document.createElement('a');
+            link.href = capturedImageData;
+            link.download = filename;
+            link.click();
+            
+            showToast('Photo downloaded!', 'success');
+        };
+        
+        window.closePreview = function() {
+            previewSection.classList.remove('active');
+        };
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
+        
+    })();
+    </script>
+</body>
+</html>
+
