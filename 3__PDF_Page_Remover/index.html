@@ -630,15 +630,6 @@
                 const fetchUrl = `${apiBaseUrl}/api/v1/tools/${toolId}/execute`;
                 const token = localStorage.getItem('access-token') || '';
                 
-                console.log('=== Debug Info ===');
-                console.log('window.location:', window.location.href);
-                console.log('API Base URL:', apiBaseUrl);
-                console.log('Tool ID:', toolId);
-                console.log('Fetch URL:', fetchUrl);
-                console.log('Has Token:', !!token);
-                console.log('FormData file:', selectedFile ? selectedFile.name : 'none');
-                console.log('==================');
-                
                 // Call Go backend which proxies to Python backend
                 const response = await fetch(fetchUrl, {
                     method: 'POST',
