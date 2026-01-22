@@ -628,7 +628,7 @@
                 const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
                 const apiBaseUrl = isProduction 
                     ? `${window.location.protocol}//${window.location.hostname}`
-                    : 'http://localhost:8080';
+                    : 'http://toolstudio.in';
                 
                 // Call Go backend which proxies to Python backend
                 const response = await fetch(`${apiBaseUrl}/api/v1/tools/${toolId}/execute`, {
