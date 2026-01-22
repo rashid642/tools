@@ -622,19 +622,28 @@
                 formData.append('file', selectedFile);
                 formData.append('pages', pagesInput);
                 
-                const toolId = window.location.pathname.split('/').filter(x => x)[1] || '3';
+                const toolId = '3'; // PDF Page Remover tool ID
                 
-                // Determine the API base URL
-                const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-                const apiBaseUrl = isProduction 
-                    ? `${window.location.protocol}//${window.location.hostname}`
-                    : 'http://toolstudio.in';
+                // Always use production backend
+                const apiBaseUrl = 'https://toolstudio.in';
+                
+                const fetchUrl = `${apiBaseUrl}/api/v1/tools/${toolId}/execute`;
+                const token = localStorage.getItem('access-token') || '';
+                
+                console.log('=== Debug Info ===');
+                console.log('window.location:', window.location.href);
+                console.log('API Base URL:', apiBaseUrl);
+                console.log('Tool ID:', toolId);
+                console.log('Fetch URL:', fetchUrl);
+                console.log('Has Token:', !!token);
+                console.log('FormData file:', selectedFile ? selectedFile.name : 'none');
+                console.log('==================');
                 
                 // Call Go backend which proxies to Python backend
-                const response = await fetch(`${apiBaseUrl}/api/v1/tools/${toolId}/execute`, {
+                const response = await fetch(fetchUrl, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('access-token') || ''}`
+                        'Authorization': `Bearer ${token}`
                     },
                     body: formData
                 });
