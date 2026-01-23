@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Split PDF files into multiple documents by page ranges. Create custom PDFs with specific pages, name each split, and download all at once.">
+    <meta name="keywords" content="pdf splitter, split pdf, divide pdf, pdf separator, split pdf pages, pdf tool, pdf editor, extract pdf pages, tool studio">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#6366f1">
+    
+    <title>PDF Splitter - Split PDF into Multiple Files Online | Tool Studio</title>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://toolstudio.in/tools/6/pdf-splitter">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/6/pdf-splitter">
+    <meta property="og:title" content="PDF Splitter - Split PDF into Multiple Files Online | Tool Studio">
+    <meta property="og:description" content="Split PDF files into multiple documents by page ranges. Create custom PDFs with specific pages, name each split, and download all at once.">
+    <meta property="og:image" content="https://toolstudio.in/tools/6/og-image.png">
+    <meta property="og:site_name" content="Tool Studio">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/6/pdf-splitter">
+    <meta property="twitter:title" content="PDF Splitter - Split PDF into Multiple Files Online | Tool Studio">
+    <meta property="twitter:description" content="Split PDF files into multiple documents by page ranges. Create custom PDFs with specific pages, name each split, and download all at once.">
+    <meta property="twitter:image" content="https://toolstudio.in/tools/6/twitter-image.png">
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PDF Splitter",
+      "description": "Split PDF files into multiple documents by page ranges",
+      "url": "https://toolstudio.in/tools/6/pdf-splitter",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Tool Studio"
+      }
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+        
+        /* Light Theme (Default) */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        h1 .emoji {
+            font-size: 1.3rem;
+        }
+        
+        h1 .title-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 40px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--bg-input);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--success);
+            background: var(--bg-hover);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+        
+        .upload-text {
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+        
+        .upload-hint {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        #file-input {
+            display: none;
+        }
+        
+        .file-info {
+            display: none;
+            background: var(--bg-input);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+        
+        .file-info.active {
+            display: block;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .file-details {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .splits-container {
+            display: none;
+        }
+        
+        .splits-container.active {
+            display: block;
+        }
+        
+        .split-item {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .split-item.error {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        
+        .split-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .split-number {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+        
+        .btn-remove {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-remove:hover {
+            background: #dc2626;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.85rem;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        input[type="text"].error {
+            border-color: var(--danger);
+        }
+        
+        .input-hint {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+        
+        .error-text {
+            color: var(--danger);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+        
+        .page-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .stat-value.success {
+            color: var(--success);
+        }
+        
+        .stat-value.warning {
+            color: var(--warning);
+        }
+        
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+            color: white;
+            max-width: 400px;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--danger);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .unused-pages {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .unused-pages.active {
+            display: block;
+        }
+        
+        .unused-title {
+            font-weight: 600;
+            color: var(--warning);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .unused-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+        
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .fab:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.6);
+        }
+        
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-card);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+        
+        .modal-close {
+            background: var(--bg-hover);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        .modal-content {
+            padding: 24px;
+        }
+        
+        .modal-section {
+            margin-bottom: 24px;
+        }
+        
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .modal-section p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .modal-section li {
+            padding: 10px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary);
+            color: var(--text);
+        }
+        
+        .modal-section li strong {
+            color: var(--primary);
+        }
+        
+        .faq-item {
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: start;
+            gap: 8px;
+        }
+        
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding-left: 24px;
+        }
+        
+        .tool-link {
+            display: block;
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-link:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+        
+        .tool-link-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+        
+        .tool-link-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+            
+            header {
+                padding: 10px 14px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+            
+            .card {
+                padding: 16px;
+            }
+            
+            .upload-area {
+                padding: 30px 16px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+            
+            .fab {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+            }
+            
+            .fab-tooltip {
+                display: none;
+            }
+            
+            .modal {
+                margin: 0;
+                border-radius: 16px 16px 0 0;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                padding: 20px 16px 12px;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
+            }
+            
+            .modal-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>
+                    <span class="emoji">✂️</span>
+                    <span class="title-text">PDF Splitter</span>
+                </h1>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                <span id="theme-icon">☀️</span>
+                <span id="theme-text">Light</span>
+            </button>
+        </header>
+        
+        <div class="main-content">
+            <!-- Upload Section -->
+            <div class="card">
+                <h2 class="card-title">
+                    <span>📁</span>
+                    <span>Upload PDF File</span>
+                </h2>
+                
+                <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-hint">PDF files only • Max size: 50MB</div>
+                </div>
+                
+                <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)">
+                
+                <div class="file-info" id="file-info">
+                    <div class="file-name">
+                        <span>📄</span>
+                        <span id="file-name-text"></span>
+                    </div>
+                    <div class="file-details">
+                        <span id="file-size"></span> • 
+                        <span id="file-pages"></span> pages
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Splits Configuration -->
+            <div class="card splits-container" id="splits-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 class="card-title" style="margin-bottom: 0;">
+                        <span>✂️</span>
+                        <span>Configure Splits</span>
+                    </h2>
+                    <button class="btn-secondary" onclick="addSplit()">
+                        <span>➕</span>
+                        <span>Add Split</span>
+                    </button>
+                </div>
+                
+                <div id="splits-list"></div>
+                
+                <div class="page-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Pages:</span>
+                        <span class="stat-value" id="total-pages-stat">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Used Pages:</span>
+                        <span class="stat-value success" id="used-pages-stat">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Unused Pages:</span>
+                        <span class="stat-value warning" id="unused-pages-stat">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Splits:</span>
+                        <span class="stat-value" id="total-splits-stat">0</span>
+                    </div>
+                </div>
+                
+                <div class="unused-pages" id="unused-pages-info">
+                    <div class="unused-title">⚠️ Unused Pages</div>
+                    <div class="unused-text" id="unused-pages-text"></div>
+                </div>
+                
+                <div class="action-buttons" style="margin-top: 16px;">
+                    <button class="btn-primary" onclick="processSplits()" id="process-btn">
+                        <span>✂️</span>
+                        <span>Split PDF</span>
+                    </button>
+                    <button class="btn-secondary" onclick="validateSplits()">
+                        <span>✓</span>
+                        <span>Validate</span>
+                    </button>
+                    <button class="btn-secondary" onclick="resetAll()">
+                        <span>🔄</span>
+                        <span>Reset</span>
+                    </button>
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <div style="color: var(--text-muted);">Splitting your PDF...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()" aria-label="About this tool">
+            <span>ℹ️</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()" aria-label="Similar tools">
+            <span>🔗</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+    
+    <!-- About Modal -->
+    <div class="modal-overlay" id="about-modal" onclick="closeModal('about-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>✂️</span>
+                    <span>About PDF Splitter</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>💡</span>
+                        <span>What Does This Tool Do?</span>
+                    </h3>
+                    <p>
+                        PDF Splitter allows you to divide a single PDF into multiple documents by specifying custom page ranges. Create as many splits as you need, name each one, and the tool will automatically detect unused pages. Perfect for extracting chapters, sections, or specific pages from large documents.
+                    </p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>🚀</span>
+                        <span>Key Features</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Multiple Splits:</strong> Create unlimited PDF splits from a single file</li>
+                        <li><strong>Custom Page Ranges:</strong> Use flexible syntax like "1,4-8,9"</li>
+                        <li><strong>Custom Names:</strong> Name each split or let the tool auto-name them</li>
+                        <li><strong>Page Validation:</strong> Automatically validates page ranges and detects errors</li>
+                        <li><strong>Unused Pages Detection:</strong> Identifies pages not included in any split</li>
+                        <li><strong>Batch Download:</strong> Download all split PDFs at once</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>📝</span>
+                        <span>How to Use</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Step 1:</strong> Upload your PDF file (up to 50MB)</li>
+                        <li><strong>Step 2:</strong> Click "Add Split" to create your first split</li>
+                        <li><strong>Step 3:</strong> Enter page ranges (e.g., "1-5" or "1,3,5-7")</li>
+                        <li><strong>Step 4:</strong> Give each split a name (optional)</li>
+                        <li><strong>Step 5:</strong> Add more splits as needed</li>
+                        <li><strong>Step 6:</strong> Click "Validate" to check for errors</li>
+                        <li><strong>Step 7:</strong> Click "Split PDF" to download all splits</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>❓</span>
+                        <span>Frequently Asked Questions</span>
+                    </h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What page range formats are supported?</span>
+                        </div>
+                        <div class="faq-answer">
+                            You can use single pages (1,3,5), ranges (2-10), or combinations (1,3-5,8). The tool automatically parses and validates your input.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What happens to unused pages?</span>
+                        </div>
+                        <div class="faq-answer">
+                            The tool identifies any pages not included in your splits and can automatically create a separate PDF with these leftover pages.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Can the same page appear in multiple splits?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! Pages can be included in multiple splits if needed. The tool will warn you about duplicates but won't prevent it.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Is my PDF stored on your servers?</span>
+                        </div>
+                        <div class="faq-answer">
+                            No! Your PDF is processed and immediately discarded. We don't store any files or personal data.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Similar Tools Modal -->
+    <div class="modal-overlay" id="similar-tools-modal" onclick="closeModal('similar-tools-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>🔗</span>
+                    <span>Similar Tools</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <p>Explore other useful tools from Tool Studio:</p>
+                    <div id="similar-tools-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    (function() {
+        'use strict';
+        
+        // ========================================
+        // SIMILAR TOOLS CONFIGURATION (Easy to Edit)
+        // ========================================
+        const similarTools = [
+            {
+                icon: '📄',
+                title: 'PDF Page Remover',
+                description: 'Remove specific pages from PDF files quickly and easily',
+                url: 'https://toolstudio.in/tools/3/pdf-page-remover'
+            },
+            {
+                icon: '{ }',
+                title: 'JSON Formatter',
+                description: 'Format, validate, and beautify JSON data instantly',
+                url: 'https://toolstudio.in/tools/5/json-formatter'
+            },
+            {
+                icon: '📖',
+                title: 'README Viewer',
+                description: 'Beautiful README.md viewer with live markdown rendering',
+                url: 'https://toolstudio.in/tools/1/readme-viewer'
+            }
+        ];
+        
+        // ========================================
+        // MODAL FUNCTIONS
+        // ========================================
+        window.openAboutModal = function() {
+            document.getElementById('about-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+        
+        window.openSimilarToolsModal = function() {
+            document.getElementById('similar-tools-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderSimilarTools();
+        };
+        
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+        
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal('about-modal');
+                closeModal('similar-tools-modal');
+            }
+        });
+        
+        // Render similar tools
+        function renderSimilarTools() {
+            const container = document.getElementById('similar-tools-list');
+            container.innerHTML = similarTools.map(tool => `
+                <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    <div class="tool-link-title">
+                        <span>${tool.icon}</span>
+                        <span>${tool.title}</span>
+                    </div>
+                    <div class="tool-link-desc">${tool.description}</div>
+                </a>
+            `).join('');
+        }
+        
+        // ========================================
+        // THEME MANAGEMENT
+        // ========================================
+        const savedTheme = localStorage.getItem('pdf-splitter-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+        
+        window.toggleTheme = function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('pdf-splitter-theme', newTheme);
+            updateThemeButton(newTheme);
+        };
+        
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            }
+        }
+        
+        // ========================================
+        // PDF SPLITTER FUNCTIONALITY
+        // ========================================
+        let selectedFile = null;
+        let totalPages = 0;
+        let splits = [];
+        let splitCounter = 0;
+        
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const fileInfo = document.getElementById('file-info');
+        const splitsSection = document.getElementById('splits-section');
+        
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+        
+        window.handleFileSelect = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        };
+        
+        async function handleFile(file) {
+            // Validate file type
+            if (file.type !== 'application/pdf') {
+                showToast('Please select a PDF file', 'error');
+                return;
+            }
+            
+            // Validate file size (50MB)
+            if (file.size > 50 * 1024 * 1024) {
+                showToast('File size must be less than 50MB', 'error');
+                return;
+            }
+            
+            selectedFile = file;
+            
+            // Get page count
+            const pageCount = await getPageCount(file);
+            totalPages = pageCount;
+            
+            // Display file info
+            document.getElementById('file-name-text').textContent = file.name;
+            document.getElementById('file-size').textContent = formatFileSize(file.size);
+            document.getElementById('file-pages').textContent = pageCount;
+            
+            fileInfo.classList.add('active');
+            splitsSection.classList.add('active');
+            
+            // Reset splits
+            splits = [];
+            splitCounter = 0;
+            document.getElementById('splits-list').innerHTML = '';
+            
+            // Add first split by default
+            addSplit();
+            
+            showToast('PDF loaded successfully!', 'success');
+        }
+        
+        async function getPageCount(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    const matches = text.match(/\/Type\s*\/Page[^s]/g);
+                    const pageCount = matches ? matches.length : 1;
+                    resolve(pageCount);
+                };
+                reader.readAsText(file);
+            });
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+        
+        window.addSplit = function() {
+            splitCounter++;
+            const splitId = `split-${splitCounter}`;
+            
+            const split = {
+                id: splitId,
+                name: '',
+                pages: '',
+                pageNumbers: []
+            };
+            
+            splits.push(split);
+            
+            const splitHTML = `
+                <div class="split-item" id="${splitId}">
+                    <div class="split-header">
+                        <span class="split-number">Split #${splitCounter}</span>
+                        <button class="btn-remove" onclick="removeSplit('${splitId}')">Remove</button>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <label for="${splitId}-name">PDF Name (optional)</label>
+                            <input type="text" id="${splitId}-name" placeholder="e.g., Chapter 1" onchange="updateSplit('${splitId}')">
+                            <div class="input-hint">Leave empty for auto-naming</div>
+                        </div>
+                        <div>
+                            <label for="${splitId}-pages">Page Range <span style="color: var(--danger);">*</span></label>
+                            <input type="text" id="${splitId}-pages" placeholder="e.g., 1,3-5,7" onchange="updateSplit('${splitId}')" required>
+                            <div class="input-hint">Examples: 1,3,5 or 2-10 or 1,3-5,8</div>
+                            <div class="error-text" id="${splitId}-error" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('splits-list').insertAdjacentHTML('beforeend', splitHTML);
+            updateStats();
+        };
+        
+        window.removeSplit = function(splitId) {
+            const index = splits.findIndex(s => s.id === splitId);
+            if (index > -1) {
+                splits.splice(index, 1);
+            }
+            document.getElementById(splitId).remove();
+            updateStats();
+        };
+        
+        window.updateSplit = function(splitId) {
+            const split = splits.find(s => s.id === splitId);
+            if (!split) return;
+            
+            const nameInput = document.getElementById(`${splitId}-name`);
+            const pagesInput = document.getElementById(`${splitId}-pages`);
+            const errorDiv = document.getElementById(`${splitId}-error`);
+            const splitItem = document.getElementById(splitId);
+            
+            split.name = nameInput.value.trim();
+            split.pages = pagesInput.value.trim();
+            
+            // Clear previous errors
+            pagesInput.classList.remove('error');
+            errorDiv.style.display = 'none';
+            splitItem.classList.remove('error');
+            
+            if (split.pages) {
+                const result = parsePageNumbers(split.pages, totalPages);
+                if (result.error) {
+                    pagesInput.classList.add('error');
+                    errorDiv.textContent = result.error;
+                    errorDiv.style.display = 'block';
+                    splitItem.classList.add('error');
+                    split.pageNumbers = [];
+                } else {
+                    split.pageNumbers = result.pages;
+                }
+            } else {
+                split.pageNumbers = [];
+            }
+            
+            updateStats();
+        };
+        
+        function parsePageNumbers(input, maxPages) {
+            const pages = new Set();
+            const parts = input.split(',');
+            
+            for (let part of parts) {
+                part = part.trim();
+                
+                if (part.includes('-')) {
+                    // Range like "3-5"
+                    const [start, end] = part.split('-').map(x => parseInt(x.trim()));
+                    if (isNaN(start) || isNaN(end)) {
+                        return { error: `Invalid range: ${part}`, pages: [] };
+                    }
+                    if (start < 1 || end < start) {
+                        return { error: `Invalid range: ${part}`, pages: [] };
+                    }
+                    if (start > maxPages || end > maxPages) {
+                        return { error: `Page ${Math.max(start, end)} exceeds total pages (${maxPages})`, pages: [] };
+                    }
+                    for (let i = start; i <= end; i++) {
+                        pages.add(i);
+                    }
+                } else {
+                    // Single page like "3"
+                    const page = parseInt(part);
+                    if (isNaN(page)) {
+                        return { error: `Invalid page number: ${part}`, pages: [] };
+                    }
+                    if (page < 1) {
+                        return { error: `Page number must be at least 1`, pages: [] };
+                    }
+                    if (page > maxPages) {
+                        return { error: `Page ${page} exceeds total pages (${maxPages})`, pages: [] };
+                    }
+                    pages.add(page);
+                }
+            }
+            
+            return { error: null, pages: Array.from(pages).sort((a, b) => a - b) };
+        }
+        
+        function updateStats() {
+            const usedPages = new Set();
+            
+            splits.forEach(split => {
+                split.pageNumbers.forEach(page => usedPages.add(page));
+            });
+            
+            const unusedPages = [];
+            for (let i = 1; i <= totalPages; i++) {
+                if (!usedPages.has(i)) {
+                    unusedPages.push(i);
+                }
+            }
+            
+            document.getElementById('total-pages-stat').textContent = totalPages;
+            document.getElementById('used-pages-stat').textContent = usedPages.size;
+            document.getElementById('unused-pages-stat').textContent = unusedPages.length;
+            document.getElementById('total-splits-stat').textContent = splits.length;
+            
+            const unusedInfo = document.getElementById('unused-pages-info');
+            if (unusedPages.length > 0) {
+                unusedInfo.classList.add('active');
+                document.getElementById('unused-pages-text').textContent = 
+                    `Pages ${formatPageList(unusedPages)} are not included in any split. These will be saved as "leftover-pages.pdf"`;
+            } else {
+                unusedInfo.classList.remove('active');
+            }
+        }
+        
+        function formatPageList(pages) {
+            if (pages.length === 0) return '';
+            if (pages.length <= 5) return pages.join(', ');
+            
+            const ranges = [];
+            let start = pages[0];
+            let end = pages[0];
+            
+            for (let i = 1; i < pages.length; i++) {
+                if (pages[i] === end + 1) {
+                    end = pages[i];
+                } else {
+                    ranges.push(start === end ? `${start}` : `${start}-${end}`);
+                    start = end = pages[i];
+                }
+            }
+            ranges.push(start === end ? `${start}` : `${start}-${end}`);
+            
+            return ranges.join(', ');
+        }
+        
+        window.validateSplits = function() {
+            if (!selectedFile) {
+                showToast('Please upload a PDF file first', 'error');
+                return;
+            }
+            
+            if (splits.length === 0) {
+                showToast('Please add at least one split', 'error');
+                return;
+            }
+            
+            let hasErrors = false;
+            const validSplits = [];
+            
+            splits.forEach(split => {
+                if (!split.pages) {
+                    showToast(`Split #${split.id.split('-')[1]} is missing page range`, 'error');
+                    hasErrors = true;
+                } else if (split.pageNumbers.length === 0) {
+                    hasErrors = true;
+                } else {
+                    validSplits.push(split);
+                }
+            });
+            
+            if (hasErrors) {
+                showToast('Please fix errors before proceeding', 'error');
+                return;
+            }
+            
+            showToast(`✓ Validation successful! ${validSplits.length} split(s) ready`, 'success');
+        };
+        
+        window.processSplits = async function() {
+            if (!selectedFile) {
+                showToast('Please upload a PDF file first', 'error');
+                return;
+            }
+            
+            if (splits.length === 0) {
+                showToast('Please add at least one split', 'error');
+                return;
+            }
+            
+            // Validate all splits
+            let hasErrors = false;
+            const validSplits = [];
+            
+            splits.forEach(split => {
+                if (!split.pages || split.pageNumbers.length === 0) {
+                    hasErrors = true;
+                } else {
+                    validSplits.push({
+                        name: split.name || `split-${split.id.split('-')[1]}`,
+                        pages: split.pageNumbers
+                    });
+                }
+            });
+            
+            if (hasErrors) {
+                showToast('Please fix errors before splitting', 'error');
+                return;
+            }
+            
+            // Check for unused pages
+            const usedPages = new Set();
+            validSplits.forEach(split => {
+                split.pages.forEach(page => usedPages.add(page));
+            });
+            
+            const unusedPages = [];
+            for (let i = 1; i <= totalPages; i++) {
+                if (!usedPages.has(i)) {
+                    unusedPages.push(i);
+                }
+            }
+            
+            // Add leftover split if there are unused pages
+            if (unusedPages.length > 0) {
+                validSplits.push({
+                    name: 'leftover-pages',
+                    pages: unusedPages
+                });
+            }
+            
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('process-btn').disabled = true;
+            
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('splits', JSON.stringify(validSplits));
+                
+                const toolId = '6'; // PDF Splitter tool ID
+                const apiBaseUrl = 'https://toolstudio.in';
+                const fetchUrl = `${apiBaseUrl}/api/v1/tools/${toolId}/execute`;
+                const token = localStorage.getItem('access-token') || '';
+                
+                const response = await fetch(fetchUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Failed to split PDF');
+                }
+                
+                // Download the ZIP file containing all splits
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = selectedFile.name.replace('.pdf', '-splits.zip');
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                showToast(`✓ PDF split into ${validSplits.length} files successfully!`, 'success');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showToast(error.message || 'Failed to split PDF', 'error');
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('process-btn').disabled = false;
+            }
+        };
+        
+        window.resetAll = function() {
+            if (!confirm('Reset all splits and start over?')) {
+                return;
+            }
+            
+            selectedFile = null;
+            totalPages = 0;
+            splits = [];
+            splitCounter = 0;
+            
+            fileInput.value = '';
+            fileInfo.classList.remove('active');
+            splitsSection.classList.remove('active');
+            document.getElementById('splits-list').innerHTML = '';
+            updateStats();
+        };
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 4000);
+        }
+        
+    })();
+    </script>
+</body>
+</html>
+
