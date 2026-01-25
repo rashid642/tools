@@ -1,139 +1,127 @@
-#!/usr/bin/env python3
 """
-PDF Merger Tool Backend
+PDF Merger Backend
 Merges multiple PDF files into a single PDF document
 """
 
-import sys
-import json
+from fastapi import Request
+from fastapi.responses import FileResponse
+from PyPDF2 import PdfMerger, PdfReader
 import tempfile
 import os
-from pathlib import Path
-from PyPDF2 import PdfMerger, PdfReader
 
 
-def sanitize_filename(filename):
-    """Sanitize filename to prevent path traversal"""
-    return "".join(c for c in filename if c.isalnum() or c in (' ', '.', '_', '-')).rstrip()
-
-
-def merge_pdfs(pdf_files_data):
+async def execute(request: Request):
     """
     Merge multiple PDF files into one
     
-    Args:
-        pdf_files_data: List of dicts with 'file_path' and 'order' keys
-        
-    Returns:
-        Path to the merged PDF file
+    Expected form data:
+    - files: Multiple PDF files
+    - order: Order indices for each file (matching file order)
     """
-    # Sort files by order
-    sorted_files = sorted(pdf_files_data, key=lambda x: x['order'])
-    
-    # Create PDF merger
-    merger = PdfMerger()
-    
     try:
-        # Add each PDF to the merger
-        for file_data in sorted_files:
-            file_path = file_data['file_path']
-            
-            # Validate PDF file
-            try:
-                reader = PdfReader(file_path)
-                if len(reader.pages) == 0:
-                    raise ValueError(f"PDF file {file_path} has no pages")
+        # Get form data
+        form = await request.form()
+        
+        # Get all uploaded files and orders
+        files = []
+        orders = []
+        
+        # Iterate through form data
+        for key, value in form.multi_items():
+            if key == 'files':
+                files.append(value)
+            elif key == 'order':
+                orders.append(value)
+        
+        if not files:
+            return {"error": "No PDF files provided"}, 400
+        
+        if len(files) < 2:
+            return {"error": "At least 2 PDF files are required for merging"}, 400
+        
+        # Create list of file data with order
+        file_data = []
+        for i, file in enumerate(files):
+            order = int(orders[i]) if i < len(orders) else i
+            file_data.append({
+                'file': file,
+                'order': order,
+                'filename': file.filename or f'file_{i}.pdf'
+            })
+        
+        # Sort by order
+        file_data.sort(key=lambda x: x['order'])
+        
+        # Create temporary files for each uploaded PDF
+        temp_files = []
+        merger = PdfMerger()
+        
+        try:
+            # Process each file
+            for data in file_data:
+                file = data['file']
                 
-                merger.append(file_path)
-                print(f"Added: {file_path} ({len(reader.pages)} pages)", file=sys.stderr)
-            except Exception as e:
-                raise ValueError(f"Error reading PDF {file_path}: {str(e)}")
-        
-        # Create output file
-        output_fd, output_path = tempfile.mkstemp(suffix='.pdf', prefix='merged_')
-        os.close(output_fd)
-        
-        # Write merged PDF
-        merger.write(output_path)
-        merger.close()
-        
-        print(f"Merged {len(sorted_files)} PDFs successfully", file=sys.stderr)
-        return output_path
-        
-    except Exception as e:
-        merger.close()
-        raise Exception(f"Failed to merge PDFs: {str(e)}")
-
-
-def main():
-    """Main entry point for PDF merger tool"""
-    try:
-        # Read input from stdin (JSON format)
-        input_data = sys.stdin.read()
-        data = json.loads(input_data)
-        
-        # Extract PDF files data
-        # Expected format: {"files": [{"file_path": "path", "order": 0}, ...]}
-        if 'files' not in data or not isinstance(data['files'], list):
-            raise ValueError("Invalid input format. Expected 'files' array.")
-        
-        if len(data['files']) < 2:
-            raise ValueError("At least 2 PDF files are required for merging.")
-        
-        pdf_files_data = data['files']
-        
-        # Validate all files exist
-        for file_data in pdf_files_data:
-            if 'file_path' not in file_data:
-                raise ValueError("Each file must have 'file_path'")
-            if 'order' not in file_data:
-                raise ValueError("Each file must have 'order'")
+                # Read file content
+                content = await file.read()
+                
+                # Save to temporary file
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp:
+                    tmp.write(content)
+                    temp_path = tmp.name
+                    temp_files.append(temp_path)
+                
+                # Validate PDF
+                try:
+                    reader = PdfReader(temp_path)
+                    if len(reader.pages) == 0:
+                        return {"error": f"PDF file '{data['filename']}' has no pages"}, 400
+                    
+                    # Add to merger
+                    merger.append(temp_path)
+                    print(f"Added: {data['filename']} ({len(reader.pages)} pages)")
+                    
+                except Exception as e:
+                    return {"error": f"Error reading PDF '{data['filename']}': {str(e)}"}, 400
             
-            file_path = file_data['file_path']
-            if not os.path.exists(file_path):
-                raise ValueError(f"File not found: {file_path}")
-            if not file_path.lower().endswith('.pdf'):
-                raise ValueError(f"File is not a PDF: {file_path}")
-        
-        # Merge PDFs
-        output_path = merge_pdfs(pdf_files_data)
-        
-        # Return success response with output file path
-        response = {
-            "success": True,
-            "output_file": output_path,
-            "total_files": len(pdf_files_data),
-            "message": f"Successfully merged {len(pdf_files_data)} PDF files"
-        }
-        
-        print(json.dumps(response))
-        sys.exit(0)
-        
-    except json.JSONDecodeError as e:
-        error_response = {
-            "success": False,
-            "error": f"Invalid JSON input: {str(e)}"
-        }
-        print(json.dumps(error_response))
-        sys.exit(1)
-        
-    except ValueError as e:
-        error_response = {
-            "success": False,
-            "error": str(e)
-        }
-        print(json.dumps(error_response))
-        sys.exit(1)
-        
+            # Create output file
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_output:
+                output_path = tmp_output.name
+            
+            # Write merged PDF
+            with open(output_path, 'wb') as output_file:
+                merger.write(output_file)
+            
+            merger.close()
+            
+            print(f"Successfully merged {len(file_data)} PDFs")
+            
+            # Return the merged PDF
+            return FileResponse(
+                path=output_path,
+                filename='merged.pdf',
+                media_type='application/pdf',
+                background=lambda: cleanup_files(output_path, *temp_files)
+            )
+            
+        except Exception as e:
+            # Cleanup on error
+            merger.close()
+            cleanup_files(None, *temp_files)
+            raise e
+            
     except Exception as e:
-        error_response = {
-            "success": False,
-            "error": f"Unexpected error: {str(e)}"
-        }
-        print(json.dumps(error_response))
-        sys.exit(1)
+        print(f"Error merging PDFs: {e}")
+        import traceback
+        traceback.print_exc()
+        return {"error": str(e)}, 500
 
 
-if __name__ == "__main__":
-    main()
+def cleanup_files(*file_paths):
+    """Clean up temporary files"""
+    for path in file_paths:
+        if path and os.path.exists(path):
+            try:
+                os.unlink(path)
+            except Exception as e:
+                print(f"Error cleaning up file {path}: {e}")
 
