@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Diff Comparison Tool - Compare Two Texts Side by Side | Tool Studio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free text comparison tool to find differences between two texts. Compare documents side-by-side with color-coded highlighting for additions, deletions, and changes. Perfect for code review and document comparison.">
+    <meta name="keywords" content="text diff, compare text, text comparison, diff tool, document compare, find differences, text changes, side by side comparison, file diff, code comparison">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="canonical" href="https://toolstudio.in/tools/9/text-diff">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/9/text-diff">
+    <meta property="og:title" content="Text Diff Comparison Tool - Compare Two Texts Side by Side | Tool Studio">
+    <meta property="og:description" content="Compare documents side-by-side with color-coded highlighting for additions, deletions, and changes. Perfect for code review and document comparison.">
+    <meta property="og:image" content="https://toolstudio.in/og-text-diff.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/9/text-diff">
+    <meta property="twitter:title" content="Text Diff Comparison Tool - Compare Two Texts Side by Side | Tool Studio">
+    <meta property="twitter:description" content="Compare documents side-by-side with color-coded highlighting for additions, deletions, and changes.">
+    <meta property="twitter:image" content="https://toolstudio.in/og-text-diff.png">
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Text Diff Comparison Tool",
+        "description": "Free text comparison tool to find differences between two texts. Compare documents side-by-side with color-coded highlighting.",
+        "url": "https://toolstudio.in/tools/9/text-diff",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": "Side-by-side comparison, Color-coded differences, Line-by-line diff, Word-level diff, Character-level diff, Statistics"
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --bg: #ffffff;
+            --bg-card: #f9fafb;
+            --bg-input: #f3f4f6;
+            --bg-hover: #e5e7eb;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            
+            /* Diff colors */
+            --added: #dcfce7;
+            --added-text: #166534;
+            --deleted: #fee2e2;
+            --deleted-text: #991b1b;
+            --modified: #fef3c7;
+            --modified-text: #92400e;
+        }
+
+        .dark-theme {
+            --bg: #1f2937;
+            --bg-card: #111827;
+            --bg-input: #374151;
+            --bg-hover: #4b5563;
+            --text: #f9fafb;
+            --text-muted: #9ca3af;
+            --border: #374151;
+            --shadow: rgba(0, 0, 0, 0.3);
+            
+            --added: #064e3b;
+            --added-text: #d1fae5;
+            --deleted: #7f1d1d;
+            --deleted-text: #fecaca;
+            --modified: #78350f;
+            --modified-text: #fef3c7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px var(--shadow);
+            gap: 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+        }
+
+        .emoji {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.875rem;
+            color: var(--text);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Container */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1rem;
+            overflow: hidden;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Controls */
+        .controls {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 1px 3px var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.875rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .control-group select {
+            padding: 0.375rem 0.625rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg-input);
+            color: var(--text);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .control-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .compare-btn {
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .compare-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.5);
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: var(--bg-input);
+            border-radius: 6px;
+            font-size: 0.8125rem;
+        }
+
+        .stat-item .icon {
+            font-size: 1rem;
+        }
+
+        .stat-item .count {
+            font-weight: 600;
+        }
+
+        .stat-added { color: var(--added-text); }
+        .stat-deleted { color: var(--deleted-text); }
+        .stat-modified { color: var(--modified-text); }
+
+        /* Comparison Area */
+        .comparison-area {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            overflow: hidden;
+        }
+
+        .text-panel {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 1px 3px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .char-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .text-input {
+            flex: 1;
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-input);
+            color: var(--text);
+            font-size: 0.875rem;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            line-height: 1.6;
+            transition: all 0.2s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .diff-display {
+            flex: 1;
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-input);
+            font-size: 0.875rem;
+            font-family: 'Courier New', monospace;
+            overflow-y: auto;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: none;
+        }
+
+        .diff-display.active {
+            display: block;
+        }
+
+        /* Diff Styles */
+        .diff-line {
+            display: block;
+            padding: 2px 4px;
+            margin: 1px 0;
+        }
+
+        .diff-added {
+            background: var(--added);
+            color: var(--added-text);
+        }
+
+        .diff-deleted {
+            background: var(--deleted);
+            color: var(--deleted-text);
+        }
+
+        .diff-modified {
+            background: var(--modified);
+            color: var(--modified-text);
+        }
+
+        .diff-word-added {
+            background: var(--added);
+            color: var(--added-text);
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .diff-word-deleted {
+            background: var(--deleted);
+            color: var(--deleted-text);
+            padding: 1px 3px;
+            border-radius: 2px;
+            text-decoration: line-through;
+            font-weight: 600;
+        }
+
+        .diff-char-added {
+            background: var(--added);
+            color: var(--added-text);
+            font-weight: 700;
+        }
+
+        .diff-char-deleted {
+            background: var(--deleted);
+            color: var(--deleted-text);
+            text-decoration: line-through;
+            font-weight: 700;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 0.9375rem;
+        }
+
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+
+        .modal-close {
+            background: var(--bg-hover);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-content {
+            padding: 24px;
+        }
+
+        .modal-section {
+            margin-bottom: 24px;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 0.875rem;
+        }
+
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modal-section li {
+            padding: 10px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary);
+            color: var(--text);
+            font-size: 0.875rem;
+        }
+
+        .modal-section li strong {
+            color: var(--primary);
+        }
+
+        .faq-item {
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: start;
+            gap: 8px;
+            font-size: 0.875rem;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding-left: 24px;
+            font-size: 0.875rem;
+        }
+
+        .tool-link {
+            display: block;
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .tool-link:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .tool-link-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+
+        .tool-link-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-input);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .comparison-area {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+
+            .text-panel {
+                height: 50vh;
+            }
+
+            .stats {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 10px 14px;
+            }
+
+            h1 {
+                font-size: 1.125rem;
+            }
+
+            .emoji {
+                font-size: 1.2rem;
+            }
+
+            .theme-toggle {
+                padding: 0.375rem 0.625rem;
+                font-size: 0.75rem;
+                gap: 0.25rem;
+            }
+
+            .container {
+                padding: 0.75rem;
+            }
+
+            .controls {
+                padding: 0.75rem;
+                gap: 0.75rem;
+            }
+
+            .control-group {
+                width: 100%;
+            }
+
+            .control-group select {
+                flex: 1;
+            }
+
+            .compare-btn {
+                width: 100%;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+                gap: 10px;
+            }
+
+            .fab {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+            }
+
+            .modal {
+                margin: 0;
+                border-radius: 16px 16px 0 0;
+                max-height: 85vh;
+            }
+
+            .modal-header {
+                padding: 20px 16px 12px;
+            }
+
+            .modal-title {
+                font-size: 1.25rem;
+            }
+
+            .modal-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <span class="emoji">⚖️</span>
+            <h1>Text Diff Comparison</h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span id="theme-icon">🌙</span>
+            <span id="theme-text">Dark</span>
+        </button>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Controls -->
+        <div class="controls">
+            <div class="control-group">
+                <label for="diffMode">Mode:</label>
+                <select id="diffMode">
+                    <option value="line">Line by Line</option>
+                    <option value="word">Word Level</option>
+                    <option value="char">Character Level</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <input type="checkbox" id="caseSensitive">
+                <label for="caseSensitive">Case Sensitive</label>
+            </div>
+
+            <div class="control-group">
+                <input type="checkbox" id="ignoreWhitespace">
+                <label for="ignoreWhitespace">Ignore Whitespace</label>
+            </div>
+
+            <button class="compare-btn" onclick="compareTexts()">
+                🔍 Compare Texts
+            </button>
+
+            <div class="stats" id="stats" style="display: none;">
+                <div class="stat-item stat-added">
+                    <span class="icon">+</span>
+                    <span class="count" id="addedCount">0</span>
+                </div>
+                <div class="stat-item stat-deleted">
+                    <span class="icon">−</span>
+                    <span class="count" id="deletedCount">0</span>
+                </div>
+                <div class="stat-item stat-modified">
+                    <span class="icon">±</span>
+                    <span class="count" id="modifiedCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Area -->
+        <div class="comparison-area">
+            <!-- Text 1 -->
+            <div class="text-panel">
+                <div class="panel-header">
+                    <span class="panel-title">📝 Original Text</span>
+                    <span class="char-count" id="charCount1">0 characters</span>
+                </div>
+                <textarea 
+                    class="text-input" 
+                    id="text1" 
+                    placeholder="Paste or type your original text here..."
+                    oninput="updateCharCount(1)"
+                ></textarea>
+                <div class="diff-display" id="diff1"></div>
+            </div>
+
+            <!-- Text 2 -->
+            <div class="text-panel">
+                <div class="panel-header">
+                    <span class="panel-title">📄 Modified Text</span>
+                    <span class="char-count" id="charCount2">0 characters</span>
+                </div>
+                <textarea 
+                    class="text-input" 
+                    id="text2" 
+                    placeholder="Paste or type your modified text here..."
+                    oninput="updateCharCount(2)"
+                ></textarea>
+                <div class="diff-display" id="diff2"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openModal('about-modal')" title="About this tool" aria-label="About this tool">
+            ℹ️
+        </button>
+        <button class="fab" onclick="openModal('similar-tools-modal')" title="Similar tools" aria-label="Similar tools">
+            🔧
+        </button>
+    </div>
+
+    <!-- About Tool Modal -->
+    <div class="modal-overlay" id="about-modal" onclick="closeModal('about-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>⚖️</span>
+                    <span>About Text Diff Comparison</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>💡</span>
+                        <span>What Does This Tool Do?</span>
+                    </h3>
+                    <p>
+                        Text Diff Comparison tool helps you find and visualize differences between two texts. Compare documents side-by-side with color-coded highlighting to easily spot additions, deletions, and modifications. Perfect for code review, document comparison, and tracking changes.
+                    </p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>🚀</span>
+                        <span>Key Features</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Side-by-Side View:</strong> Compare two texts simultaneously</li>
+                        <li><strong>Three Comparison Modes:</strong> Line-by-line, word-level, or character-level</li>
+                        <li><strong>Color-Coded Differences:</strong> Green for additions, red for deletions, yellow for modifications</li>
+                        <li><strong>Real-time Statistics:</strong> See counts of changes at a glance</li>
+                        <li><strong>Case Sensitivity:</strong> Toggle case-sensitive comparison</li>
+                        <li><strong>Whitespace Options:</strong> Ignore whitespace differences if needed</li>
+                        <li><strong>Unlimited Text:</strong> No character limits</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>📝</span>
+                        <span>How to Use</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Step 1:</strong> Paste your original text in the left panel</li>
+                        <li><strong>Step 2:</strong> Paste your modified text in the right panel</li>
+                        <li><strong>Step 3:</strong> Choose comparison mode (Line/Word/Character)</li>
+                        <li><strong>Step 4:</strong> Set options (case sensitivity, whitespace)</li>
+                        <li><strong>Step 5:</strong> Click "Compare Texts" to see differences</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>🎨</span>
+                        <span>Color Legend</span>
+                    </h3>
+                    <ul>
+                        <li><strong style="color: var(--added-text);">Green Background:</strong> Text added in modified version</li>
+                        <li><strong style="color: var(--deleted-text);">Red Background:</strong> Text deleted from original</li>
+                        <li><strong style="color: var(--modified-text);">Yellow Background:</strong> Text modified/changed</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>❓</span>
+                        <span>FAQs</span>
+                    </h3>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <strong>Q:</strong> What's the difference between comparison modes?
+                        </div>
+                        <div class="faq-answer">
+                            <strong>Line-by-line:</strong> Compares entire lines (best for code/structured text).
+                            <strong>Word-level:</strong> Highlights individual word changes (best for prose).
+                            <strong>Character-level:</strong> Shows every character difference (most detailed).
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <strong>Q:</strong> Is there a text length limit?
+                        </div>
+                        <div class="faq-answer">
+                            No! You can compare texts of any length. However, very large texts may take a moment to process.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <strong>Q:</strong> When should I use "Ignore Whitespace"?
+                        </div>
+                        <div class="faq-answer">
+                            Enable this when you want to focus on actual content changes and ignore formatting differences like spaces, tabs, or line breaks.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <strong>Q:</strong> Is my text stored anywhere?
+                        </div>
+                        <div class="faq-answer">
+                            No! All comparison happens in your browser. Your text never leaves your device and is not stored anywhere.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div class="modal-overlay" id="similar-tools-modal" onclick="closeModal('similar-tools-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>🔗</span>
+                    <span>Similar Tools</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <p>Explore other useful tools from Tool Studio:</p>
+                    <div id="similar-tools-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let comparisonResults = {
+            added: 0,
+            deleted: 0,
+            modified: 0
+        };
+
+        // Initialize
+        function init() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                toggleTheme();
+            }
+            renderSimilarTools();
+        }
+
+        // Theme Management
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            
+            body.classList.toggle('dark-theme');
+            const isDark = body.classList.contains('dark-theme');
+            
+            themeIcon.textContent = isDark ? '☀️' : '🌙';
+            themeText.textContent = isDark ? 'Light' : 'Dark';
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Update Character Count
+        function updateCharCount(textNumber) {
+            const textarea = document.getElementById(`text${textNumber}`);
+            const charCount = document.getElementById(`charCount${textNumber}`);
+            const length = textarea.value.length;
+            charCount.textContent = `${length.toLocaleString()} characters`;
+        }
+
+        // Compare Texts
+        function compareTexts() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            
+            if (!text1 && !text2) {
+                alert('Please enter some text in both panels to compare.');
+                return;
+            }
+
+            const mode = document.getElementById('diffMode').value;
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const ignoreWhitespace = document.getElementById('ignoreWhitespace').checked;
+
+            // Hide textareas, show diff displays
+            document.getElementById('text1').style.display = 'none';
+            document.getElementById('text2').style.display = 'none';
+            document.getElementById('diff1').classList.add('active');
+            document.getElementById('diff2').classList.add('active');
+
+            // Reset stats
+            comparisonResults = { added: 0, deleted: 0, modified: 0 };
+
+            // Perform comparison based on mode
+            if (mode === 'line') {
+                compareLines(text1, text2, caseSensitive, ignoreWhitespace);
+            } else if (mode === 'word') {
+                compareWords(text1, text2, caseSensitive, ignoreWhitespace);
+            } else {
+                compareChars(text1, text2, caseSensitive);
+            }
+
+            // Update stats
+            updateStats();
+        }
+
+        // Line-by-Line Comparison
+        function compareLines(text1, text2, caseSensitive, ignoreWhitespace) {
+            let lines1 = text1.split('\n');
+            let lines2 = text2.split('\n');
+
+            if (ignoreWhitespace) {
+                lines1 = lines1.map(l => l.trim());
+                lines2 = lines2.map(l => l.trim());
+            }
+
+            const maxLines = Math.max(lines1.length, lines2.length);
+            let html1 = '';
+            let html2 = '';
+
+            for (let i = 0; i < maxLines; i++) {
+                const line1 = lines1[i] !== undefined ? lines1[i] : '';
+                const line2 = lines2[i] !== undefined ? lines2[i] : '';
+
+                const compare1 = caseSensitive ? line1 : line1.toLowerCase();
+                const compare2 = caseSensitive ? line2 : line2.toLowerCase();
+
+                if (compare1 === compare2) {
+                    // Same line
+                    html1 += escapeHtml(line1) + '\n';
+                    html2 += escapeHtml(line2) + '\n';
+                } else if (!line1) {
+                    // Added in text2
+                    html1 += '\n';
+                    html2 += `<span class="diff-line diff-added">${escapeHtml(line2)}</span>\n`;
+                    comparisonResults.added++;
+                } else if (!line2) {
+                    // Deleted from text1
+                    html1 += `<span class="diff-line diff-deleted">${escapeHtml(line1)}</span>\n`;
+                    html2 += '\n';
+                    comparisonResults.deleted++;
+                } else {
+                    // Modified
+                    html1 += `<span class="diff-line diff-modified">${escapeHtml(line1)}</span>\n`;
+                    html2 += `<span class="diff-line diff-modified">${escapeHtml(line2)}</span>\n`;
+                    comparisonResults.modified++;
+                }
+            }
+
+            document.getElementById('diff1').innerHTML = html1;
+            document.getElementById('diff2').innerHTML = html2;
+            
+            // Enable synchronized scrolling
+            setupSyncScroll();
+        }
+
+        // Word-Level Comparison
+        function compareWords(text1, text2, caseSensitive, ignoreWhitespace) {
+            let words1 = text1.split(/(\s+)/);
+            let words2 = text2.split(/(\s+)/);
+
+            if (ignoreWhitespace) {
+                words1 = words1.filter(w => w.trim());
+                words2 = words2.filter(w => w.trim());
+            }
+
+            const diff = computeLCS(words1, words2, caseSensitive);
+            
+            let html1 = '';
+            let html2 = '';
+
+            diff.forEach(item => {
+                if (item.type === 'equal') {
+                    html1 += escapeHtml(item.value);
+                    html2 += escapeHtml(item.value);
+                } else if (item.type === 'delete') {
+                    html1 += `<span class="diff-word-deleted">${escapeHtml(item.value)}</span>`;
+                    comparisonResults.deleted++;
+                } else if (item.type === 'insert') {
+                    html2 += `<span class="diff-word-added">${escapeHtml(item.value)}</span>`;
+                    comparisonResults.added++;
+                }
+            });
+
+            document.getElementById('diff1').innerHTML = html1;
+            document.getElementById('diff2').innerHTML = html2;
+            
+            // Enable synchronized scrolling
+            setupSyncScroll();
+        }
+
+        // Character-Level Comparison
+        function compareChars(text1, text2, caseSensitive) {
+            const chars1 = text1.split('');
+            const chars2 = text2.split('');
+
+            const diff = computeLCS(chars1, chars2, caseSensitive);
+            
+            let html1 = '';
+            let html2 = '';
+
+            diff.forEach(item => {
+                if (item.type === 'equal') {
+                    html1 += escapeHtml(item.value);
+                    html2 += escapeHtml(item.value);
+                } else if (item.type === 'delete') {
+                    html1 += `<span class="diff-char-deleted">${escapeHtml(item.value)}</span>`;
+                    comparisonResults.deleted++;
+                } else if (item.type === 'insert') {
+                    html2 += `<span class="diff-char-added">${escapeHtml(item.value)}</span>`;
+                    comparisonResults.added++;
+                }
+            });
+
+            document.getElementById('diff1').innerHTML = html1;
+            document.getElementById('diff2').innerHTML = html2;
+            
+            // Enable synchronized scrolling
+            setupSyncScroll();
+        }
+
+        // Synchronized Scrolling
+        let isScrolling = false;
+
+        function setupSyncScroll() {
+            const diff1 = document.getElementById('diff1');
+            const diff2 = document.getElementById('diff2');
+
+            // Remove existing listeners if any
+            diff1.onscroll = null;
+            diff2.onscroll = null;
+
+            // Add synchronized scroll listeners
+            diff1.onscroll = function() {
+                if (!isScrolling) {
+                    isScrolling = true;
+                    diff2.scrollTop = diff1.scrollTop;
+                    diff2.scrollLeft = diff1.scrollLeft;
+                    setTimeout(() => { isScrolling = false; }, 10);
+                }
+            };
+
+            diff2.onscroll = function() {
+                if (!isScrolling) {
+                    isScrolling = true;
+                    diff1.scrollTop = diff2.scrollTop;
+                    diff1.scrollLeft = diff2.scrollLeft;
+                    setTimeout(() => { isScrolling = false; }, 10);
+                }
+            };
+        }
+
+        // LCS Algorithm (Longest Common Subsequence)
+        function computeLCS(arr1, arr2, caseSensitive) {
+            const m = arr1.length;
+            const n = arr2.length;
+            const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+
+            // Build LCS table
+            for (let i = 1; i <= m; i++) {
+                for (let j = 1; j <= n; j++) {
+                    const item1 = caseSensitive ? arr1[i - 1] : arr1[i - 1].toLowerCase();
+                    const item2 = caseSensitive ? arr2[j - 1] : arr2[j - 1].toLowerCase();
+                    
+                    if (item1 === item2) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                    } else {
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                    }
+                }
+            }
+
+            // Backtrack to get diff
+            const diff = [];
+            let i = m, j = n;
+
+            while (i > 0 || j > 0) {
+                if (i > 0 && j > 0) {
+                    const item1 = caseSensitive ? arr1[i - 1] : arr1[i - 1].toLowerCase();
+                    const item2 = caseSensitive ? arr2[j - 1] : arr2[j - 1].toLowerCase();
+                    
+                    if (item1 === item2) {
+                        diff.unshift({ type: 'equal', value: arr1[i - 1] });
+                        i--;
+                        j--;
+                    } else if (dp[i - 1][j] >= dp[i][j - 1]) {
+                        diff.unshift({ type: 'delete', value: arr1[i - 1] });
+                        i--;
+                    } else {
+                        diff.unshift({ type: 'insert', value: arr2[j - 1] });
+                        j--;
+                    }
+                } else if (i > 0) {
+                    diff.unshift({ type: 'delete', value: arr1[i - 1] });
+                    i--;
+                } else {
+                    diff.unshift({ type: 'insert', value: arr2[j - 1] });
+                    j--;
+                }
+            }
+
+            return diff;
+        }
+
+        // Update Statistics
+        function updateStats() {
+            document.getElementById('stats').style.display = 'flex';
+            document.getElementById('addedCount').textContent = comparisonResults.added;
+            document.getElementById('deletedCount').textContent = comparisonResults.deleted;
+            document.getElementById('modifiedCount').textContent = comparisonResults.modified;
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Similar Tools Configuration
+        const similarTools = [
+            {
+                icon: '🔍',
+                title: 'Multi-Search Highlighter',
+                description: 'Search multiple words simultaneously with color highlighting',
+                url: 'https://toolstudio.in/tools/8/multi-search'
+            },
+            {
+                icon: '📝',
+                title: 'JSON Formatter',
+                description: 'Format and validate JSON data with custom indentation',
+                url: 'https://toolstudio.in/tools/5/json-formatter'
+            },
+            {
+                icon: '📖',
+                title: 'README Viewer',
+                description: 'Beautiful README.md viewer with live markdown rendering',
+                url: 'https://toolstudio.in/tools/1/readme-viewer'
+            },
+            {
+                icon: '📄',
+                title: 'PDF Page Remover',
+                description: 'Remove specific pages from PDF files quickly and easily',
+                url: 'https://toolstudio.in/tools/3/pdf-page-remover'
+            }
+        ];
+
+        function renderSimilarTools() {
+            const toolsList = document.getElementById('similar-tools-list');
+            if (toolsList) {
+                toolsList.innerHTML = similarTools.map(tool => `
+                    <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
+                        <div class="tool-link-title">
+                            <span>${tool.icon}</span>
+                            <span>${tool.title}</span>
+                        </div>
+                        <div class="tool-link-desc">${tool.description}</div>
+                    </a>
+                `).join('');
+            }
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+</html>
+
