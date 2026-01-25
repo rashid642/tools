@@ -1019,33 +1019,37 @@
                 icon: '🔍',
                 title: 'Multi-Search Text Highlighter',
                 description: 'Search multiple words simultaneously with color-coded highlighting.',
-                url: 'https://toolstudio.in/tools/8/multi-search'
+                path: '/tools/8/multi-search-text-highlighter'
             },
             {
                 icon: '📊',
                 title: 'Text Diff Comparison',
                 description: 'Compare two texts and see differences with visual highlighting.',
-                url: 'https://toolstudio.in/tools/9/text-diff'
+                path: '/tools/9/text-diff-comparison'
             },
             {
                 icon: '📖',
                 title: 'README Viewer',
                 description: 'Preview markdown files with syntax highlighting.',
-                url: 'https://toolstudio.in/tools/1/readme-viewer'
+                path: '/tools/1/readme-viewer'
             },
             {
                 icon: '✨',
                 title: 'JSON Formatter',
                 description: 'Format, validate, and minify JSON data instantly.',
-                url: 'https://toolstudio.in/tools/5/json-formatter'
+                path: '/tools/5/json-formatter'
             }
         ];
 
         // Populate similar tools
         const similarToolsList = document.getElementById('similarToolsList');
+        const currentOrigin = window.location.hostname === '0.0.0.0' 
+            ? window.location.origin.replace('0.0.0.0', 'localhost')
+            : window.location.origin;
+        
         similarTools.forEach(tool => {
             const toolLink = document.createElement('a');
-            toolLink.href = tool.url;
+            toolLink.href = currentOrigin + tool.path;
             toolLink.className = 'tool-link';
             toolLink.target = '_blank';
             toolLink.innerHTML = `
