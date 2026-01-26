@@ -5,7 +5,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ## 📋 Available Tools
 
 ### 1. 📖 README Viewer
-![README Viewer](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Readme+viwer.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Readme+viwer.png" alt="README Viewer" width="400"/>
 
 **URL:** https://toolstudio.in/tools/1/readme-viewer  
 **Description:** A beautiful markdown viewer with live preview and syntax highlighting. Perfect for viewing and editing README files with real-time rendering.
@@ -20,7 +20,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 2. 📷 Camera Test
-![Camera Test](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Camera+test.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Camera+test.png" alt="Camera Test" width="400"/>
 
 **URL:** https://toolstudio.in/tools/2/camera-test  
 **Description:** Test your device camera, capture photos with live preview, and download images instantly. Perfect for testing camera functionality.
@@ -35,7 +35,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 3. 📄 PDF Page Remover
-![PDF Page Remover](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Page+remover.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Page+remover.png" alt="PDF Page Remover" width="400"/>
 
 **URL:** https://toolstudio.in/tools/3/pdf-page-remover  
 **Description:** Remove specific pages from PDF files easily. Enter page numbers or ranges, and download the modified PDF instantly.
@@ -50,7 +50,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 4. 🎤 Microphone & Speaker Test
-![Microphone & Speaker Test](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Microphone+and+speaker+test.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Microphone+and+speaker+test.png" alt="Microphone & Speaker Test" width="400"/>
 
 **URL:** https://toolstudio.in/tools/4/microphone-speaker-test  
 **Description:** Complete audio testing tool - test your microphone with live waveform visualization and test left/right speakers.
@@ -65,7 +65,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 5. ✨ JSON Formatter
-![JSON Formatter](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/JSON+Formatter.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/JSON+Formatter.png" alt="JSON Formatter" width="400"/>
 
 **URL:** https://toolstudio.in/tools/5/json-formatter  
 **Description:** Format, validate, and beautify JSON data instantly. Minify JSON, fix formatting errors, and validate JSON syntax online.
@@ -81,7 +81,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 6. ✂️ PDF Splitter
-![PDF Splitter](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Splitter.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Splitter.png" alt="PDF Splitter" width="400"/>
 
 **URL:** https://toolstudio.in/tools/6/pdf-splitter  
 **Description:** Split PDF files into multiple documents by custom page ranges. Create named splits, validate page ranges, and handle leftover pages.
@@ -97,7 +97,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 7. 📷 QR Code Scanner
-![QR Code Scanner](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/QR+Codescanner.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/QR+Codescanner.png" alt="QR Code Scanner" width="400"/>
 
 **URL:** https://toolstudio.in/tools/7/qr-code-scanner  
 **Description:** Scan and decode QR codes from images or camera instantly. Extract URLs, text, contact info, WiFi credentials, and more.
@@ -113,7 +113,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 8. 🔍 Multi-Search Text Highlighter
-![Multi-Search Text Highlighter](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Multi+search.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Multi+search.png" alt="Multi-Search Text Highlighter" width="400"/>
 
 **URL:** https://toolstudio.in/tools/8/multi-search-text-highlighter  
 **Description:** Search up to 5 words simultaneously with color-coded highlighting, occurrence counters, and easy navigation.
@@ -129,7 +129,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 9. 📊 Text Diff Comparison
-![Text Diff Comparison](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Compare+text.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Compare+text.png" alt="Text Diff Comparison" width="400"/>
 
 **URL:** https://toolstudio.in/tools/9/text-diff-comparison  
 **Description:** Compare two texts side-by-side with color-coded highlighting for additions, deletions, and modifications.
@@ -145,7 +145,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 10. 📑 PDF Merger
-![PDF Merger](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Merge+PDF.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Merge+PDF.png" alt="PDF Merger" width="400"/>
 
 **URL:** https://toolstudio.in/tools/10/pdf-merger  
 **Description:** Combine multiple PDF files into a single document. Upload PDFs, reorder them with drag & drop, and merge instantly.
@@ -161,7 +161,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 11. 📝 Text Utilities
-![Text Utilities](https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Text+util.png)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Text+util.png" alt="Text Utilities" width="400"/>
 
 **URL:** https://toolstudio.in/tools/11/text-utilities  
 **Description:** Comprehensive text processing tool to count characters, words, lines, and more. Convert text case, find & replace, remove extra spaces.
