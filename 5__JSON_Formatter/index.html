@@ -1089,6 +1089,77 @@ Example:
             hideMessages();
         });
         
+        // Auto-completion for brackets, quotes, and tab handling
+        input.addEventListener('keydown', function(e) {
+            const cursorPos = this.selectionStart;
+            const cursorEnd = this.selectionEnd;
+            const textBefore = this.value.substring(0, cursorPos);
+            const textAfter = this.value.substring(cursorEnd);
+            
+            // Handle Tab key - insert 4 spaces
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const spaces = '    '; // 4 spaces
+                this.value = textBefore + spaces + textAfter;
+                this.selectionStart = this.selectionEnd = cursorPos + 4;
+                this.dispatchEvent(new Event('input'));
+                return;
+            }
+            
+            // Auto-closing brackets and quotes
+            const pairs = {
+                '{': '}',
+                '[': ']',
+                '(': ')',
+                '"': '"',
+                "'": "'",
+                '`': '`'
+            };
+            
+            const key = e.key;
+            
+            // Handle opening brackets
+            if (pairs[key] && key !== '"' && key !== "'" && key !== '`') {
+                e.preventDefault();
+                const closing = pairs[key];
+                this.value = textBefore + key + closing + textAfter;
+                this.selectionStart = this.selectionEnd = cursorPos + 1;
+                this.dispatchEvent(new Event('input'));
+                return;
+            }
+            
+            // Handle quotes - check if count is odd
+            if (key === '"' || key === "'" || key === '`') {
+                // Count occurrences in the entire text
+                const allText = this.value;
+                const count = (allText.match(new RegExp('\\' + key, 'g')) || []).length;
+                
+                // If count is odd (unpaired), add closing quote
+                if (count % 2 === 1) {
+                    e.preventDefault();
+                    this.value = textBefore + key + textAfter;
+                    this.selectionStart = this.selectionEnd = cursorPos + 1;
+                    this.dispatchEvent(new Event('input'));
+                    return;
+                }
+                
+                // If count is even, add both opening and closing
+                e.preventDefault();
+                this.value = textBefore + key + key + textAfter;
+                this.selectionStart = this.selectionEnd = cursorPos + 1;
+                this.dispatchEvent(new Event('input'));
+                return;
+            }
+            
+            // Skip over closing bracket if it's the next character
+            const nextChar = textAfter.charAt(0);
+            if ((key === '}' || key === ']' || key === ')') && nextChar === key) {
+                e.preventDefault();
+                this.selectionStart = this.selectionEnd = cursorPos + 1;
+                return;
+            }
+        });
+        
         function updateStats() {
             const text = input.value;
             document.getElementById('char-count').textContent = text.length.toLocaleString();
