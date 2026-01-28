@@ -180,6 +180,8 @@
         @media (max-width: 968px) {
             .layout {
                 grid-template-columns: 1fr;
+                gap: 0;
+                overflow-y: auto;
             }
             
             h1 {
@@ -188,6 +190,33 @@
             
             header {
                 padding: 10px 14px;
+            }
+            
+            .panel {
+                padding: 10px;
+                padding-bottom: 30px;
+                overflow-y: auto;
+                border-bottom: 2px solid var(--border);
+            }
+            
+            .panel:first-child {
+                min-height: 75vh;
+            }
+            
+            .panel:last-child {
+                min-height: 50vh;
+                border-bottom: none;
+                padding-bottom: 40px;
+            }
+            
+            textarea {
+                min-height: calc(75vh - 120px);
+                max-height: none;
+            }
+            
+            #preview {
+                min-height: calc(50vh - 80px);
+                padding-bottom: 30px;
             }
         }
         
@@ -272,6 +301,7 @@
         textarea {
             flex: 1;
             width: 100%;
+            min-height: 400px;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 6px;
@@ -749,6 +779,50 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .container {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .layout {
+                gap: 0;
+                overflow-y: auto;
+            }
+            
+            .panel {
+                padding: 8px;
+                overflow-y: auto;
+                border-bottom: 2px solid var(--border);
+            }
+            
+            .panel:first-child {
+                min-height: 75vh;
+                padding-bottom: 30px;
+            }
+            
+            .panel:last-child {
+                min-height: 50vh;
+                padding-bottom: 40px;
+                border-bottom: none;
+            }
+            
+            textarea {
+                min-height: calc(75vh - 110px);
+                max-height: none;
+            }
+            
+            #preview {
+                min-height: calc(50vh - 80px);
+                padding-bottom: 40px;
+            }
+            
             .fab-container {
                 bottom: 16px;
                 right: 16px;
