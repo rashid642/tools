@@ -793,6 +793,10 @@
                 🔍 Compare Texts
             </button>
 
+            <button class="compare-btn" id="resetBtn" onclick="resetComparison()" style="display: none; background: linear-gradient(135deg, #10b981, #059669);">
+                ↩️ Back to Edit
+            </button>
+
             <div class="stats" id="stats" style="display: none;">
                 <div class="stat-item stat-added">
                     <span class="icon">+</span>
@@ -1038,6 +1042,9 @@
             document.getElementById('text2').style.display = 'none';
             document.getElementById('diff1').classList.add('active');
             document.getElementById('diff2').classList.add('active');
+            
+            // Show reset button
+            document.getElementById('resetBtn').style.display = 'block';
 
             // Reset stats
             comparisonResults = { added: 0, deleted: 0, modified: 0 };
@@ -1309,6 +1316,26 @@
                     </a>
                 `).join('');
             }
+        }
+
+        // Reset Comparison (Back to Edit)
+        function resetComparison() {
+            // Show textareas, hide diff displays
+            document.getElementById('text1').style.display = 'block';
+            document.getElementById('text2').style.display = 'block';
+            document.getElementById('diff1').classList.remove('active');
+            document.getElementById('diff2').classList.remove('active');
+            
+            // Clear diff displays
+            document.getElementById('diff1').innerHTML = '';
+            document.getElementById('diff2').innerHTML = '';
+            
+            // Hide reset button and stats
+            document.getElementById('resetBtn').style.display = 'none';
+            document.getElementById('stats').style.display = 'none';
+            
+            // Reset comparison results
+            comparisonResults = { added: 0, deleted: 0, modified: 0 };
         }
 
         // Modal Functions
