@@ -1172,6 +1172,39 @@ Example:
                 return;
             }
             
+            // Handle Enter key between brackets - auto-format
+            if (e.key === 'Enter') {
+                const charBefore = textBefore.charAt(textBefore.length - 1);
+                const charAfter = textAfter.charAt(0);
+                
+                // Check if cursor is between matching brackets
+                const bracketPairs = {
+                    '{': '}',
+                    '[': ']',
+                    '(': ')'
+                };
+                
+                if (bracketPairs[charBefore] === charAfter) {
+                    e.preventDefault();
+                    
+                    // Get current line's indentation
+                    const lines = textBefore.split('\n');
+                    const currentLine = lines[lines.length - 1];
+                    const currentIndent = currentLine.match(/^\s*/)[0];
+                    const indent = '    '; // 4 spaces for new level
+                    
+                    // Insert new lines with proper indentation
+                    const newText = '\n' + currentIndent + indent + '\n' + currentIndent;
+                    this.value = textBefore + newText + textAfter;
+                    
+                    // Position cursor on the middle line with indentation
+                    const newCursorPos = cursorPos + 1 + currentIndent.length + indent.length;
+                    this.selectionStart = this.selectionEnd = newCursorPos;
+                    this.dispatchEvent(new Event('input'));
+                    return;
+                }
+            }
+            
             // Auto-closing brackets and quotes
             const pairs = {
                 '{': '}',
