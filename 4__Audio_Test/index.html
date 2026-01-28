@@ -154,6 +154,7 @@
             gap: 6px;
             font-size: 0.9rem;
             color: var(--text);
+            white-space: nowrap;
         }
         
         .theme-toggle:hover {
@@ -709,8 +710,42 @@
             color: var(--text-muted);
         }
         
+        /* Tablet optimizations */
+        @media (max-width: 968px) and (min-width: 769px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .card {
+                padding: 24px;
+            }
+            
+            .speaker-icons {
+                gap: 30px;
+            }
+            
+            .btn-group {
+                gap: 6px;
+                padding: 6px;
+            }
+            
+            .btn-group button {
+                padding: 12px 18px;
+                font-size: 0.95rem;
+            }
+            
+            .theme-toggle {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             h1 {
+                font-size: 1.1rem;
+            }
+            
+            h1 .emoji {
                 font-size: 1.2rem;
             }
             
@@ -719,24 +754,92 @@
             }
             
             .main-content {
-                padding: 16px;
+                padding: 12px;
             }
             
             .card {
-                padding: 20px;
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+                margin-bottom: 16px;
+            }
+            
+            .visualizer-container {
+                padding: 16px;
+            }
+            
+            .visualizer {
+                height: 100px;
+            }
+            
+            .recording-time {
+                font-size: 1.6rem;
+                margin: 12px 0;
             }
             
             .controls {
                 flex-direction: column;
+                gap: 10px;
             }
             
             button {
                 width: 100%;
                 justify-content: center;
+                padding: 12px 16px;
+                font-size: 0.95rem;
             }
             
             .speaker-icons {
-                gap: 20px;
+                gap: 12px;
+                margin: 16px 0;
+                flex-wrap: wrap;
+            }
+            
+            .speaker-icon {
+                padding: 12px 16px;
+                min-width: 80px;
+            }
+            
+            .speaker-icon .icon {
+                font-size: 2.2rem;
+                margin-bottom: 4px;
+            }
+            
+            .speaker-icon .label {
+                font-size: 0.85rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                gap: 8px;
+                padding: 8px;
+            }
+            
+            .btn-group button {
+                width: 100%;
+                padding: 12px 16px;
+                border-radius: 8px;
+                font-size: 0.95rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .info-card {
+                padding: 12px;
+            }
+            
+            .info-label {
+                font-size: 0.8rem;
+            }
+            
+            .info-value {
+                font-size: 1rem;
             }
             
             .fab-container {
@@ -770,6 +873,98 @@
             
             .modal-content {
                 padding: 16px;
+            }
+            
+            .theme-toggle {
+                padding: 8px;
+                font-size: 1rem;
+                gap: 0;
+                width: auto;
+                min-width: 40px;
+            }
+            
+            .theme-toggle #theme-text {
+                display: none;
+            }
+            
+            .theme-toggle #theme-icon {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1rem;
+            }
+            
+            h1 .emoji {
+                font-size: 1.1rem;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 14px;
+                border-radius: 12px;
+            }
+            
+            .section-title {
+                font-size: 1rem;
+            }
+            
+            .visualizer-container {
+                padding: 12px;
+            }
+            
+            .speaker-icons {
+                gap: 8px;
+                margin: 12px 0;
+            }
+            
+            .speaker-icon {
+                padding: 10px 12px;
+                min-width: 70px;
+            }
+            
+            .speaker-icon .icon {
+                font-size: 2rem;
+            }
+            
+            .speaker-icon .label {
+                font-size: 0.8rem;
+            }
+            
+            button {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+            
+            .btn-group button {
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+            
+            .theme-toggle {
+                padding: 6px;
+                width: auto;
+                min-width: 36px;
+            }
+            
+            .theme-toggle #theme-icon {
+                font-size: 1.1rem;
+            }
+            
+            .fab {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+            
+            .recording-time {
+                font-size: 1.4rem;
             }
         }
     </style>
