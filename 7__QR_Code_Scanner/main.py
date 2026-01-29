@@ -44,6 +44,7 @@ async def execute(request: Request):
         
         # Read image content
         image_content = await file.read()
+        print(f"[QR Scanner] Processing: {file.filename} ({len(image_content)} bytes)")
         
         # Validate it's an image
         try:
@@ -63,14 +64,20 @@ async def execute(request: Request):
         # Strategy 1: pyzbar (most reliable for standard QR codes) - if available
         if PYZBAR_AVAILABLE:
             codes.extend(decode_with_pyzbar(pil_image))
+            if codes:
+                print(f"[QR Scanner] Decoded using pyzbar strategy")
         
         # Strategy 2: OpenCV QRCodeDetector (good for some cases)
         if not codes:
             codes.extend(decode_with_opencv(img_array))
+            if codes:
+                print(f"[QR Scanner] Decoded using OpenCV strategy")
         
         # Strategy 3: Try with image preprocessing (most thorough)
         if not codes:
             codes.extend(decode_with_preprocessing(pil_image, img_array))
+            if codes:
+                print(f"[QR Scanner] Decoded using preprocessing strategy")
         
         # Remove duplicates
         unique_codes = []
@@ -81,6 +88,7 @@ async def execute(request: Request):
                 seen_data.add(code['data'])
         
         if not unique_codes:
+            print("[QR Scanner] No codes detected")
             return JSONResponse(
                 {
                     "error": "No QR codes or barcodes found in the image. Please ensure the code is clear and well-lit.",
@@ -89,6 +97,7 @@ async def execute(request: Request):
                 status_code=200
             )
         
+        print(f"[QR Scanner] Success: {len(unique_codes)} code(s) found - Types: {[c['type'] for c in unique_codes]}")
         return JSONResponse({
             "codes": unique_codes,
             "count": len(unique_codes)
@@ -110,7 +119,8 @@ def decode_with_pyzbar(pil_image):
     if not PYZBAR_AVAILABLE:
         return codes
     try:
-        decoded_objects = pyzbar.decode(pil_image)
+        decoded_objects = pyzbar.decode
+        (pil_image)
         for obj in decoded_objects:
             codes.append({
                 "type": obj.type,
