@@ -603,6 +603,29 @@
             color: var(--text-muted);
         }
         
+        .faq-item {
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: start;
+            gap: 8px;
+        }
+        
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding-left: 24px;
+        }
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.2rem;
@@ -670,8 +693,8 @@
             </h1>
         </div>
         <button class="theme-toggle" onclick="toggleTheme()">
-            <span class="theme-icon">☀️</span>
-            <span class="theme-text">Light</span>
+            <span class="theme-icon">🌙</span>
+            <span class="theme-text">Dark</span>
         </button>
     </header>
 
@@ -791,6 +814,63 @@
                         <li><strong>Step 4:</strong> Download the unlocked PDF file to your device</li>
                     </ul>
                 </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>❓</span>
+                        <span>Frequently Asked Questions</span>
+                    </h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Do you store my PDF files or passwords?</span>
+                        </div>
+                        <div class="faq-answer">
+                            No! All files and passwords are processed on our secure server and are immediately deleted after processing. We never store, log, or keep any of your files or passwords.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Is my data secure?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! All processing happens over HTTPS encryption. Files are processed in temporary storage and automatically deleted within seconds after you download the unlocked PDF.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What if I enter the wrong password?</span>
+                        </div>
+                        <div class="faq-answer">
+                            You'll receive a clear error message saying "Incorrect password. Please try again." Simply enter the correct password and try again.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Can I unlock PDFs without knowing the password?</span>
+                        </div>
+                        <div class="faq-answer">
+                            No. You must have the correct password to unlock a PDF. This tool is designed for legitimate use - removing passwords from your own PDFs when you know the password but want to remove the restriction.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What happens to the original PDF?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Your original PDF remains unchanged on your device. This tool creates a new unlocked copy that you download separately, leaving your original file intact.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -834,10 +914,10 @@
                 url: 'https://toolstudio.in/tools/6/pdf-splitter'
             },
             {
-                icon: '📄',
-                title: 'PDF Page Remover',
-                description: 'Remove specific pages from PDF files quickly and easily',
-                url: 'https://toolstudio.in/tools/3/pdf-page-remover'
+                icon: '📊',
+                title: 'Text Diff Comparison',
+                description: 'Compare two texts side-by-side with color-coded highlighting',
+                url: 'https://toolstudio.in/tools/9/text-diff-comparison'
             }
         ];
 
@@ -857,7 +937,7 @@
 
         // Theme Management
         function initTheme() {
-            const savedTheme = localStorage.getItem('pdf-remover-theme') || 'dark';
+            const savedTheme = localStorage.getItem('pdf-remover-theme') || 'light';
             applyTheme(savedTheme);
         }
 
@@ -869,14 +949,17 @@
         }
 
         function applyTheme(theme) {
+            const themeIcon = document.querySelector('.theme-icon');
+            const themeText = document.querySelector('.theme-text');
+            
             if (theme === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
-                document.querySelector('.theme-icon').textContent = '🌙';
-                document.querySelector('.theme-text').textContent = 'Dark';
+                if (themeIcon) themeIcon.textContent = '🌙';
+                if (themeText) themeText.textContent = 'Dark';
             } else {
                 document.documentElement.removeAttribute('data-theme');
-                document.querySelector('.theme-icon').textContent = '☀️';
-                document.querySelector('.theme-text').textContent = 'Light';
+                if (themeIcon) themeIcon.textContent = '☀️';
+                if (themeText) themeText.textContent = 'Light';
             }
         }
 
