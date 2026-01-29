@@ -193,6 +193,22 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 13. 🔒 PDF Password Protector
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Password+Protector.png" alt="PDF Password Protector" width="400"/>
+
+**URL:** https://toolstudio.in/tools/13/pdf-password-protector  
+**Description:** Add password protection to PDF files quickly and securely. Upload any PDF, set a custom password, and download the encrypted, password-protected version.
+
+**Features:**
+- Add password protection to PDFs instantly
+- Custom password with strength indicator
+- Secure PDF encryption
+- Privacy-first (files and passwords never stored)
+- Drag & drop file upload
+- Dark & Light themes
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -231,6 +247,10 @@ tools/
 │   ├── index.html
 │   ├── main.py
 │   └── requirements.txt
+├── 13__PDF_Password_Protector/
+│   ├── index.html
+│   ├── main.py
+│   └── requirements.txt
 └── README.md (this file)
 ```
 
@@ -253,6 +273,7 @@ These tools require server-side processing for PDF/image manipulation:
 - QR Code Scanner (opencv-python-headless, Pillow, pyzbar)
 - PDF Merger (PyPDF2)
 - PDF Password Remover (PyPDF2)
+- PDF Password Protector (PyPDF2)
 
 ## 🚀 Development
 
