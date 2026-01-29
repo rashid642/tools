@@ -119,8 +119,7 @@ def decode_with_pyzbar(pil_image):
     if not PYZBAR_AVAILABLE:
         return codes
     try:
-        decoded_objects = pyzbar.decode
-        (pil_image)
+        decoded_objects = pyzbar.decode(pil_image)
         for obj in decoded_objects:
             codes.append({
                 "type": obj.type,
