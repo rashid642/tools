@@ -177,6 +177,22 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 12. 🔓 PDF Password Remover
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Password+Remover.png" alt="PDF Password Remover" width="400"/>
+
+**URL:** https://toolstudio.in/tools/12/pdf-password-remover  
+**Description:** Remove password protection from PDF files quickly and securely. Upload encrypted PDFs, enter the password, and download the unlocked version instantly.
+
+**Features:**
+- Quick unlock of password-protected PDFs
+- Secure processing (files deleted after processing)
+- Privacy-first (passwords never stored)
+- Drag & drop file upload
+- Instant download of unlocked PDF
+- Dark & Light themes
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -211,6 +227,10 @@ tools/
 │   └── requirements.txt
 ├── 11__Text_Utilities/
 │   └── index.html
+├── 12__PDF_Password_Remover/
+│   ├── index.html
+│   ├── main.py
+│   └── requirements.txt
 └── README.md (this file)
 ```
 
@@ -230,8 +250,9 @@ These tools run entirely in the browser with no backend processing:
 These tools require server-side processing for PDF/image manipulation:
 - PDF Page Remover (PyPDF2)
 - PDF Splitter (PyPDF2)
-- QR Code Scanner (opencv-python-headless, Pillow)
+- QR Code Scanner (opencv-python-headless, Pillow, pyzbar)
 - PDF Merger (PyPDF2)
+- PDF Password Remover (PyPDF2)
 
 ## 🚀 Development
 

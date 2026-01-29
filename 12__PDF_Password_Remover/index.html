@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Password Remover - Unlock Protected PDFs | Tool Studio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free PDF password remover tool to unlock password-protected PDF files. Remove PDF security and encryption quickly and securely. Easy to use online PDF unlocking tool.">
+    <meta name="keywords" content="pdf password remover, unlock pdf, remove pdf password, decrypt pdf, pdf security remover, unlock protected pdf, pdf unlocker, remove encryption">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="canonical" href="https://toolstudio.in/tools/12/pdf-password-remover">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/12/pdf-password-remover">
+    <meta property="og:title" content="PDF Password Remover - Unlock Protected PDFs | Tool Studio">
+    <meta property="og:description" content="Free PDF password remover tool to unlock password-protected PDF files instantly and securely.">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Password+Remover.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/12/pdf-password-remover">
+    <meta property="twitter:title" content="PDF Password Remover - Unlock Protected PDFs | Tool Studio">
+    <meta property="twitter:description" content="Free PDF password remover tool to unlock password-protected PDF files instantly and securely.">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Password+Remover.png">
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PDF Password Remover",
+        "description": "Free PDF password remover tool to unlock and decrypt password-protected PDF files instantly and securely.",
+        "url": "https://toolstudio.in/tools/12/pdf-password-remover",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": "Unlock password-protected PDFs, Remove PDF security, Decrypt encrypted PDFs, Secure processing, Instant download"
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        
+        /* Dark Theme (Default) */
+        :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        h1 .emoji {
+            font-size: 1.3rem;
+        }
+        
+        h1 .title-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .upload-container {
+            max-width: 700px;
+            width: 100%;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--bg-card);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--success);
+            background: var(--bg-hover);
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .upload-hint {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        #file-input {
+            display: none;
+        }
+        
+        .file-info {
+            display: none;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .file-info.active {
+            display: block;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .file-details {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-top: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+        
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="password"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .input-hint {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px;
+        }
+        
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+        
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+        }
+        
+        .alert {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid;
+        }
+        
+        .alert.show {
+            display: flex;
+        }
+        
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+        
+        .spinner {
+            border: 3px solid transparent;
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: 24px;
+            background: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+        
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        
+        .fab:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.6);
+        }
+        
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-card);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--border);
+        }
+        
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-close {
+            background: var(--bg-hover);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        .modal-content {
+            padding: 24px;
+        }
+        
+        .modal-section {
+            margin-bottom: 24px;
+        }
+        
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .modal-section p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .modal-section li {
+            padding: 10px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary);
+            color: var(--text);
+        }
+        
+        .modal-section li strong {
+            color: var(--primary);
+        }
+        
+        .tool-link {
+            display: block;
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-link:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+        
+        .tool-link-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+        
+        .tool-link-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+            
+            header {
+                padding: 10px 14px;
+            }
+            
+            .upload-area {
+                padding: 40px 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+            
+            .fab {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+            }
+            
+            .fab-tooltip {
+                display: none;
+            }
+            
+            .modal {
+                width: 95%;
+                margin: 0;
+                border-radius: 16px 16px 0 0;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                padding: 20px 16px 12px;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
+            }
+            
+            .modal-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>
+                <span class="emoji">🔓</span>
+                <span class="title-text">PDF Password Remover</span>
+            </h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="theme-icon">☀️</span>
+            <span class="theme-text">Light</span>
+        </button>
+    </header>
+
+    <main class="main-content">
+        <div class="upload-container">
+            <div id="alert" class="alert">
+                <span id="alert-icon">⚠️</span>
+                <span id="alert-message">Alert message</span>
+            </div>
+
+            <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Click to upload PDF</div>
+                <div class="upload-hint">or drag and drop your password-protected PDF here</div>
+                <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)">
+            </div>
+
+            <div class="file-info" id="file-info">
+                <div class="file-name">
+                    <span>📁</span>
+                    <span id="file-name-text">document.pdf</span>
+                </div>
+                <div class="file-details">
+                    <span id="file-size">0 KB</span>
+                </div>
+            </div>
+
+            <div class="form-group" id="password-section" style="display: none;">
+                <label for="password-input">PDF Password</label>
+                <div class="password-wrapper">
+                    <input 
+                        type="password" 
+                        id="password-input" 
+                        placeholder="Enter the password to unlock this PDF"
+                        onkeypress="handlePasswordKeypress(event)"
+                    >
+                    <button class="password-toggle" onclick="togglePassword()" type="button">
+                        <span id="password-toggle-icon">👁️</span>
+                    </button>
+                </div>
+                <div class="input-hint">
+                    🔒 Your password is processed securely and not stored anywhere
+                </div>
+            </div>
+
+            <div class="button-group" id="action-buttons" style="display: none;">
+                <button class="btn btn-primary" onclick="removePassword()" id="unlock-btn">
+                    <span>🔓</span>
+                    <span>Unlock PDF</span>
+                </button>
+                <button class="btn btn-secondary" onclick="reset()">
+                    <span>🔄</span>
+                    <span>Start Over</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast">✓ Success!</div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()" aria-label="About this tool">
+            <span>ℹ️</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()" aria-label="Similar tools">
+            <span>🔗</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal-overlay" id="about-modal" onclick="closeModal('about-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>🔓</span>
+                    <span>About PDF Password Remover</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>💡</span>
+                        <span>What Does This Tool Do?</span>
+                    </h3>
+                    <p>
+                        PDF Password Remover helps you unlock password-protected PDF files quickly and securely. Simply upload your encrypted PDF, enter the password, and download the unlocked version without any restrictions.
+                    </p>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>🚀</span>
+                        <span>Key Features</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Quick Unlock:</strong> Remove password protection from PDFs instantly</li>
+                        <li><strong>Secure Processing:</strong> All files are processed securely and deleted immediately after</li>
+                        <li><strong>No Installation:</strong> Works directly in your browser, no software needed</li>
+                        <li><strong>Privacy First:</strong> Passwords are never stored or logged</li>
+                        <li><strong>Easy Download:</strong> Get your unlocked PDF with one click</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>📝</span>
+                        <span>How to Use</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Step 1:</strong> Upload your password-protected PDF file</li>
+                        <li><strong>Step 2:</strong> Enter the correct password for the PDF</li>
+                        <li><strong>Step 3:</strong> Click "Unlock PDF" to remove the password protection</li>
+                        <li><strong>Step 4:</strong> Download the unlocked PDF file to your device</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div class="modal-overlay" id="similar-tools-modal" onclick="closeModal('similar-tools-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>🔗</span>
+                    <span>Similar Tools</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <p>Explore other useful tools from Tool Studio:</p>
+                    <div id="similar-tools-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+
+        // ========================================
+        // SIMILAR TOOLS CONFIGURATION
+        // ========================================
+        const similarTools = [
+            {
+                icon: '📑',
+                title: 'PDF Merger',
+                description: 'Combine multiple PDF files into a single document',
+                url: 'https://toolstudio.in/tools/10/pdf-merger'
+            },
+            {
+                icon: '✂️',
+                title: 'PDF Splitter',
+                description: 'Split PDF files into multiple documents by custom page ranges',
+                url: 'https://toolstudio.in/tools/6/pdf-splitter'
+            },
+            {
+                icon: '📄',
+                title: 'PDF Page Remover',
+                description: 'Remove specific pages from PDF files quickly and easily',
+                url: 'https://toolstudio.in/tools/3/pdf-page-remover'
+            }
+        ];
+
+        // Render similar tools
+        function renderSimilarTools() {
+            const container = document.getElementById('similar-tools-list');
+            container.innerHTML = similarTools.map(tool => `
+                <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    <div class="tool-link-title">
+                        <span>${tool.icon}</span>
+                        <span>${tool.title}</span>
+                    </div>
+                    <div class="tool-link-desc">${tool.description}</div>
+                </a>
+            `).join('');
+        }
+
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('pdf-remover-theme') || 'dark';
+            applyTheme(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('pdf-remover-theme', newTheme);
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.querySelector('.theme-icon').textContent = '🌙';
+                document.querySelector('.theme-text').textContent = 'Dark';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                document.querySelector('.theme-icon').textContent = '☀️';
+                document.querySelector('.theme-text').textContent = 'Light';
+            }
+        }
+
+        // Modal Functions
+        window.openAboutModal = function() {
+            document.getElementById('about-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.openSimilarToolsModal = function() {
+            document.getElementById('similar-tools-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderSimilarTools();
+        };
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal('about-modal');
+                closeModal('similar-tools-modal');
+            }
+        });
+
+        // Drag & Drop
+        const uploadArea = document.getElementById('upload-area');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            if (file.type !== 'application/pdf') {
+                showAlert('Please select a PDF file', 'error');
+                return;
+            }
+
+            selectedFile = file;
+            
+            // Update UI
+            document.getElementById('file-name-text').textContent = file.name;
+            document.getElementById('file-size').textContent = formatFileSize(file.size);
+            document.getElementById('file-info').classList.add('active');
+            document.getElementById('password-section').style.display = 'block';
+            document.getElementById('action-buttons').style.display = 'flex';
+            
+            hideAlert();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('password-input');
+            const icon = document.getElementById('password-toggle-icon');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                icon.textContent = '👁️';
+            }
+        }
+
+        function handlePasswordKeypress(event) {
+            if (event.key === 'Enter') {
+                removePassword();
+            }
+        }
+
+        async function removePassword() {
+            if (!selectedFile) {
+                showAlert('Please select a PDF file first', 'error');
+                return;
+            }
+
+            const password = document.getElementById('password-input').value.trim();
+            if (!password) {
+                showAlert('Please enter the PDF password', 'error');
+                return;
+            }
+
+            const unlockBtn = document.getElementById('unlock-btn');
+            const originalContent = unlockBtn.innerHTML;
+            unlockBtn.disabled = true;
+            unlockBtn.innerHTML = '<div class="spinner"></div><span>Unlocking...</span>';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('password', password);
+
+                const response = await fetch('/api/v1/tools/12/execute', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Check if response is JSON (error) or PDF (success)
+                    const contentType = response.headers.get('content-type');
+                    
+                    if (contentType && contentType.includes('application/json')) {
+                        const data = await response.json();
+                        showAlert(data.error || 'Error unlocking PDF', 'error');
+                    } else {
+                        // Success - download the file
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = selectedFile.name.replace('.pdf', '_unlocked.pdf');
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+
+                        showToast('✓ PDF unlocked successfully! Download started.', 'success');
+                        
+                        // Reset after 2 seconds
+                        setTimeout(() => {
+                            reset();
+                        }, 2000);
+                    }
+                } else {
+                    const data = await response.json();
+                    showAlert(data.error || 'Error unlocking PDF', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to unlock PDF. Please try again.', 'error');
+            } finally {
+                unlockBtn.disabled = false;
+                unlockBtn.innerHTML = originalContent;
+            }
+        }
+
+        function reset() {
+            selectedFile = null;
+            document.getElementById('file-input').value = '';
+            document.getElementById('password-input').value = '';
+            document.getElementById('file-info').classList.remove('active');
+            document.getElementById('password-section').style.display = 'none';
+            document.getElementById('action-buttons').style.display = 'none';
+            hideAlert();
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            const icon = document.getElementById('alert-icon');
+            const messageEl = document.getElementById('alert-message');
+            
+            alert.className = 'alert show alert-' + type;
+            icon.textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️';
+            messageEl.textContent = message;
+        }
+
+        function hideAlert() {
+            document.getElementById('alert').classList.remove('show');
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'success' ? 'var(--success)' : 'var(--danger)';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initialize
+        initTheme();
+    </script>
+</body>
+</html>
