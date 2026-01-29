@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Aspect Ratio Editor - Crop & Resize Images | Tool Studio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free image aspect ratio editor to crop and resize images. Drag to select crop area, choose preset ratios (16:9, 4:3, 1:1) or custom ratios. Perfect for social media images.">
+    <meta name="keywords" content="image crop, aspect ratio editor, resize image, crop image, 16:9 crop, square crop, custom aspect ratio, image editor, photo crop">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="canonical" href="https://toolstudio.in/tools/14/image-aspect-ratio-editor">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/14/image-aspect-ratio-editor">
+    <meta property="og:title" content="Image Aspect Ratio Editor - Crop & Resize Images | Tool Studio">
+    <meta property="og:description" content="Free image aspect ratio editor with draggable crop box. Choose preset or custom aspect ratios.">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Image+Aspect+Ratio+Editor.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/14/image-aspect-ratio-editor">
+    <meta property="twitter:title" content="Image Aspect Ratio Editor - Crop & Resize Images | Tool Studio">
+    <meta property="twitter:description" content="Free image aspect ratio editor with draggable crop box. Choose preset or custom aspect ratios.">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Image+Aspect+Ratio+Editor.png">
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Image Aspect Ratio Editor",
+        "description": "Free image aspect ratio editor to crop and resize images with preset or custom aspect ratios.",
+        "url": "https://toolstudio.in/tools/14/image-aspect-ratio-editor",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": "Drag to crop, Preset aspect ratios, Custom ratios, Real-time preview, Download cropped image"
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+        
+        /* Light Theme (Default) */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+        }
+        
+        h1 .emoji {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        
+        h1 .title-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            flex-shrink: 1;
+            min-width: 0;
+        }
+
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+            min-height: 0;
+        }
+        
+        .upload-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--bg-card);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--success);
+            background: var(--bg-hover);
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .upload-hint {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        #file-input {
+            display: none;
+        }
+        
+        .editor-section {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+            min-height: 0;
+        }
+        
+        .editor-section.active {
+            display: flex;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .editor-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .close-editor-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        
+        .close-editor-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+        
+        .controls {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .control-group {
+            margin-bottom: 16px;
+        }
+        
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .control-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: var(--text);
+        }
+        
+        .aspect-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .aspect-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-input);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .aspect-btn:hover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+        }
+        
+        .aspect-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .custom-ratio-inputs {
+            display: none;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .custom-ratio-inputs.active {
+            display: flex;
+        }
+        
+        .custom-ratio-inputs input {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-input);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        .custom-ratio-inputs span {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .canvas-container {
+            position: relative;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            min-height: 500px;
+            width: 100%;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        .canvas-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            pointer-events: none;
+            z-index: 4;
+            border-radius: 12px;
+        }
+        
+        .canvas-overlay.active {
+            display: block;
+        }
+        
+        #imageCanvas {
+            display: block;
+            margin: auto;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        
+        .crop-box {
+            position: absolute;
+            border: 2px solid var(--primary);
+            cursor: move;
+            pointer-events: auto;
+            z-index: 5;
+            background: transparent;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+        }
+        
+        .crop-handle {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            z-index: 6;
+        }
+        
+        .crop-handle.nw { top: -7px; left: -7px; cursor: nw-resize; }
+        .crop-handle.ne { top: -7px; right: -7px; cursor: ne-resize; }
+        .crop-handle.sw { bottom: -7px; left: -7px; cursor: sw-resize; }
+        .crop-handle.se { bottom: -7px; right: -7px; cursor: se-resize; }
+        
+        .crop-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: monospace;
+            pointer-events: none;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .button-group .btn {
+            max-width: 400px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: 24px;
+            background: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+        
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        
+        .fab:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.6);
+        }
+        
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-card);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--border);
+        }
+        
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-close {
+            background: var(--bg-hover);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        .modal-content {
+            padding: 24px;
+        }
+        
+        .modal-section {
+            margin-bottom: 24px;
+        }
+        
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .modal-section p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .modal-section li {
+            padding: 10px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary);
+            color: var(--text);
+        }
+        
+        .modal-section li strong {
+            color: var(--primary);
+        }
+        
+        .tool-link {
+            display: block;
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-link:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+        
+        .tool-link-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+        
+        .tool-link-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .faq-item {
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: start;
+            gap: 8px;
+        }
+        
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding-left: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 16px;
+            }
+            
+            h1 {
+                font-size: 1.2rem;
+            }
+            
+            h1 .emoji {
+                font-size: 1.2rem;
+            }
+            
+            h1 .title-text {
+                font-size: 1.2rem;
+            }
+            
+            .theme-toggle {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                gap: 5px;
+            }
+            
+            .upload-area {
+                padding: 40px 20px;
+            }
+            
+            .editor-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+            
+            .editor-title {
+                text-align: center;
+            }
+            
+            .close-editor-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .aspect-buttons {
+                gap: 6px;
+            }
+            
+            .aspect-btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .button-group .btn {
+                width: 100%;
+                max-width: 100%;
+                justify-content: center;
+            }
+            
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+            
+            .fab {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+            }
+            
+            .fab-tooltip {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 8px 10px;
+            }
+            
+            h1 {
+                font-size: 0.85rem;
+            }
+            
+            h1 .emoji {
+                font-size: 0.95rem;
+            }
+            
+            h1 .title-text {
+                font-size: 0.85rem;
+            }
+            
+            .theme-toggle {
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+            
+            .theme-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>
+                <span class="emoji">🖼️</span>
+                <span class="title-text">Image Aspect Ratio Editor</span>
+            </h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="theme-icon">🌙</span>
+            <span class="theme-text">Dark</span>
+        </button>
+    </header>
+
+    <main class="main-content">
+        <!-- Upload Section -->
+        <div class="upload-section" id="uploadSection">
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('file-input').click()">
+                <div class="upload-icon">🖼️</div>
+                <div class="upload-text">Click to upload image</div>
+                <div class="upload-hint">or drag and drop your image here (JPG, PNG, WebP)</div>
+                <input type="file" id="file-input" accept="image/*" onchange="handleFileSelect(event)">
+            </div>
+        </div>
+
+        <!-- Editor Section -->
+        <div class="editor-section" id="editorSection">
+            <div class="editor-header">
+                <div class="editor-title">✂️ Crop Your Image</div>
+                <button class="close-editor-btn" onclick="reset()">
+                    <span>✕</span>
+                    <span>Close & Upload New</span>
+                </button>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label">Aspect Ratio</label>
+                    <div class="aspect-buttons">
+                        <button class="aspect-btn" onclick="setFreeCrop()" data-ratio="free">Free Crop</button>
+                        <button class="aspect-btn" onclick="setAspectRatio(16, 9)" data-ratio="16:9">16:9</button>
+                        <button class="aspect-btn" onclick="setAspectRatio(9, 16)" data-ratio="9:16">9:16</button>
+                        <button class="aspect-btn" onclick="setAspectRatio(4, 3)" data-ratio="4:3">4:3</button>
+                        <button class="aspect-btn" onclick="setAspectRatio(3, 2)" data-ratio="3:2">3:2</button>
+                        <button class="aspect-btn active" onclick="setAspectRatio(1, 1)" data-ratio="1:1">1:1 (Square)</button>
+                        <button class="aspect-btn" onclick="setAspectRatio(2, 3)" data-ratio="2:3">2:3</button>
+                        <button class="aspect-btn" onclick="showCustomRatio()" data-ratio="custom">Custom</button>
+                    </div>
+                    <div class="custom-ratio-inputs" id="customRatioInputs">
+                        <input type="number" id="customWidth" min="1" value="16" placeholder="Width">
+                        <span>:</span>
+                        <input type="number" id="customHeight" min="1" value="9" placeholder="Height">
+                        <button class="aspect-btn" onclick="applyCustomRatio()">Apply</button>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="cropImage()">
+                        <span>✂️</span>
+                        <span>Crop & Download Image</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="canvas-container" id="canvasContainer">
+                <canvas id="imageCanvas"></canvas>
+                <div class="canvas-overlay" id="canvasOverlay"></div>
+                <div class="crop-box" id="cropBox" style="display: none;">
+                    <div class="crop-handle nw"></div>
+                    <div class="crop-handle ne"></div>
+                    <div class="crop-handle sw"></div>
+                    <div class="crop-handle se"></div>
+                </div>
+                <div class="crop-info" id="cropInfo"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast">✓ Success!</div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()" aria-label="About this tool">
+            <span>ℹ️</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()" aria-label="Similar tools">
+            <span>🔗</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal-overlay" id="about-modal" onclick="closeModal('about-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>🖼️</span>
+                    <span>About Image Aspect Ratio Editor</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>💡</span>
+                        <span>What Does This Tool Do?</span>
+                    </h3>
+                    <p>
+                        Image Aspect Ratio Editor helps you crop and resize images to specific aspect ratios. Perfect for social media posts, profile pictures, banners, and any content that requires specific dimensions.
+                    </p>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>🚀</span>
+                        <span>Key Features</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Drag to Crop:</strong> Interactive crop box you can drag and resize</li>
+                        <li><strong>Preset Ratios:</strong> Quick selection for common aspect ratios (16:9, 4:3, 1:1, etc.)</li>
+                        <li><strong>Custom Ratio:</strong> Set any custom width:height ratio</li>
+                        <li><strong>Real-time Preview:</strong> See your crop area before downloading</li>
+                        <li><strong>Client-side Processing:</strong> All processing happens in your browser - completely private</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>📝</span>
+                        <span>How to Use</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Step 1:</strong> Upload your image (JPG, PNG, or WebP)</li>
+                        <li><strong>Step 2:</strong> Select an aspect ratio or create a custom one</li>
+                        <li><strong>Step 3:</strong> Drag the crop box to position it on your image</li>
+                        <li><strong>Step 4:</strong> Click "Crop & Download" to get your cropped image</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span>❓</span>
+                        <span>Frequently Asked Questions</span>
+                    </h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What aspect ratios are available?</span>
+                        </div>
+                        <div class="faq-answer">
+                            We offer 16:9, 9:16, 4:3, 3:2, 1:1 (square), 2:3, and custom ratios. These cover most social media and standard use cases.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Is my image uploaded to a server?</span>
+                        </div>
+                        <div class="faq-answer">
+                            No! All image processing happens entirely in your browser. Your images never leave your device, ensuring complete privacy.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What image formats are supported?</span>
+                        </div>
+                        <div class="faq-answer">
+                            You can upload JPG, PNG, WebP, and most common image formats. The output will always be PNG for best quality.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Does cropping reduce image quality?</span>
+                        </div>
+                        <div class="faq-answer">
+                            The cropped area maintains the original image quality. We don't compress or reduce quality during the crop process.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div class="modal-overlay" id="similar-tools-modal" onclick="closeModal('similar-tools-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>🔗</span>
+                    <span>Similar Tools</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <p>Explore other useful tools from Tool Studio:</p>
+                    <div id="similar-tools-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let image = null;
+        let canvas, ctx;
+        let cropBox = {
+            x: 0,
+            y: 0,
+            width: 200,
+            height: 200
+        };
+        let isDragging = false;
+        let isResizing = false;
+        let resizeHandle = null;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let aspectRatio = 1;
+        let isFreeCrop = false; // Track if free crop mode is active
+        let imageScale = 1;
+        let imageOffsetX = 0;
+        let imageOffsetY = 0;
+
+        // ========================================
+        // SIMILAR TOOLS CONFIGURATION
+        // ========================================
+        const similarTools = [
+            {
+                icon: '📷',
+                title: 'Camera Test',
+                description: 'Test your camera, capture photos, and download images instantly',
+                url: 'https://toolstudio.in/tools/2/camera-test'
+            },
+            {
+                icon: '📄',
+                title: 'PDF Page Remover',
+                description: 'Remove specific pages from PDF files quickly and easily',
+                url: 'https://toolstudio.in/tools/3/pdf-page-remover'
+            },
+            {
+                icon: '📝',
+                title: 'Text Utilities',
+                description: 'Comprehensive text processing with character count, case conversion, and more',
+                url: 'https://toolstudio.in/tools/11/text-utilities'
+            }
+        ];
+
+        // Render similar tools
+        function renderSimilarTools() {
+            const container = document.getElementById('similar-tools-list');
+            container.innerHTML = similarTools.map(tool => `
+                <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    <div class="tool-link-title">
+                        <span>${tool.icon}</span>
+                        <span>${tool.title}</span>
+                    </div>
+                    <div class="tool-link-desc">${tool.description}</div>
+                </a>
+            `).join('');
+        }
+
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('image-crop-theme') || 'light';
+            applyTheme(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+            localStorage.setItem('image-crop-theme', newTheme);
+        }
+
+        function applyTheme(theme) {
+            const themeIcon = document.querySelector('.theme-icon');
+            const themeText = document.querySelector('.theme-text');
+            
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if (themeIcon) themeIcon.textContent = '☀️';
+                if (themeText) themeText.textContent = 'Light';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if (themeIcon) themeIcon.textContent = '🌙';
+                if (themeText) themeText.textContent = 'Dark';
+            }
+        }
+
+        // Modal Functions
+        window.openAboutModal = function() {
+            document.getElementById('about-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.openSimilarToolsModal = function() {
+            document.getElementById('similar-tools-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderSimilarTools();
+        };
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal('about-modal');
+                closeModal('similar-tools-modal');
+            }
+        });
+
+        // Initialize canvas
+        document.addEventListener('DOMContentLoaded', function() {
+            canvas = document.getElementById('imageCanvas');
+            ctx = canvas.getContext('2d', { alpha: false });
+            
+            // Set initial canvas size to prevent layout issues
+            canvas.width = 100;
+            canvas.height = 100;
+            
+            setupCropBoxEvents();
+            initTheme();
+        });
+
+        // Drag & Drop
+        const uploadArea = document.getElementById('uploadArea');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select an image file', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    image = img;
+                    
+                    // Show editor section first
+                    document.getElementById('uploadSection').style.display = 'none';
+                    document.getElementById('editorSection').classList.add('active');
+                    
+                    // Wait for DOM layout to complete before loading image
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            loadImage();
+                        });
+                    });
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadImage() {
+            if (!image) return;
+            
+            const container = document.getElementById('canvasContainer');
+            
+            // Force layout calculation
+            container.offsetHeight;
+            
+            const maxWidth = container.clientWidth - 80;
+            const maxHeight = 600; // Fixed max height for consistency
+            
+            // Ensure we have valid dimensions
+            if (maxWidth <= 0) {
+                console.warn('Container not ready, retrying...');
+                setTimeout(loadImage, 50);
+                return;
+            }
+            
+            let width = image.width;
+            let height = image.height;
+            
+            // Scale image to fit container
+            if (width > maxWidth || height > maxHeight) {
+                const scaleX = maxWidth / width;
+                const scaleY = maxHeight / height;
+                imageScale = Math.min(scaleX, scaleY);
+                width = width * imageScale;
+                height = height * imageScale;
+            } else {
+                imageScale = 1;
+            }
+            
+            // Set canvas dimensions
+            canvas.width = width;
+            canvas.height = height;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            
+            // Draw image
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, 0, 0, width, height);
+            
+            // Force canvas to render
+            canvas.offsetHeight;
+            
+            // Center crop box with current aspect ratio
+            let cropWidth, cropHeight;
+            const maxCropSize = Math.min(width, height) * 0.7;
+            
+            if (isFreeCrop) {
+                // Free crop - start with square crop box
+                cropWidth = maxCropSize;
+                cropHeight = maxCropSize;
+            } else if (aspectRatio >= 1) {
+                // Wider or square
+                cropWidth = maxCropSize;
+                cropHeight = cropWidth / aspectRatio;
+            } else {
+                // Taller
+                cropHeight = maxCropSize;
+                cropWidth = cropHeight * aspectRatio;
+            }
+            
+            cropBox = {
+                x: (width - cropWidth) / 2,
+                y: (height - cropHeight) / 2,
+                width: cropWidth,
+                height: cropHeight
+            };
+            
+            constrainCropBox();
+            
+            // Update crop box after a small delay to ensure canvas is rendered
+            requestAnimationFrame(() => {
+                updateCropBox();
+                showCropBox();
+            });
+        }
+
+        function setFreeCrop() {
+            isFreeCrop = true;
+            aspectRatio = null;
+            
+            // Update active button
+            document.querySelectorAll('.aspect-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hide custom inputs
+            document.getElementById('customRatioInputs').classList.remove('active');
+            
+            // Crop box stays as is, user can resize freely
+            updateCropBox();
+        }
+        
+        function setAspectRatio(width, height) {
+            isFreeCrop = false;
+            aspectRatio = width / height;
+            
+            // Update active button
+            document.querySelectorAll('.aspect-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hide custom inputs
+            document.getElementById('customRatioInputs').classList.remove('active');
+            
+            // Adjust crop box to new ratio
+            const centerX = cropBox.x + cropBox.width / 2;
+            const centerY = cropBox.y + cropBox.height / 2;
+            
+            if (aspectRatio > 1) {
+                // Wider
+                cropBox.height = cropBox.width / aspectRatio;
+            } else {
+                // Taller
+                cropBox.width = cropBox.height * aspectRatio;
+            }
+            
+            cropBox.x = centerX - cropBox.width / 2;
+            cropBox.y = centerY - cropBox.height / 2;
+            
+            constrainCropBox();
+            updateCropBox();
+        }
+
+        function showCustomRatio() {
+            isFreeCrop = false;
+            document.querySelectorAll('.aspect-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('customRatioInputs').classList.add('active');
+        }
+
+        function applyCustomRatio() {
+            const width = parseInt(document.getElementById('customWidth').value) || 16;
+            const height = parseInt(document.getElementById('customHeight').value) || 9;
+            isFreeCrop = false;
+            setAspectRatio(width, height);
+        }
+
+        function setupCropBoxEvents() {
+            const cropBoxEl = document.getElementById('cropBox');
+            
+            // Get position relative to canvas
+            function getCanvasCoords(clientX, clientY) {
+                const canvasRect = canvas.getBoundingClientRect();
+                return {
+                    x: clientX - canvasRect.left,
+                    y: clientY - canvasRect.top
+                };
+            }
+            
+            // Dragging the crop box
+            cropBoxEl.addEventListener('mousedown', function(e) {
+                if (e.target.classList.contains('crop-handle')) {
+                    isResizing = true;
+                    resizeHandle = e.target.classList[1];
+                } else if (e.target.classList.contains('crop-box')) {
+                    isDragging = true;
+                }
+                const coords = getCanvasCoords(e.clientX, e.clientY);
+                dragStartX = coords.x;
+                dragStartY = coords.y;
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging || isResizing) {
+                    const coords = getCanvasCoords(e.clientX, e.clientY);
+                    const dx = coords.x - dragStartX;
+                    const dy = coords.y - dragStartY;
+                    
+                    if (isDragging) {
+                        cropBox.x += dx;
+                        cropBox.y += dy;
+                        constrainCropBox();
+                    } else if (isResizing) {
+                        handleResize(dx, dy);
+                    }
+                    
+                    updateCropBox();
+                    dragStartX = coords.x;
+                    dragStartY = coords.y;
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                isResizing = false;
+                resizeHandle = null;
+            });
+        }
+
+        function handleResize(dx, dy) {
+            const oldWidth = cropBox.width;
+            const oldHeight = cropBox.height;
+            
+            if (isFreeCrop) {
+                // Free crop mode - resize independently
+                if (resizeHandle === 'se') {
+                    cropBox.width += dx;
+                    cropBox.height += dy;
+                } else if (resizeHandle === 'sw') {
+                    cropBox.x += dx;
+                    cropBox.width -= dx;
+                    cropBox.height += dy;
+                } else if (resizeHandle === 'ne') {
+                    cropBox.width += dx;
+                    cropBox.y += dy;
+                    cropBox.height -= dy;
+                } else if (resizeHandle === 'nw') {
+                    cropBox.x += dx;
+                    cropBox.width -= dx;
+                    cropBox.y += dy;
+                    cropBox.height -= dy;
+                }
+            } else {
+                // Aspect ratio locked mode
+                if (resizeHandle === 'se') {
+                    cropBox.width += dx;
+                    cropBox.height = cropBox.width / aspectRatio;
+                } else if (resizeHandle === 'sw') {
+                    cropBox.x += dx;
+                    cropBox.width -= dx;
+                    cropBox.height = cropBox.width / aspectRatio;
+                } else if (resizeHandle === 'ne') {
+                    cropBox.width += dx;
+                    cropBox.height = cropBox.width / aspectRatio;
+                    cropBox.y -= (cropBox.height - oldHeight);
+                } else if (resizeHandle === 'nw') {
+                    cropBox.x += dx;
+                    cropBox.width -= dx;
+                    cropBox.height = cropBox.width / aspectRatio;
+                    cropBox.y -= (cropBox.height - oldHeight);
+                }
+            }
+            
+            constrainCropBox();
+        }
+
+        function constrainCropBox() {
+            // Keep crop box within canvas bounds
+            if (cropBox.x < 0) cropBox.x = 0;
+            if (cropBox.y < 0) cropBox.y = 0;
+            if (cropBox.x + cropBox.width > canvas.width) cropBox.x = canvas.width - cropBox.width;
+            if (cropBox.y + cropBox.height > canvas.height) cropBox.y = canvas.height - cropBox.height;
+            
+            // Minimum size
+            if (cropBox.width < 50) {
+                cropBox.width = 50;
+                cropBox.height = cropBox.width / aspectRatio;
+            }
+            
+            // Maximum size
+            if (cropBox.width > canvas.width) cropBox.width = canvas.width;
+            if (cropBox.height > canvas.height) {
+                cropBox.height = canvas.height;
+                cropBox.width = cropBox.height * aspectRatio;
+            }
+        }
+
+        function showCropBox() {
+            document.getElementById('cropBox').style.display = 'block';
+            document.getElementById('canvasOverlay').classList.add('active');
+        }
+
+        function updateCropBox() {
+            const cropBoxEl = document.getElementById('cropBox');
+            const overlayEl = document.getElementById('canvasOverlay');
+            const container = document.getElementById('canvasContainer');
+            const canvasRect = canvas.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            
+            // Calculate position relative to container
+            const leftPos = canvasRect.left - containerRect.left + cropBox.x;
+            const topPos = canvasRect.top - containerRect.top + cropBox.y;
+            
+            cropBoxEl.style.left = leftPos + 'px';
+            cropBoxEl.style.top = topPos + 'px';
+            cropBoxEl.style.width = cropBox.width + 'px';
+            cropBoxEl.style.height = cropBox.height + 'px';
+            
+            // Update overlay clip-path to cut out the crop box area
+            const clipPath = `polygon(
+                0% 0%, 
+                0% 100%, 
+                ${leftPos}px 100%, 
+                ${leftPos}px ${topPos}px, 
+                ${leftPos + cropBox.width}px ${topPos}px, 
+                ${leftPos + cropBox.width}px ${topPos + cropBox.height}px, 
+                ${leftPos}px ${topPos + cropBox.height}px, 
+                ${leftPos}px 100%, 
+                100% 100%, 
+                100% 0%
+            )`;
+            overlayEl.style.clipPath = clipPath;
+            
+            // Update info
+            const actualWidth = Math.round(cropBox.width / imageScale);
+            const actualHeight = Math.round(cropBox.height / imageScale);
+            document.getElementById('cropInfo').textContent = `${actualWidth} × ${actualHeight} px`;
+        }
+
+        function cropImage() {
+            // Create a new canvas for cropped image
+            const cropCanvas = document.createElement('canvas');
+            const cropCtx = cropCanvas.getContext('2d');
+            
+            // Set canvas size to actual image dimensions
+            const actualX = cropBox.x / imageScale;
+            const actualY = cropBox.y / imageScale;
+            const actualWidth = cropBox.width / imageScale;
+            const actualHeight = cropBox.height / imageScale;
+            
+            cropCanvas.width = actualWidth;
+            cropCanvas.height = actualHeight;
+            
+            // Draw cropped portion
+            cropCtx.drawImage(
+                image,
+                actualX, actualY, actualWidth, actualHeight,
+                0, 0, actualWidth, actualHeight
+            );
+            
+            // Download
+            cropCanvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'cropped-image.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('✓ Image cropped and downloaded!', 'success');
+            });
+        }
+
+        function reset() {
+            // Clear image and canvas
+            image = null;
+            if (canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // Reset file input
+            document.getElementById('file-input').value = '';
+            
+            // Show upload section, hide editor
+            document.getElementById('uploadSection').style.display = 'flex';
+            document.getElementById('editorSection').classList.remove('active');
+            document.getElementById('cropBox').style.display = 'none';
+            document.getElementById('canvasOverlay').classList.remove('active');
+            
+            // Reset aspect ratio to default (1:1)
+            isFreeCrop = false;
+            aspectRatio = 1;
+            document.querySelectorAll('.aspect-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.aspect-btn[data-ratio="1:1"]').classList.add('active');
+            document.getElementById('customRatioInputs').classList.remove('active');
+        }
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'success' ? 'var(--success)' : 'var(--danger)';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Handle window resize and scroll
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            if (image) {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    loadImage();
+                }, 100);
+            }
+        });
+        
+        window.addEventListener('scroll', function() {
+            if (image) {
+                requestAnimationFrame(() => {
+                    updateCropBox();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

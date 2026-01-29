@@ -209,6 +209,23 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 14. 🖼️ Image Aspect Ratio Editor
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Image+Aspect+Ratio+Editor.png" alt="Image Aspect Ratio Editor" width="400"/>
+
+**URL:** https://toolstudio.in/tools/14/image-aspect-ratio-editor  
+**Description:** Crop and resize images to specific aspect ratios with an interactive drag-and-drop crop box. Perfect for social media posts, profile pictures, and any content requiring specific dimensions.
+
+**Features:**
+- Interactive draggable crop box
+- Preset aspect ratios (16:9, 9:16, 4:3, 3:2, 1:1, 2:3)
+- Custom aspect ratio support
+- Real-time crop preview
+- Client-side processing (complete privacy)
+- Download cropped images
+- Dark & Light themes
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -251,6 +268,8 @@ tools/
 │   ├── index.html
 │   ├── main.py
 │   └── requirements.txt
+├── 14__Image_Aspect_Ratio_Editor/
+│   └── index.html
 └── README.md (this file)
 ```
 
@@ -265,6 +284,7 @@ These tools run entirely in the browser with no backend processing:
 - Multi-Search Text Highlighter
 - Text Diff Comparison
 - Text Utilities
+- Image Aspect Ratio Editor
 
 ### Tools with Python Backend
 These tools require server-side processing for PDF/image manipulation:
