@@ -227,7 +227,6 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 15. 🗜️ Image Compressor
-          https://tool-studio.s3.ap-south-1.amazonaws.com/public/Image+Compressor.png
 <img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Image+Compressor.png" alt="Image Compressor" width="400"/>
 
 **URL:** https://toolstudio.in/tools/15/image-compressor  
@@ -242,6 +241,26 @@ This directory contains all the individual tools available on Tool Studio. Each 
 - Format conversion capability
 - Client-side processing (complete privacy)
 - Instant download
+
+---
+
+### 16. 📱 QR Code Generator
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/QR+Code+Generator.png" alt="QR Code Generator" width="400"/>
+
+**URL:** https://toolstudio.in/tools/16/qr-code-generator  
+**Description:** Generate professional QR codes with smart auto-detection and formatting. Automatically recognizes and formats content for maximum scanning compatibility.
+
+**Features:**
+- 🧠 Smart auto-detection of content type (URL, phone, email, WhatsApp, SMS, WiFi)
+- ✨ Automatic formatting (tel:, mailto:, https://, wa.me, etc.)
+- 📱 Multiple content types: URLs, text, phone, SMS, email, WhatsApp, WiFi
+- 🎯 Manual type selector for precise control
+- 📏 Multiple size options (128px to 1024px)
+- ⚡ Real-time preview with format toggle
+- 🎨 High-quality PNG download
+- 🔒 100% client-side generation (complete privacy)
+- ♾️ No expiration - static QR codes work forever
+- Free unlimited use
 
 ---
 
@@ -291,6 +310,8 @@ tools/
 │   └── index.html
 ├── 15__Image_Compressor/
 │   └── index.html
+├── 16__QR_Code_Generator/
+│   └── index.html
 └── README.md (this file)
 ```
 
@@ -307,6 +328,7 @@ These tools run entirely in the browser with no backend processing:
 - Text Utilities
 - Image Aspect Ratio Editor
 - Image Compressor
+- QR Code Generator
 
 ### Tools with Python Backend
 These tools require server-side processing for PDF/image manipulation:
