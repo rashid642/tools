@@ -226,6 +226,25 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 15. 🗜️ Image Compressor
+          https://tool-studio.s3.ap-south-1.amazonaws.com/public/Image+Compressor.png
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Image+Compressor.png" alt="Image Compressor" width="400"/>
+
+**URL:** https://toolstudio.in/tools/15/image-compressor  
+**Description:** Compress PNG, JPEG, and WebP images to reduce file size while maintaining quality. Perfect for optimizing images for web, email, or storage.
+
+**Features:**
+- Multiple format support (PNG, JPEG, WebP)
+- Adjustable quality control (1-100%)
+- Before/After preview comparison
+- Batch processing for multiple images
+- Size reduction statistics
+- Format conversion capability
+- Client-side processing (complete privacy)
+- Instant download
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -270,6 +289,8 @@ tools/
 │   └── requirements.txt
 ├── 14__Image_Aspect_Ratio_Editor/
 │   └── index.html
+├── 15__Image_Compressor/
+│   └── index.html
 └── README.md (this file)
 ```
 
@@ -285,6 +306,7 @@ These tools run entirely in the browser with no backend processing:
 - Text Diff Comparison
 - Text Utilities
 - Image Aspect Ratio Editor
+- Image Compressor
 
 ### Tools with Python Backend
 These tools require server-side processing for PDF/image manipulation:
