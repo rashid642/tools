@@ -889,7 +889,7 @@
             </div>
 
             <div class="button-group">
-                <button class="btn" onclick="compressImages()">
+                <button class="btn" onclick="compressImages()" id="compressBtn">
                     <span>⚡</span>
                     <span>Compress Images</span>
                 </button>
@@ -910,8 +910,8 @@
                     <span>Download All</span>
                 </button>
                 <button class="btn btn-secondary" onclick="reset()">
-                    <span>✨</span>
-                    <span>Compress More</span>
+                    <span>📁</span>
+                    <span>Compress Other Image</span>
                 </button>
             </div>
         </div>
@@ -1249,7 +1249,7 @@
         async function compressImages() {
             if (uploadedFiles.length === 0) return;
 
-            const btn = event.target;
+            const btn = document.getElementById('compressBtn');
             btn.disabled = true;
             btn.innerHTML = '<span>⏳</span><span>Compressing...</span>';
 

@@ -861,10 +861,9 @@
                         <button class="aspect-btn" onclick="showCustomRatio()" data-ratio="custom">Custom</button>
                     </div>
                     <div class="custom-ratio-inputs" id="customRatioInputs">
-                        <input type="number" id="customWidth" min="1" value="16" placeholder="Width">
+                        <input type="number" id="customWidth" min="1" value="6" placeholder="Width" oninput="applyCustomRatioAuto()">
                         <span>:</span>
-                        <input type="number" id="customHeight" min="1" value="9" placeholder="Height">
-                        <button class="aspect-btn" onclick="applyCustomRatio()">Apply</button>
+                        <input type="number" id="customHeight" min="1" value="5" placeholder="Height" oninput="applyCustomRatioAuto()">
                     </div>
                 </div>
                 
@@ -1249,7 +1248,7 @@
             
             // Center crop box with current aspect ratio
             let cropWidth, cropHeight;
-            const maxCropSize = Math.min(width, height) * 0.7;
+            const maxCropSize = Math.min(width, height) * 0.85;
             
             if (isFreeCrop) {
                 // Free crop - start with square crop box
@@ -1329,15 +1328,47 @@
         function showCustomRatio() {
             isFreeCrop = false;
             document.querySelectorAll('.aspect-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            const customBtn = document.querySelector('.aspect-btn[data-ratio="custom"]');
+            if (customBtn) customBtn.classList.add('active');
             document.getElementById('customRatioInputs').classList.add('active');
+            
+            // Apply current custom ratio
+            applyCustomRatioAuto();
         }
 
-        function applyCustomRatio() {
-            const width = parseInt(document.getElementById('customWidth').value) || 16;
-            const height = parseInt(document.getElementById('customHeight').value) || 9;
+        function applyCustomRatioAuto() {
+            const width = parseInt(document.getElementById('customWidth').value) || 6;
+            const height = parseInt(document.getElementById('customHeight').value) || 5;
             isFreeCrop = false;
-            setAspectRatio(width, height);
+            aspectRatio = width / height;
+            
+            // Keep custom button active
+            document.querySelectorAll('.aspect-btn').forEach(btn => btn.classList.remove('active'));
+            const customBtn = document.querySelector('.aspect-btn[data-ratio="custom"]');
+            if (customBtn) customBtn.classList.add('active');
+            
+            // Adjust crop box to new ratio
+            const centerX = cropBox.x + cropBox.width / 2;
+            const centerY = cropBox.y + cropBox.height / 2;
+            
+            if (aspectRatio > 1) {
+                // Wider
+                cropBox.height = cropBox.width / aspectRatio;
+            } else {
+                // Taller
+                cropBox.width = cropBox.height * aspectRatio;
+            }
+            
+            cropBox.x = centerX - cropBox.width / 2;
+            cropBox.y = centerY - cropBox.height / 2;
+            
+            constrainCropBox();
+            updateCropBox();
+        }
+        
+        function applyCustomRatio() {
+            // Same as auto-apply, just for the Apply button
+            applyCustomRatioAuto();
         }
 
         function setupCropBoxEvents() {
