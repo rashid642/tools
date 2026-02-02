@@ -347,6 +347,9 @@
             display: block;
             padding: 2px 4px;
             margin: 1px 0;
+            min-height: 1.5em;
+            line-height: 1.5em;
+            box-sizing: border-box;
         }
 
         .diff-added {
@@ -362,6 +365,12 @@
         .diff-modified {
             background: var(--modified);
             color: var(--modified-text);
+        }
+
+        .diff-empty {
+            background: transparent;
+            color: transparent;
+            opacity: 1;
         }
 
         .diff-word-added {
@@ -1072,38 +1081,29 @@
                 lines2 = lines2.map(l => l.trim());
             }
 
-            const maxLines = Math.max(lines1.length, lines2.length);
+            // Use LCS algorithm for smart line comparison
+            const diff = computeLCS(lines1, lines2, caseSensitive);
+            
             let html1 = '';
             let html2 = '';
 
-            for (let i = 0; i < maxLines; i++) {
-                const line1 = lines1[i] !== undefined ? lines1[i] : '';
-                const line2 = lines2[i] !== undefined ? lines2[i] : '';
-
-                const compare1 = caseSensitive ? line1 : line1.toLowerCase();
-                const compare2 = caseSensitive ? line2 : line2.toLowerCase();
-
-                if (compare1 === compare2) {
-                    // Same line
-                    html1 += escapeHtml(line1) + '\n';
-                    html2 += escapeHtml(line2) + '\n';
-                } else if (!line1) {
-                    // Added in text2
-                    html1 += '\n';
-                    html2 += `<span class="diff-line diff-added">${escapeHtml(line2)}</span>\n`;
-                    comparisonResults.added++;
-                } else if (!line2) {
-                    // Deleted from text1
-                    html1 += `<span class="diff-line diff-deleted">${escapeHtml(line1)}</span>\n`;
-                    html2 += '\n';
+            diff.forEach(item => {
+                if (item.type === 'equal') {
+                    // Matching line - wrap in div for proper line display
+                    html1 += `<div class="diff-line">${escapeHtml(item.value)}</div>`;
+                    html2 += `<div class="diff-line">${escapeHtml(item.value)}</div>`;
+                } else if (item.type === 'delete') {
+                    // Line deleted from text1 (exists in left, not in right)
+                    html1 += `<div class="diff-line diff-deleted">${escapeHtml(item.value)}</div>`;
+                    html2 += '<div class="diff-line diff-empty">&nbsp;</div>';
                     comparisonResults.deleted++;
-                } else {
-                    // Modified
-                    html1 += `<span class="diff-line diff-modified">${escapeHtml(line1)}</span>\n`;
-                    html2 += `<span class="diff-line diff-modified">${escapeHtml(line2)}</span>\n`;
-                    comparisonResults.modified++;
+                } else if (item.type === 'insert') {
+                    // Line inserted in text2 (exists in right, not in left)
+                    html1 += '<div class="diff-line diff-empty">&nbsp;</div>';
+                    html2 += `<div class="diff-line diff-added">${escapeHtml(item.value)}</div>`;
+                    comparisonResults.added++;
                 }
-            }
+            });
 
             document.getElementById('diff1').innerHTML = html1;
             document.getElementById('diff2').innerHTML = html2;
