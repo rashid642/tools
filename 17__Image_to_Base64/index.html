@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Convert images to Base64 encoded strings instantly. Support for PNG, JPG, GIF, WebP, SVG. Perfect for embedding images in HTML, CSS, or JSON.">
+    <meta name="keywords" content="image to base64, base64 encoder, image encoder, base64 converter, embed images, data uri, image encoding, tool studio">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#6366f1">
+    
+    <title>Image to Base64 Converter - Encode Images Online | Tool Studio</title>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://toolstudio.in/tools/17/image-to-base64">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/17/image-to-base64">
+    <meta property="og:title" content="Image to Base64 Converter - Encode Images Online | Tool Studio">
+    <meta property="og:description" content="Convert images to Base64 encoded strings instantly. Support for PNG, JPG, GIF, WebP, SVG. Perfect for embedding images in HTML, CSS, or JSON.">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/image+to+base64.png">
+    <meta property="og:site_name" content="Tool Studio">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/17/image-to-base64">
+    <meta property="twitter:title" content="Image to Base64 Converter - Encode Images Online | Tool Studio">
+    <meta property="twitter:description" content="Convert images to Base64 encoded strings instantly. Support for PNG, JPG, GIF, WebP, SVG. Perfect for embedding images in HTML, CSS, or JSON.">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/image+to+base64.png">
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Image to Base64 Converter",
+      "description": "Convert images to Base64 encoded strings instantly for embedding in HTML, CSS, or JSON",
+      "url": "https://toolstudio.in/tools/17/image-to-base64",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Tool Studio"
+      }
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+        }
+        
+        /* Dark Theme (Default) - Black & White */
+        :root {
+            --bg-main: #000000;
+            --bg-card: #1a1a1a;
+            --bg-input: #0a0a0a;
+            --bg-hover: #2a2a2a;
+            --text: #ffffff;
+            --text-muted: #a0a0a0;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        header {
+            background: var(--bg-card);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+        
+        .title-text {
+            background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        [data-theme="light"] .title-text {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .emoji {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 16px var(--shadow);
+            margin-bottom: 24px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--bg-input);
+        }
+        
+        .upload-area:hover {
+            border-color: #5a5a5a;
+            background: var(--bg-hover);
+        }
+        
+        .upload-area.dragover {
+            border-color: #6a6a6a;
+            background: var(--bg-hover);
+            transform: scale(1.02);
+        }
+        
+        [data-theme="light"] .upload-area:hover {
+            border-color: var(--primary);
+        }
+        
+        [data-theme="light"] .upload-area.dragover {
+            border-color: var(--primary);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+        
+        .upload-text {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .preview-section {
+            display: none;
+            margin-top: 32px;
+        }
+        
+        .preview-section.active {
+            display: block;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .preview-card {
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .preview-card h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .image-preview {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: repeating-conic-gradient(#e0e0e0 0% 25%, #f5f5f5 0% 50%) 50% / 20px 20px;
+        }
+        
+        [data-theme="light"] .image-preview {
+            background: repeating-conic-gradient(#f5f5f5 0% 25%, #ffffff 0% 50%) 50% / 20px 20px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .info-item {
+            background: var(--bg-card);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .base64-output {
+            position: relative;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .format-selector {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .format-btn {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .format-btn:hover {
+            background: var(--bg-hover);
+        }
+        
+        .format-btn.active {
+            background: #3a3a3a;
+            color: white;
+            border-color: #5a5a5a;
+        }
+        
+        [data-theme="light"] .format-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+            color: white;
+            border: 1px solid #4a4a4a;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
+        }
+        
+        .btn-success {
+            background: #2a2a2a;
+            color: white;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+            background: #3a3a3a;
+        }
+        
+        [data-theme="light"] .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+        }
+        
+        [data-theme="light"] .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        [data-theme="light"] .btn-success {
+            background: var(--success);
+            border: none;
+        }
+        
+        [data-theme="light"] .btn-success:hover {
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            background: var(--success);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+        }
+        
+        /* FABs */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+        
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3a3a3a 0%, #1a1a1a 100%);
+            border: 1px solid #4a4a4a;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+            background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
+        }
+        
+        [data-theme="light"] .fab {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+        }
+        
+        [data-theme="light"] .fab:hover {
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-card);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideDown 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #d0d0d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        [data-theme="light"] .modal-header h2 {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: var(--text);
+        }
+        
+        .modal-body h3 {
+            color: #e0e0e0;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+        
+        [data-theme="light"] .modal-body h3 {
+            color: var(--primary);
+        }
+        
+        .modal-body ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .modal-body li {
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+        
+        .similar-tools-grid {
+            display: grid;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .tool-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .tool-card:hover {
+            border-color: #5a5a5a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+        
+        [data-theme="light"] .tool-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        .tool-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .tool-icon {
+            font-size: 2rem;
+        }
+        
+        .tool-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .tool-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            color: var(--text);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--shadow);
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 16px;
+            }
+            
+            .header-left h1 {
+                font-size: 1.15rem;
+            }
+            
+            .emoji {
+                font-size: 1.35rem;
+            }
+            
+            .theme-toggle {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+            
+            .container {
+                padding: 24px 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+            
+            .fab {
+                width: 48px;
+                height: 48px;
+                font-size: 1.25rem;
+            }
+            
+            .fab-tooltip {
+                display: none;
+            }
+            
+            .modal-content {
+                padding: 24px;
+                margin: 16px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>
+                <span class="emoji">🖼️</span>
+                <span class="title-text">Image to Base64</span>
+            </h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="theme-icon">☀️</span>
+            <span class="theme-text">Light</span>
+        </button>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload or drag and drop</div>
+                <div class="upload-hint">Supports PNG, JPG, GIF, WebP, SVG (Max 10MB)</div>
+            </div>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="preview-section" id="previewSection">
+            <div class="card">
+                <div class="preview-grid">
+                    <div class="preview-card">
+                        <h3>📸 Image Preview</h3>
+                        <img id="imagePreview" class="image-preview" alt="Image preview">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Format</div>
+                                <div class="info-value" id="imageFormat">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Size</div>
+                                <div class="info-value" id="imageSize">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Dimensions</div>
+                                <div class="info-value" id="imageDimensions">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-card">
+                        <h3>📊 Base64 Info</h3>
+                        <div class="info-grid" style="margin-top: 0;">
+                            <div class="info-item">
+                                <div class="info-label">Base64 Size</div>
+                                <div class="info-value" id="base64Size">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Increase</div>
+                                <div class="info-value" id="sizeIncrease">-</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 16px; padding: 12px; background: var(--bg-card); border-radius: 8px;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
+                                💡 Base64 encoding increases file size by ~33%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 16px;">📋 Base64 Output</h3>
+                <div class="format-selector">
+                    <button class="format-btn active" data-format="datauri" onclick="changeFormat('datauri')">
+                        Data URI
+                    </button>
+                    <button class="format-btn" data-format="plain" onclick="changeFormat('plain')">
+                        Plain Base64
+                    </button>
+                    <button class="format-btn" data-format="html" onclick="changeFormat('html')">
+                        HTML
+                    </button>
+                    <button class="format-btn" data-format="css" onclick="changeFormat('css')">
+                        CSS
+                    </button>
+                    <button class="format-btn" data-format="json" onclick="changeFormat('json')">
+                        JSON
+                    </button>
+                </div>
+
+                <div class="base64-output">
+                    <textarea id="base64Output" readonly></textarea>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-success" onclick="copyToClipboard()">
+                        📋 Copy to Clipboard
+                    </button>
+                    <button class="btn btn-primary" onclick="downloadAsText()">
+                        💾 Download as .txt
+                    </button>
+                    <button class="btn btn-secondary" onclick="reset()">
+                        🔄 Convert Another
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FABs -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()">
+            <span>ℹ️</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()">
+            <span>🔗</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ℹ️ About Image to Base64</h2>
+                <button class="close-btn" onclick="closeModal('aboutModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Convert images to Base64 encoded strings for easy embedding in HTML, CSS, JSON, or any text-based format. Perfect for developers who need to inline images without external files.</p>
+                
+                <h3>✨ Key Features</h3>
+                <ul>
+                    <li>Support for all common image formats (PNG, JPG, GIF, WebP, SVG)</li>
+                    <li>Multiple output formats (Data URI, Plain Base64, HTML, CSS, JSON)</li>
+                    <li>Drag and drop support for easy uploading</li>
+                    <li>Real-time preview and file information</li>
+                    <li>One-click copy to clipboard</li>
+                    <li>Download Base64 as text file</li>
+                    <li>100% client-side processing (your images never leave your device)</li>
+                </ul>
+                
+                <h3>🎯 Use Cases</h3>
+                <ul>
+                    <li><strong>Web Development:</strong> Embed small images directly in HTML/CSS</li>
+                    <li><strong>API Development:</strong> Include images in JSON responses</li>
+                    <li><strong>Email Templates:</strong> Inline images for better email compatibility</li>
+                    <li><strong>Data Storage:</strong> Store images in databases as text</li>
+                    <li><strong>Offline Apps:</strong> Reduce HTTP requests by inlining images</li>
+                </ul>
+                
+                <h3>🔒 Privacy & Security</h3>
+                <ul>
+                    <li>All processing happens in your browser</li>
+                    <li>No images are uploaded to any server</li>
+                    <li>No data collection or tracking</li>
+                    <li>Your files remain completely private</li>
+                </ul>
+                
+                <h3>📖 How to Use</h3>
+                <ul>
+                    <li><strong>Step 1:</strong> Click the upload area or drag and drop your image</li>
+                    <li><strong>Step 2:</strong> Select your preferred output format (Data URI, HTML, CSS, etc.)</li>
+                    <li><strong>Step 3:</strong> Copy the Base64 string or download as a text file</li>
+                    <li><strong>Step 4:</strong> Use the Base64 string in your project</li>
+                </ul>
+                
+                <h3>⚠️ Important Notes</h3>
+                <ul>
+                    <li>Base64 encoding increases file size by approximately 33%</li>
+                    <li>Best for small images (icons, logos, thumbnails)</li>
+                    <li>Large images should use regular image files for better performance</li>
+                    <li>Maximum file size: 10MB</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div class="modal" id="similarToolsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔗 Similar Tools</h2>
+                <button class="close-btn" onclick="closeModal('similarToolsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Check out these related tools that might be helpful:</p>
+                <div class="similar-tools-grid" id="similarToolsGrid">
+                    <!-- Tools will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Global variables
+        let currentBase64 = '';
+        let currentMimeType = '';
+        let currentFileName = '';
+        let currentFormat = 'datauri';
+
+        // Similar tools configuration
+        const similarTools = [
+            {
+                icon: '🔍',
+                title: 'QR Code Scanner',
+                description: 'Scan and decode QR codes from images with detailed information extraction',
+                url: 'https://toolstudio.in/tools/7/qr-code-scanner'
+            },
+            {
+                icon: '📱',
+                title: 'QR Code Generator',
+                description: 'Create customizable QR codes for URLs, text, contacts, WiFi, and more',
+                url: 'https://toolstudio.in/tools/16/qr-code-generator'
+            },
+            {
+                icon: '🎨',
+                title: 'Image Aspect Ratio Editor',
+                description: 'Resize and crop images to specific aspect ratios for social media and web',
+                url: 'https://toolstudio.in/tools/14/image-aspect-ratio-editor'
+            },
+            {
+                icon: '🗜️',
+                title: 'Image Compressor',
+                description: 'Reduce image file sizes while maintaining quality for faster web loading',
+                url: 'https://toolstudio.in/tools/15/image-compressor'
+            },
+            {
+                icon: '📸',
+                title: 'Camera Test',
+                description: 'Test your device camera, capture photos, and download images instantly',
+                url: 'https://toolstudio.in/tools/2/camera-test'
+            }
+        ];
+
+        // Theme management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const themeIcon = document.querySelector('.theme-icon');
+            const themeText = document.querySelector('.theme-text');
+            if (newTheme === 'light') {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            } else {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            }
+        }
+
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const themeIcon = document.querySelector('.theme-icon');
+            const themeText = document.querySelector('.theme-text');
+            if (savedTheme === 'light') {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            }
+        }
+
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // Handle file
+        function handleFile(file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('❌ Please select a valid image file', 'error');
+                return;
+            }
+
+            // Validate file size (10MB max)
+            const maxSize = 10 * 1024 * 1024;
+            if (file.size > maxSize) {
+                showToast('❌ File size exceeds 10MB limit', 'error');
+                return;
+            }
+
+            currentFileName = file.name;
+            currentMimeType = file.type;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentBase64 = e.target.result.split(',')[1];
+                displayPreview(e.target.result, file);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Display preview
+        function displayPreview(dataUrl, file) {
+            const preview = document.getElementById('imagePreview');
+            preview.src = dataUrl;
+
+            // Get image dimensions
+            const img = new Image();
+            img.onload = function() {
+                document.getElementById('imageDimensions').textContent = `${img.width}×${img.height}`;
+            };
+            img.src = dataUrl;
+
+            // Display file info
+            document.getElementById('imageFormat').textContent = file.type.split('/')[1].toUpperCase();
+            document.getElementById('imageSize').textContent = formatFileSize(file.size);
+
+            // Calculate base64 size
+            const base64Size = Math.ceil(file.size * 4 / 3);
+            document.getElementById('base64Size').textContent = formatFileSize(base64Size);
+            
+            const increase = Math.round((base64Size - file.size) / file.size * 100);
+            document.getElementById('sizeIncrease').textContent = `+${increase}%`;
+
+            // Update output
+            updateOutput();
+
+            // Show preview section
+            document.getElementById('previewSection').classList.add('active');
+            document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
+
+            showToast('✅ Image converted successfully!');
+        }
+
+        // Change format
+        function changeFormat(format) {
+            currentFormat = format;
+            
+            // Update button states
+            document.querySelectorAll('.format-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-format="${format}"]`).classList.add('active');
+            
+            updateOutput();
+        }
+
+        // Update output based on format
+        function updateOutput() {
+            const output = document.getElementById('base64Output');
+            const dataUri = `data:${currentMimeType};base64,${currentBase64}`;
+            
+            switch(currentFormat) {
+                case 'datauri':
+                    output.value = dataUri;
+                    break;
+                case 'plain':
+                    output.value = currentBase64;
+                    break;
+                case 'html':
+                    output.value = `<img src="${dataUri}" alt="${currentFileName}" />`;
+                    break;
+                case 'css':
+                    output.value = `background-image: url('${dataUri}');`;
+                    break;
+                case 'json':
+                    output.value = JSON.stringify({ 
+                        filename: currentFileName,
+                        mimeType: currentMimeType,
+                        data: currentBase64 
+                    }, null, 2);
+                    break;
+            }
+        }
+
+        // Copy to clipboard
+        async function copyToClipboard() {
+            const output = document.getElementById('base64Output');
+            try {
+                await navigator.clipboard.writeText(output.value);
+                showToast('✅ Copied to clipboard!');
+            } catch (err) {
+                // Fallback for older browsers
+                output.select();
+                document.execCommand('copy');
+                showToast('✅ Copied to clipboard!');
+            }
+        }
+
+        // Download as text
+        function downloadAsText() {
+            const output = document.getElementById('base64Output');
+            const blob = new Blob([output.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentFileName.split('.')[0]}_base64.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('✅ Downloaded successfully!');
+        }
+
+        // Reset
+        function reset() {
+            document.getElementById('previewSection').classList.remove('active');
+            fileInput.value = '';
+            currentBase64 = '';
+            currentMimeType = '';
+            currentFileName = '';
+            currentFormat = 'datauri';
+            
+            // Reset format buttons
+            document.querySelectorAll('.format-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-format="datauri"]').classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Modal functions
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('active');
+        }
+
+        function openSimilarToolsModal() {
+            renderSimilarTools();
+            document.getElementById('similarToolsModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Render similar tools
+        function renderSimilarTools() {
+            const grid = document.getElementById('similarToolsGrid');
+            grid.innerHTML = similarTools.map(tool => `
+                <a href="${tool.url}" class="tool-card" target="_blank">
+                    <div class="tool-card-header">
+                        <div class="tool-icon">${tool.icon}</div>
+                        <div class="tool-title">${tool.title}</div>
+                    </div>
+                    <div class="tool-description">${tool.description}</div>
+                </a>
+            `).join('');
+        }
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.borderLeftColor = type === 'error' ? 'var(--danger)' : 'var(--success)';
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close modals on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('aboutModal');
+                closeModal('similarToolsModal');
+            }
+        });
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Initialize
+        applyTheme();
+    </script>
+</body>
+</html>
+
