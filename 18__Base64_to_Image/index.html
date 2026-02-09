@@ -16,14 +16,14 @@
     <meta property="og:url" content="https://toolstudio.in/tools/18/base64-to-image-converter">
     <meta property="og:title" content="Base64 to Image Converter - Free Online Decoder">
     <meta property="og:description" content="Decode Base64 strings back to images instantly. Supports all major image formats. No upload limits.">
-    <meta property="og:image" content="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool-18-base64-to-image.png">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+18+base64+to+image.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://toolstudio.in/tools/18/base64-to-image-converter">
     <meta property="twitter:title" content="Base64 to Image Converter - Free Online Decoder">
     <meta property="twitter:description" content="Decode Base64 strings back to images instantly. Supports all major image formats.">
-    <meta property="twitter:image" content="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool-18-base64-to-image.png">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+18+base64+to+image.png">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://toolstudio.in/tools/18/base64-to-image-converter">
@@ -405,10 +405,59 @@
 
         .modal-header h2 {
             font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+
+        .modal-header h2 span:last-child {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        .modal-body {
+            line-height: 1.6;
+        }
+
+        .modal-body p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .modal-body h3 {
+            color: var(--text);
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        [data-theme="light"] .modal-body h3 {
+            color: var(--primary);
+        }
+
+        .modal-body ul,
+        .modal-body ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .modal-body code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--primary);
         }
 
         .close-btn {
@@ -596,37 +645,41 @@
     <div id="aboutModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>ℹ️ About Base64 to Image Converter</h2>
+                <h2>
+                    <span>🖼️</span>
+                    <span>About Base64 to Image</span>
+                </h2>
                 <button class="close-btn" onclick="closeModal('aboutModal')">×</button>
             </div>
             <div class="modal-body">
-                <h3>🎯 Purpose</h3>
-                <p>This tool decodes Base64 encoded strings back to image files. Perfect for developers working with Base64 image data in web applications, APIs, or databases.</p>
-
-                <h3 style="margin-top: 20px;">✨ Features</h3>
-                <ul style="margin-left: 20px; line-height: 2;">
-                    <li>🔓 Decode Base64 to Image</li>
-                    <li>🎨 Support for PNG, JPG, GIF, WebP, BMP</li>
-                    <li>👁️ Live preview of decoded image</li>
-                    <li>💾 Download in original format</li>
-                    <li>📊 Display image information</li>
+                <p>Decode Base64 encoded strings back to image files instantly. Perfect for developers working with Base64 image data in web applications, APIs, or databases.</p>
+                
+                <h3>✨ Key Features</h3>
+                <ul>
+                    <li>Support for all common image formats (PNG, JPG, GIF, WebP, BMP)</li>
+                    <li>Accepts both raw Base64 and data URI format</li>
+                    <li>Automatic image format detection</li>
+                    <li>Live preview with image dimensions and file size</li>
+                    <li>One-click download in original format</li>
+                    <li>100% client-side processing (your data never leaves your device)</li>
                 </ul>
-
-                <h3 style="margin-top: 20px;">📖 How to Use</h3>
-                <ol style="margin-left: 20px; line-height: 2;">
-                    <li>Paste your Base64 encoded string (with or without data URI prefix)</li>
+                
+                <h3>🎯 Use Cases</h3>
+                <ul>
+                    <li>Debugging API responses with Base64 images</li>
+                    <li>Converting database-stored Base64 images to files</li>
+                    <li>Testing and validating Base64 image data</li>
+                    <li>Extracting images from JSON/API responses</li>
+                    <li>Converting embedded data URI images to downloadable files</li>
+                </ul>
+                
+                <h3>💡 How to Use</h3>
+                <ol>
+                    <li>Paste your Base64 string (with or without <code>data:image/...</code> prefix)</li>
                     <li>Click "Decode to Image"</li>
                     <li>Preview the decoded image</li>
-                    <li>Download the image file</li>
+                    <li>Download the image file in its original format</li>
                 </ol>
-
-                <h3 style="margin-top: 20px;">💡 Tips</h3>
-                <ul style="margin-left: 20px; line-height: 2;">
-                    <li>Supports both raw Base64 and data URI format</li>
-                    <li>Auto-detects image format from Base64 data</li>
-                    <li>All processing happens in your browser - 100% private</li>
-                    <li>No file size limits</li>
-                </ul>
             </div>
         </div>
     </div>
@@ -635,7 +688,10 @@
     <div id="similarToolsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🔗 Similar Tools</h2>
+                <h2>
+                    <span>🔗</span>
+                    <span>Similar Tools</span>
+                </h2>
                 <button class="close-btn" onclick="closeModal('similarToolsModal')">×</button>
             </div>
             <div class="modal-body" id="similarToolsList">

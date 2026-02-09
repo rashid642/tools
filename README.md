@@ -285,7 +285,7 @@ This directory contains all the individual tools available on Tool Studio. Each 
 ---
 
 ### 18. 🖼️ Base64 to Image Converter
-<img src="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool-18-base64-to-image.png" alt="Base64 to Image Converter" width="400"/>
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+18+base64+to+image.png" alt="Base64 to Image Converter" width="400"/>
 
 **URL:** https://toolstudio.in/tools/18/base64-to-image-converter  
 **Description:** Decode Base64 encoded strings back to image files instantly. Perfect for developers working with Base64 image data in web applications, APIs, or databases.
