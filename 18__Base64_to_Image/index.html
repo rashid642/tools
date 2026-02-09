@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Base64 to Image Converter - Free Online Base64 Decoder | Tool Studio</title>
+    <meta name="description" content="Free online Base64 to Image converter. Decode Base64 strings back to images instantly. Supports PNG, JPG, GIF, WebP, and BMP formats. No file size limits.">
+    <meta name="keywords" content="base64 to image, base64 decoder, base64 image decoder, decode base64, base64 converter, image decoder, base64 string to image, free base64 decoder">
+    <meta name="author" content="Tool Studio">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/18/base64-to-image-converter">
+    <meta property="og:title" content="Base64 to Image Converter - Free Online Decoder">
+    <meta property="og:description" content="Decode Base64 strings back to images instantly. Supports all major image formats. No upload limits.">
+    <meta property="og:image" content="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool-18-base64-to-image.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/18/base64-to-image-converter">
+    <meta property="twitter:title" content="Base64 to Image Converter - Free Online Decoder">
+    <meta property="twitter:description" content="Decode Base64 strings back to images instantly. Supports all major image formats.">
+    <meta property="twitter:image" content="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool-18-base64-to-image.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://toolstudio.in/tools/18/base64-to-image-converter">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Base64 to Image Converter",
+        "description": "Free online tool to decode Base64 strings back to images",
+        "url": "https://toolstudio.in/tools/18/base64-to-image-converter",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Decode Base64 to Image",
+            "Support multiple formats (PNG, JPG, GIF, WebP, BMP)",
+            "Live preview",
+            "Download converted images",
+            "No file size limits"
+        ]
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #3B82F6;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --info: #06B6D4;
+            
+            --bg-main: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-tertiary: #334155;
+            
+            --text: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8;
+            
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-main: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-tertiary: #E2E8F0;
+            
+            --text: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            
+            --border: #E2E8F0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background: var(--bg-secondary);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+
+        .emoji {
+            font-size: 1.3rem;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .title-text {
+            background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="light"] .title-text {
+            background: linear-gradient(135deg, #0F172A 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+
+        .input-section {
+            margin-bottom: 24px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+
+        .preview-section {
+            margin-top: 24px;
+            padding: 24px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-section.hidden {
+            display: none;
+        }
+
+        #preview {
+            max-width: 100%;
+            max-height: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .image-info {
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 0;
+        }
+
+        .fab:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.6);
+        }
+
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-secondary);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideInFromTop 0.3s ease;
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .tool-card {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .tool-card h3 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 16px;
+            }
+
+            .header-left h1 {
+                font-size: 1.15rem;
+            }
+
+            .emoji {
+                font-size: 1.35rem;
+            }
+
+            .theme-toggle {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+
+            .fab-tooltip {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <h1>
+                <span class="emoji">🖼️</span>
+                <span class="title-text">Base64 to Image</span>
+            </h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="theme-icon">☀️</span>
+            <span class="theme-text">Light</span>
+        </button>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Alert Messages -->
+        <div id="successAlert" class="alert alert-success"></div>
+        <div id="errorAlert" class="alert alert-error"></div>
+
+        <!-- Main Card -->
+        <div class="card">
+            <div class="input-section">
+                <label class="input-label">📝 Paste Base64 String</label>
+                <textarea 
+                    id="base64Input" 
+                    placeholder="Paste your Base64 encoded string here...&#10;&#10;Example:&#10;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
+                ></textarea>
+            </div>
+
+            <div class="button-group">
+                <button onclick="decodeBase64()">
+                    <span>🔓</span>
+                    <span>Decode to Image</span>
+                </button>
+                <button class="btn-secondary" onclick="clearAll()">
+                    <span>🗑️</span>
+                    <span>Clear</span>
+                </button>
+            </div>
+
+            <!-- Preview Section -->
+            <div id="previewSection" class="preview-section hidden">
+                <img id="preview" alt="Decoded image preview">
+                <div id="imageInfo" class="image-info"></div>
+                <div class="button-group" style="margin-top: 16px;">
+                    <button onclick="downloadImage()">
+                        <span>💾</span>
+                        <span>Download Image</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()">
+            <span>ℹ️</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()">
+            <span>🔗</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ℹ️ About Base64 to Image Converter</h2>
+                <button class="close-btn" onclick="closeModal('aboutModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>🎯 Purpose</h3>
+                <p>This tool decodes Base64 encoded strings back to image files. Perfect for developers working with Base64 image data in web applications, APIs, or databases.</p>
+
+                <h3 style="margin-top: 20px;">✨ Features</h3>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>🔓 Decode Base64 to Image</li>
+                    <li>🎨 Support for PNG, JPG, GIF, WebP, BMP</li>
+                    <li>👁️ Live preview of decoded image</li>
+                    <li>💾 Download in original format</li>
+                    <li>📊 Display image information</li>
+                </ul>
+
+                <h3 style="margin-top: 20px;">📖 How to Use</h3>
+                <ol style="margin-left: 20px; line-height: 2;">
+                    <li>Paste your Base64 encoded string (with or without data URI prefix)</li>
+                    <li>Click "Decode to Image"</li>
+                    <li>Preview the decoded image</li>
+                    <li>Download the image file</li>
+                </ol>
+
+                <h3 style="margin-top: 20px;">💡 Tips</h3>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>Supports both raw Base64 and data URI format</li>
+                    <li>Auto-detects image format from Base64 data</li>
+                    <li>All processing happens in your browser - 100% private</li>
+                    <li>No file size limits</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div id="similarToolsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔗 Similar Tools</h2>
+                <button class="close-btn" onclick="closeModal('similarToolsModal')">×</button>
+            </div>
+            <div class="modal-body" id="similarToolsList">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Similar tools configuration
+        const similarTools = [
+            {
+                icon: '🖼️',
+                title: 'Image to Base64 Converter',
+                description: 'Convert images to Base64 encoded strings',
+                url: 'https://toolstudio.in/tools/17/image-to-base64-converter'
+            },
+            {
+                icon: '📐',
+                title: 'Image Compressor',
+                description: 'Compress images to reduce file size',
+                url: 'https://toolstudio.in/tools/15/image-compressor'
+            },
+            {
+                icon: '🎨',
+                title: 'Image Format Converter',
+                description: 'Convert images between different formats',
+                url: 'https://toolstudio.in/tools/13/image-format-converter'
+            },
+            {
+                icon: '📏',
+                title: 'Image Resizer',
+                description: 'Resize images to specific dimensions',
+                url: 'https://toolstudio.in/tools/14/image-resizer'
+            }
+        ];
+
+        let decodedImageBlob = null;
+        let imageFormat = 'png';
+
+        // Theme Management
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const icon = document.querySelector('.theme-icon');
+            const text = document.querySelector('.theme-text');
+            if (theme === 'light') {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            }
+        }
+
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+
+        // Modal Management
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('show');
+        }
+
+        function openSimilarToolsModal() {
+            renderSimilarTools();
+            document.getElementById('similarToolsModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function renderSimilarTools() {
+            const container = document.getElementById('similarToolsList');
+            container.innerHTML = similarTools.map(tool => `
+                <div class="tool-card" onclick="window.open('${tool.url}', '_blank')">
+                    <h3>${tool.icon} ${tool.title}</h3>
+                    <p style="color: var(--text-secondary); margin: 0;">${tool.description}</p>
+                </div>
+            `).join('');
+        }
+
+        // Alert Functions
+        function showAlert(message, type = 'success') {
+            const alertId = type === 'success' ? 'successAlert' : 'errorAlert';
+            const alert = document.getElementById(alertId);
+            alert.textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Base64 Decoding
+        function decodeBase64() {
+            const input = document.getElementById('base64Input').value.trim();
+            
+            if (!input) {
+                showAlert('Please paste a Base64 string', 'error');
+                return;
+            }
+
+            try {
+                let base64Data = input;
+                let mimeType = 'image/png'; // Default
+
+                // Check if it's a data URI
+                if (input.startsWith('data:')) {
+                    const matches = input.match(/^data:([^;]+);base64,(.+)$/);
+                    if (matches) {
+                        mimeType = matches[1];
+                        base64Data = matches[2];
+                    } else {
+                        throw new Error('Invalid data URI format');
+                    }
+                }
+
+                // Decode Base64 to binary
+                const binaryString = atob(base64Data);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                // Create blob
+                decodedImageBlob = new Blob([bytes], { type: mimeType });
+                
+                // Extract format
+                imageFormat = mimeType.split('/')[1] || 'png';
+
+                // Create object URL and display
+                const imageUrl = URL.createObjectURL(decodedImageBlob);
+                const preview = document.getElementById('preview');
+                preview.src = imageUrl;
+
+                // Show preview section
+                document.getElementById('previewSection').classList.remove('hidden');
+
+                // Display image info
+                displayImageInfo(decodedImageBlob, imageFormat);
+
+                showAlert('✅ Base64 decoded successfully!', 'success');
+
+            } catch (error) {
+                console.error('Decode error:', error);
+                showAlert('❌ Invalid Base64 string. Please check your input.', 'error');
+            }
+        }
+
+        function displayImageInfo(blob, format) {
+            const sizeKB = (blob.size / 1024).toFixed(2);
+            const img = new Image();
+            img.onload = function() {
+                const info = `
+                    <strong>Format:</strong> ${format.toUpperCase()} | 
+                    <strong>Size:</strong> ${sizeKB} KB | 
+                    <strong>Dimensions:</strong> ${img.width}×${img.height}px
+                `;
+                document.getElementById('imageInfo').innerHTML = info;
+                URL.revokeObjectURL(img.src);
+            };
+            img.src = URL.createObjectURL(blob);
+        }
+
+        function downloadImage() {
+            if (!decodedImageBlob) {
+                showAlert('No image to download', 'error');
+                return;
+            }
+
+            const url = URL.createObjectURL(decodedImageBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `decoded-image-${Date.now()}.${imageFormat}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showAlert('✅ Image downloaded successfully!', 'success');
+        }
+
+        function clearAll() {
+            document.getElementById('base64Input').value = '';
+            document.getElementById('previewSection').classList.add('hidden');
+            decodedImageBlob = null;
+            imageFormat = 'png';
+            showAlert('🗑️ Cleared!', 'success');
+        }
+
+        // Close modals on ESC key or outside click
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('aboutModal');
+                closeModal('similarToolsModal');
+            }
+        });
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Initialize theme on load
+        applyTheme();
+    </script>
+</body>
+</html>
+

@@ -284,6 +284,26 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 18. 🖼️ Base64 to Image Converter
+<img src="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool-18-base64-to-image.png" alt="Base64 to Image Converter" width="400"/>
+
+**URL:** https://toolstudio.in/tools/18/base64-to-image-converter  
+**Description:** Decode Base64 encoded strings back to image files instantly. Perfect for developers working with Base64 image data in web applications, APIs, or databases.
+
+**Features:**
+- 📝 Paste Base64 string input (with or without data URI prefix)
+- 🎯 Automatic image format detection (PNG, JPG, GIF, WebP, BMP)
+- 👁️ Live image preview with full quality
+- 📊 Display image dimensions, format, and file size
+- 💾 One-click download of decoded image
+- 🔄 Support for both raw Base64 and data URI format
+- 🔓 Decode/unlock Base64 data visualization
+- 🔒 100% client-side processing (complete privacy)
+- ⚡ Instant decoding with no server upload
+- ∞ No file size limits
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -334,6 +354,8 @@ tools/
 │   └── index.html
 ├── 17__Image_to_Base64/
 │   └── index.html
+├── 18__Base64_to_Image/
+│   └── index.html
 └── README.md (this file)
 ```
 
@@ -352,6 +374,7 @@ These tools run entirely in the browser with no backend processing:
 - Image Compressor
 - QR Code Generator
 - Image to Base64 Converter
+- Base64 to Image Converter
 
 ### Tools with Python Backend
 These tools require server-side processing for PDF/image manipulation:
