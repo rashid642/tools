@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Video to Audio Extractor - Free Online Audio Extraction Tool | Tool Studio</title>
+    <meta name="description" content="Extract audio from video files for free. Convert MP4, AVI, MOV, MKV to MP3, WAV, AAC, OGG, FLAC. Fast, secure, and easy to use online video to audio converter.">
+    <meta name="keywords" content="video to audio, extract audio, video converter, audio extractor, MP4 to MP3, video to MP3, audio extraction, online converter, free audio extractor">
+    <meta name="author" content="Tool Studio">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/19/video-to-audio-extractor">
+    <meta property="og:title" content="Video to Audio Extractor - Free Online Tool">
+    <meta property="og:description" content="Extract audio from video files instantly. Supports MP4, AVI, MOV, MKV. Convert to MP3, WAV, AAC, OGG, FLAC.">
+    <meta property="og:image" content="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool+19+video+to+audio.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/19/video-to-audio-extractor">
+    <meta property="twitter:title" content="Video to Audio Extractor - Free Online Tool">
+    <meta property="twitter:description" content="Extract audio from video files instantly. Supports multiple formats.">
+    <meta property="twitter:image" content="https://tool-studio-images.s3.ap-south-1.amazonaws.com/tool+19+video+to+audio.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://toolstudio.in/tools/19/video-to-audio-extractor">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Video to Audio Extractor",
+        "description": "Free online tool to extract audio from video files",
+        "url": "https://toolstudio.in/tools/19/video-to-audio-extractor",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Extract audio from video files",
+            "Support for MP4, AVI, MOV, MKV, WebM",
+            "Convert to MP3, WAV, AAC, OGG, FLAC",
+            "Adjustable audio quality",
+            "Fast processing"
+        ]
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #3B82F6;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --info: #06B6D4;
+            
+            --bg-main: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-tertiary: #334155;
+            
+            --text: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8;
+            
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-main: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-tertiary: #E2E8F0;
+            
+            --text: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            
+            --border: #E2E8F0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background: var(--bg-secondary);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+
+        .emoji {
+            font-size: 1.3rem;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .title-text {
+            background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="light"] .title-text {
+            background: linear-gradient(135deg, #0F172A 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-tertiary);
+            margin-bottom: 24px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-info {
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .options-section {
+            margin: 24px 0;
+        }
+
+        .option-group {
+            margin-bottom: 24px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238B5CF6' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 48px;
+        }
+
+        select:hover {
+            border-color: var(--primary);
+            background-color: var(--bg-secondary);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        select option {
+            background: var(--bg-secondary);
+            color: var(--text);
+            padding: 12px;
+            font-weight: 500;
+        }
+
+        select option:hover {
+            background: var(--primary);
+        }
+
+        select option:checked {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        [data-theme="light"] select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237C3AED' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+        }
+
+        button {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 16px 0;
+            display: none;
+        }
+
+        .progress-bar.show {
+            display: block;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.3s ease;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 0;
+        }
+
+        .fab:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.6);
+        }
+
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-secondary);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideInFromTop 0.3s ease;
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+
+        .modal-header h2 span:last-child {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-body {
+            line-height: 1.6;
+        }
+
+        .modal-body p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .modal-body h3 {
+            color: var(--text);
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        [data-theme="light"] .modal-body h3 {
+            color: var(--primary);
+        }
+
+        .modal-body ul,
+        .modal-body ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .tool-card {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .tool-card h3 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 16px;
+            }
+
+            .header-left h1 {
+                font-size: 1.15rem;
+            }
+
+            .emoji {
+                font-size: 1.35rem;
+            }
+
+            .theme-toggle {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .upload-area {
+                padding: 32px 16px;
+            }
+
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+
+            .fab-tooltip {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <h1>
+                <span class="emoji">🎵</span>
+                <span class="title-text">Video to Audio</span>
+            </h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="theme-icon">☀️</span>
+            <span class="theme-text">Light</span>
+        </button>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Alert Messages -->
+        <div id="successAlert" class="alert alert-success"></div>
+        <div id="errorAlert" class="alert alert-error"></div>
+
+        <!-- Main Card -->
+        <div class="card">
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📹</div>
+                <h3>Drop video file here or click to upload</h3>
+                <p style="color: var(--text-muted); margin-top: 8px;">
+                    Supported: MP4, AVI, MOV, MKV, WebM, FLV (Max 100MB)
+                </p>
+                <input type="file" id="fileInput" accept="video/*" onchange="handleFileSelect(event)">
+            </div>
+
+            <!-- File Info -->
+            <div id="fileInfo" class="file-info">
+                <strong>Selected:</strong> <span id="fileName"></span>
+                <br>
+                <strong>Size:</strong> <span id="fileSize"></span>
+            </div>
+
+            <!-- Options -->
+            <div class="options-section">
+                <div class="option-group">
+                    <label class="option-label">
+                        <span>🎵</span>
+                        <span>Output Format</span>
+                    </label>
+                    <select id="formatSelect">
+                        <option value="mp3">🎵 MP3 (Most Compatible)</option>
+                        <option value="wav">🎼 WAV (Lossless)</option>
+                        <option value="aac">🎧 AAC (High Quality)</option>
+                        <option value="ogg">🎶 OGG (Open Format)</option>
+                        <option value="flac">💿 FLAC (Lossless)</option>
+                    </select>
+                </div>
+
+                <div class="option-group">
+                    <label class="option-label">
+                        <span>⚡</span>
+                        <span>Audio Quality</span>
+                    </label>
+                    <select id="qualitySelect">
+                        <option value="high">⭐⭐⭐ High (Best Quality)</option>
+                        <option value="medium" selected>⭐⭐ Medium (Balanced)</option>
+                        <option value="low">⭐ Low (Small Size)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div id="progressBar" class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button id="extractBtn" onclick="extractAudio()" disabled>
+                    <span>🎵</span>
+                    <span>Extract Audio</span>
+                </button>
+                <button class="btn-secondary" onclick="resetTool()">
+                    <span>🔄</span>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()">
+            <span>ℹ️</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()">
+            <span>🔗</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <span>🎵</span>
+                    <span>About Video to Audio</span>
+                </h2>
+                <button class="close-btn" onclick="closeModal('aboutModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Extract audio tracks from video files in seconds. Perfect for creating podcasts, music files, or audio archives from your video content.</p>
+                
+                <h3>✨ Key Features</h3>
+                <ul>
+                    <li>Support for all common video formats (MP4, AVI, MOV, MKV, WebM)</li>
+                    <li>Multiple audio output formats (MP3, WAV, AAC, OGG, FLAC)</li>
+                    <li>Adjustable audio quality settings</li>
+                    <li>Fast server-side processing with FFmpeg</li>
+                    <li>Preserve original audio quality</li>
+                    <li>Secure processing with automatic file cleanup</li>
+                </ul>
+                
+                <h3>🎯 Use Cases</h3>
+                <ul>
+                    <li>Convert video lectures to audio for podcasts</li>
+                    <li>Extract music from music videos</li>
+                    <li>Create audio files for offline listening</li>
+                    <li>Extract soundtracks from movies</li>
+                    <li>Convert interviews to audio format</li>
+                </ul>
+                
+                <h3>💡 How to Use</h3>
+                <ol>
+                    <li>Upload or drag-and-drop your video file</li>
+                    <li>Choose output audio format (MP3, WAV, etc.)</li>
+                    <li>Select audio quality level</li>
+                    <li>Click "Extract Audio" to process</li>
+                    <li>Download your extracted audio file</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div id="similarToolsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>
+                    <span>🔗</span>
+                    <span>Similar Tools</span>
+                </h2>
+                <button class="close-btn" onclick="closeModal('similarToolsModal')">×</button>
+            </div>
+            <div class="modal-body" id="similarToolsList">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Similar tools configuration
+        const similarTools = [
+            {
+                icon: '🎙️',
+                title: 'Audio Test',
+                description: 'Test your microphone and speakers',
+                url: 'https://toolstudio.in/tools/4/audio-test'
+            },
+            {
+                icon: '📐',
+                title: 'Image Compressor',
+                description: 'Compress images to reduce file size',
+                url: 'https://toolstudio.in/tools/15/image-compressor'
+            },
+            {
+                icon: '📄',
+                title: 'PDF Merger',
+                description: 'Combine multiple PDF files',
+                url: 'https://toolstudio.in/tools/12/pdf-merger'
+            }
+        ];
+
+        let selectedFile = null;
+
+        // Theme Management
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const icon = document.querySelector('.theme-icon');
+            const text = document.querySelector('.theme-text');
+            if (theme === 'light') {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            }
+        }
+
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+
+        // File Upload Handling
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            // Validate file type
+            if (!file.type.startsWith('video/')) {
+                showAlert('Please select a valid video file', 'error');
+                return;
+            }
+
+            // Validate file size (100MB limit)
+            const maxSize = 100 * 1024 * 1024; // 100MB
+            if (file.size > maxSize) {
+                showAlert('File size exceeds 100MB limit', 'error');
+                return;
+            }
+
+            selectedFile = file;
+            
+            // Display file info
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            document.getElementById('fileInfo').classList.add('show');
+            document.getElementById('extractBtn').disabled = false;
+
+            showAlert('✅ Video file loaded successfully!', 'success');
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Extract Audio
+        async function extractAudio() {
+            if (!selectedFile) {
+                showAlert('Please select a video file first', 'error');
+                return;
+            }
+
+            const format = document.getElementById('formatSelect').value;
+            const quality = document.getElementById('qualitySelect').value;
+            const extractBtn = document.getElementById('extractBtn');
+            const progressBar = document.getElementById('progressBar');
+
+            try {
+                extractBtn.disabled = true;
+                progressBar.classList.add('show');
+                
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('format', format);
+                formData.append('quality', quality);
+
+                const response = await fetch('/api/v1/tools/19/execute', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Extraction failed');
+                }
+
+                // Get the audio file
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = selectedFile.name.replace(/\.[^/.]+$/, '') + '.' + format;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                showAlert('✅ Audio extracted successfully!', 'success');
+
+            } catch (error) {
+                console.error('Extraction error:', error);
+                showAlert('❌ ' + error.message, 'error');
+            } finally {
+                extractBtn.disabled = false;
+                progressBar.classList.remove('show');
+            }
+        }
+
+        function resetTool() {
+            selectedFile = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileInfo').classList.remove('show');
+            document.getElementById('extractBtn').disabled = true;
+            document.getElementById('formatSelect').value = 'mp3';
+            document.getElementById('qualitySelect').value = 'medium';
+            showAlert('🔄 Tool reset', 'success');
+        }
+
+        // Alert Functions
+        function showAlert(message, type = 'success') {
+            const alertId = type === 'success' ? 'successAlert' : 'errorAlert';
+            const alert = document.getElementById(alertId);
+            alert.textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Modal Management
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('show');
+        }
+
+        function openSimilarToolsModal() {
+            renderSimilarTools();
+            document.getElementById('similarToolsModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function renderSimilarTools() {
+            const container = document.getElementById('similarToolsList');
+            container.innerHTML = similarTools.map(tool => `
+                <div class="tool-card" onclick="window.open('${tool.url}', '_blank')">
+                    <h3>${tool.icon} ${tool.title}</h3>
+                    <p style="color: var(--text-secondary); margin: 0;">${tool.description}</p>
+                </div>
+            `).join('');
+        }
+
+        // Close modals on ESC key or outside click
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('aboutModal');
+                closeModal('similarToolsModal');
+            }
+        });
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Initialize theme on load
+        applyTheme();
+    </script>
+</body>
+</html>
+

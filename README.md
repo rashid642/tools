@@ -304,6 +304,26 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 19. 🎵 Video to Audio Extractor
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+19+video+to+audio.png" alt="Video to Audio Extractor" width="400"/>
+
+**URL:** https://toolstudio.in/tools/19/video-to-audio-extractor  
+**Description:** Extract audio tracks from video files in seconds. Convert MP4, AVI, MOV, MKV, WebM to MP3, WAV, AAC, OGG, or FLAC with adjustable quality settings.
+
+**Features:**
+- 🎬 Support for multiple video formats (MP4, AVI, MOV, MKV, WebM)
+- 🎧 Multiple audio output formats (MP3, WAV, AAC, OGG, FLAC)
+- ⚙️ Adjustable quality settings (Low, Medium, High, Very High)
+- 🎯 Drag & drop file upload
+- ⚡ Fast FFmpeg processing
+- 💾 Instant download of extracted audio
+- 🔒 Secure server-side conversion
+- 🗑️ Automatic file cleanup (privacy-first)
+- 📊 File size and format information
+- 🎨 Dark & Light themes
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -356,6 +376,10 @@ tools/
 │   └── index.html
 ├── 18__Base64_to_Image/
 │   └── index.html
+├── 19__Video_to_Audio/
+│   ├── index.html
+│   ├── main.py
+│   └── requirements.txt
 └── README.md (this file)
 ```
 
@@ -377,13 +401,14 @@ These tools run entirely in the browser with no backend processing:
 - Base64 to Image Converter
 
 ### Tools with Python Backend
-These tools require server-side processing for PDF/image manipulation:
+These tools require server-side processing for PDF/image/video manipulation:
 - PDF Page Remover (PyPDF2)
 - PDF Splitter (PyPDF2)
 - QR Code Scanner (opencv-python-headless, Pillow, pyzbar)
 - PDF Merger (PyPDF2)
 - PDF Password Remover (PyPDF2)
 - PDF Password Protector (PyPDF2)
+- Video to Audio Extractor (ffmpeg-python)
 
 ## 🚀 Development
 
