@@ -844,51 +844,106 @@
                 <button class="close-btn" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Convert images to Base64 encoded strings for easy embedding in HTML, CSS, JSON, or any text-based format. Perfect for developers who need to inline images without external files.</p>
+                <h3>💡 What Does This Tool Do?</h3>
+                <p>
+                    The Image to Base64 Converter transforms your image files into Base64 encoded text strings that can be embedded directly into your code. This powerful tool supports all common image formats (PNG, JPG, GIF, WebP, SVG) and provides multiple output formats including Data URI, Plain Base64, HTML img tags, CSS background-image, and JSON format. Perfect for web developers, API developers, and anyone needing to inline images in text-based formats without external file dependencies. All processing happens entirely in your browser, ensuring complete privacy and security - your images never leave your device.
+                </p>
                 
                 <h3>✨ Key Features</h3>
                 <ul>
-                    <li>Support for all common image formats (PNG, JPG, GIF, WebP, SVG)</li>
-                    <li>Multiple output formats (Data URI, Plain Base64, HTML, CSS, JSON)</li>
-                    <li>Drag and drop support for easy uploading</li>
-                    <li>Real-time preview and file information</li>
-                    <li>One-click copy to clipboard</li>
-                    <li>Download Base64 as text file</li>
-                    <li>100% client-side processing (your images never leave your device)</li>
+                    <li><strong>📁 Universal Format Support:</strong> PNG, JPG, JPEG, GIF, WebP, SVG, BMP, and more</li>
+                    <li><strong>📋 Multiple Output Formats:</strong> Data URI, Plain Base64, HTML img tag, CSS background-image, JSON format</li>
+                    <li><strong>🎯 Drag & Drop:</strong> Easy file upload with drag-and-drop support</li>
+                    <li><strong>👁️ Real-time Preview:</strong> See your image and encoding info instantly</li>
+                    <li><strong>📊 File Information:</strong> View format, dimensions, original size, and Base64 size with increase percentage</li>
+                    <li><strong>📋 One-Click Copy:</strong> Copy Base64 string to clipboard instantly</li>
+                    <li><strong>💾 Download as Text:</strong> Save Base64 string as a .txt file for later use</li>
+                    <li><strong>🔒 100% Client-Side:</strong> All processing in your browser - no server upload, complete privacy</li>
+                    <li><strong>⚡ Instant Conversion:</strong> No upload time, immediate encoding</li>
+                    <li><strong>∞ No File Size Limits:</strong> Convert images of any size without restrictions</li>
                 </ul>
                 
                 <h3>🎯 Use Cases</h3>
                 <ul>
-                    <li><strong>Web Development:</strong> Embed small images directly in HTML/CSS</li>
-                    <li><strong>API Development:</strong> Include images in JSON responses</li>
-                    <li><strong>Email Templates:</strong> Inline images for better email compatibility</li>
-                    <li><strong>Data Storage:</strong> Store images in databases as text</li>
-                    <li><strong>Offline Apps:</strong> Reduce HTTP requests by inlining images</li>
+                    <li><strong>🌐 Web Development:</strong> Embed small icons, logos, and images directly in HTML/CSS to reduce HTTP requests</li>
+                    <li><strong>🔌 API Development:</strong> Include images in JSON responses for profile pictures, thumbnails, or icons</li>
+                    <li><strong>📧 Email Templates:</strong> Inline images for better email compatibility and faster rendering</li>
+                    <li><strong>💾 Database Storage:</strong> Store images as text in databases like MongoDB, PostgreSQL, or MySQL</li>
+                    <li><strong>📱 Offline Web Apps:</strong> Create fully offline applications by embedding all assets as Base64</li>
+                    <li><strong>🧪 Testing & Development:</strong> Quickly test image data in API calls or code snippets</li>
+                    <li><strong>📄 Documentation:</strong> Include images directly in Markdown, JSON config files, or documentation</li>
+                    <li><strong>⚛️ React/Vue Components:</strong> Inline small assets without importing external files</li>
+                    <li><strong>🔐 Security:</strong> Embed sensitive images that shouldn't be publicly accessible URLs</li>
                 </ul>
                 
-                <h3>🔒 Privacy & Security</h3>
+                <h3>📋 Output Format Options</h3>
                 <ul>
-                    <li>All processing happens in your browser</li>
-                    <li>No images are uploaded to any server</li>
-                    <li>No data collection or tracking</li>
-                    <li>Your files remain completely private</li>
+                    <li><strong>Data URI:</strong> Complete data URI with MIME type - <code>data:image/png;base64,iVBORw0KG...</code></li>
+                    <li><strong>Plain Base64:</strong> Raw Base64 string without prefix - <code>iVBORw0KG...</code></li>
+                    <li><strong>HTML:</strong> Ready-to-use HTML img tag - <code>&lt;img src="data:image/png;base64,..."&gt;</code></li>
+                    <li><strong>CSS:</strong> CSS background-image property - <code>background-image: url(data:image/png;base64,...);</code></li>
+                    <li><strong>JSON:</strong> JSON object format - <code>{"image": "data:image/png;base64,..."}</code></li>
                 </ul>
                 
                 <h3>📖 How to Use</h3>
                 <ul>
-                    <li><strong>Step 1:</strong> Click the upload area or drag and drop your image</li>
-                    <li><strong>Step 2:</strong> Select your preferred output format (Data URI, HTML, CSS, etc.)</li>
-                    <li><strong>Step 3:</strong> Copy the Base64 string or download as a text file</li>
-                    <li><strong>Step 4:</strong> Use the Base64 string in your project</li>
+                    <li><strong>Step 1:</strong> Click the upload area or drag and drop your image file into the designated zone</li>
+                    <li><strong>Step 2:</strong> View the real-time preview of your image along with file information (format, dimensions, sizes)</li>
+                    <li><strong>Step 3:</strong> Select your preferred output format from the dropdown (Data URI, Plain Base64, HTML, CSS, or JSON)</li>
+                    <li><strong>Step 4:</strong> Review the Base64 encoded string in the output area</li>
+                    <li><strong>Step 5:</strong> Click "Copy to Clipboard" to copy the Base64 string, or "Download as Text" to save it as a file</li>
+                    <li><strong>Step 6:</strong> Paste the Base64 string directly into your HTML, CSS, JavaScript, JSON, or database</li>
+                    <li><strong>Step 7:</strong> (Optional) Convert another image by clicking "Convert Another Image"</li>
                 </ul>
                 
-                <h3>⚠️ Important Notes</h3>
+                <h3>🔒 Privacy & Security</h3>
                 <ul>
-                    <li>Base64 encoding increases file size by approximately 33%</li>
-                    <li>Best for small images (icons, logos, thumbnails)</li>
-                    <li>Large images should use regular image files for better performance</li>
-                    <li>Maximum file size: 10MB</li>
+                    <li><strong>🌐 100% Browser-Based:</strong> All encoding happens locally in your browser using JavaScript</li>
+                    <li><strong>🚫 No Server Upload:</strong> Your images are never uploaded to any server or cloud service</li>
+                    <li><strong>🔐 Complete Privacy:</strong> No data collection, tracking, or storage of any kind</li>
+                    <li><strong>⚡ Offline Capable:</strong> Works without internet connection once the page is loaded</li>
+                    <li><strong>🔓 Open Source Approach:</strong> Uses standard browser APIs (FileReader) for encoding</li>
                 </ul>
+                
+                <h3>⚠️ Important Notes & Best Practices</h3>
+                <ul>
+                    <li><strong>📈 File Size Increase:</strong> Base64 encoding increases file size by approximately 33-37%</li>
+                    <li><strong>✅ Best For:</strong> Small images under 100KB (icons, logos, thumbnails, badges, UI elements)</li>
+                    <li><strong>❌ Avoid For:</strong> Large images, photos, or high-resolution graphics (use regular img src for those)</li>
+                    <li><strong>⚡ Performance:</strong> Too many large Base64 images can slow down page load and increase HTML size</li>
+                    <li><strong>📱 Mobile Optimization:</strong> Be mindful of mobile data usage with Base64-encoded images</li>
+                    <li><strong>🎨 SVG Optimization:</strong> For SVG files, consider using inline SVG instead of Base64 for better control</li>
+                </ul>
+                
+                <h3>❓ Frequently Asked Questions</h3>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: Why does my file size increase after Base64 encoding?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        Base64 encoding represents binary data (like images) using only text-safe ASCII characters. This conversion requires more characters to represent the same data, resulting in approximately 33-37% size increase. For example, a 100KB image becomes ~133KB in Base64 format.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: When should I use Base64 encoding for images?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        Use Base64 for small images (under 10-20KB) like icons, logos, or UI elements where you want to reduce HTTP requests, ensure inline display (emails), or need to embed images in JSON/API responses. For larger images, regular img src URLs are more efficient.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: Can I use Base64 images in all browsers?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        Yes! Base64 Data URIs are supported by all modern browsers (Chrome, Firefox, Safari, Edge) and have been for many years. They work in HTML img tags, CSS background-images, and even in email clients (though some email clients have size limits).
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: Is there a file size limit for conversion?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        No! Since all processing happens in your browser, there's no server-imposed file size limit. However, very large files (several MB) may take a moment to encode and could cause performance issues when embedded in HTML. We recommend keeping images under 1MB for Base64 conversion.
+                    </div>
+                </div>
             </div>
         </div>
     </div>

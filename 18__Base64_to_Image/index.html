@@ -652,34 +652,125 @@
                 <button class="close-btn" onclick="closeModal('aboutModal')">×</button>
             </div>
             <div class="modal-body">
-                <p>Decode Base64 encoded strings back to image files instantly. Perfect for developers working with Base64 image data in web applications, APIs, or databases.</p>
+                <h3>💡 What Does This Tool Do?</h3>
+                <p>
+                    The Base64 to Image Converter decodes Base64 encoded strings and transforms them back into downloadable image files instantly. This essential developer tool automatically detects image formats (PNG, JPG, GIF, WebP, BMP) and handles both raw Base64 strings and complete Data URI formats. Perfect for developers debugging API responses, extracting images from JSON data, converting database-stored Base64 images, or testing Base64 image data in web applications. Features live preview with image dimensions and file size, one-click download in original format, and 100% client-side processing for complete privacy - your Base64 data never leaves your device.
+                </p>
                 
                 <h3>✨ Key Features</h3>
                 <ul>
-                    <li>Support for all common image formats (PNG, JPG, GIF, WebP, BMP)</li>
-                    <li>Accepts both raw Base64 and data URI format</li>
-                    <li>Automatic image format detection</li>
-                    <li>Live preview with image dimensions and file size</li>
-                    <li>One-click download in original format</li>
-                    <li>100% client-side processing (your data never leaves your device)</li>
+                    <li><strong>📋 Flexible Input:</strong> Accepts both raw Base64 strings and complete Data URI format (data:image/png;base64,...)</li>
+                    <li><strong>🎯 Auto Format Detection:</strong> Automatically identifies image format (PNG, JPG, GIF, WebP, BMP, SVG)</li>
+                    <li><strong>👁️ Live Preview:</strong> Instant visual preview of the decoded image with full quality</li>
+                    <li><strong>📊 Image Information:</strong> Displays format, dimensions (width x height), and file size</li>
+                    <li><strong>💾 One-Click Download:</strong> Download decoded image in its original format with proper file extension</li>
+                    <li><strong>🔓 Decode Visualization:</strong> Clear transformation from text/code to visual image</li>
+                    <li><strong>🔒 100% Client-Side:</strong> All decoding happens in your browser - no server upload, complete privacy</li>
+                    <li><strong>⚡ Instant Decoding:</strong> Immediate conversion with no upload time or server processing</li>
+                    <li><strong>∞ No Size Limits:</strong> Decode Base64 strings of any length without restrictions</li>
+                    <li><strong>📱 Mobile Friendly:</strong> Works perfectly on smartphones and tablets</li>
                 </ul>
                 
                 <h3>🎯 Use Cases</h3>
                 <ul>
-                    <li>Debugging API responses with Base64 images</li>
-                    <li>Converting database-stored Base64 images to files</li>
-                    <li>Testing and validating Base64 image data</li>
-                    <li>Extracting images from JSON/API responses</li>
-                    <li>Converting embedded data URI images to downloadable files</li>
+                    <li><strong>🐛 API Debugging:</strong> Quickly view Base64-encoded images returned from API responses</li>
+                    <li><strong>💾 Database Extraction:</strong> Convert Base64 images stored in MongoDB, PostgreSQL, or MySQL to files</li>
+                    <li><strong>🧪 Testing & Validation:</strong> Verify Base64 image data is valid and renders correctly</li>
+                    <li><strong>📄 JSON Parsing:</strong> Extract embedded images from JSON/API responses or configuration files</li>
+                    <li><strong>📧 Email Processing:</strong> Extract inline Base64 images from email HTML sources</li>
+                    <li><strong>🔍 Data URI Conversion:</strong> Transform data URI images to downloadable PNG/JPG files</li>
+                    <li><strong>📱 Web Scraping:</strong> Extract Base64-encoded images from web pages or HTML content</li>
+                    <li><strong>🔐 Security Analysis:</strong> Decode and inspect Base64 image data for security audits</li>
+                    <li><strong>📊 Data Migration:</strong> Batch convert Base64 images when migrating systems or databases</li>
                 </ul>
                 
-                <h3>💡 How to Use</h3>
-                <ol>
-                    <li>Paste your Base64 string (with or without <code>data:image/...</code> prefix)</li>
-                    <li>Click "Decode to Image"</li>
-                    <li>Preview the decoded image</li>
-                    <li>Download the image file in its original format</li>
-                </ol>
+                <h3>📋 Supported Input Formats</h3>
+                <ul>
+                    <li><strong>Raw Base64:</strong> Plain Base64 string - <code>iVBORw0KGgoAAAANSUhEUgAA...</code></li>
+                    <li><strong>Data URI (PNG):</strong> <code>data:image/png;base64,iVBORw0KG...</code></li>
+                    <li><strong>Data URI (JPEG):</strong> <code>data:image/jpeg;base64,/9j/4AAQSkZJ...</code></li>
+                    <li><strong>Data URI (GIF):</strong> <code>data:image/gif;base64,R0lGODlhAQ...</code></li>
+                    <li><strong>Data URI (WebP):</strong> <code>data:image/webp;base64,UklGRi...</code></li>
+                    <li><strong>Data URI (BMP):</strong> <code>data:image/bmp;base64,Qk02AAAA...</code></li>
+                </ul>
+                
+                <h3>🖼️ Supported Output Formats</h3>
+                <ul>
+                    <li><strong>PNG:</strong> Lossless format, perfect for graphics, logos, and screenshots</li>
+                    <li><strong>JPEG/JPG:</strong> Compressed format, best for photographs and complex images</li>
+                    <li><strong>GIF:</strong> Animated or static images with limited color palette</li>
+                    <li><strong>WebP:</strong> Modern format with excellent compression and quality</li>
+                    <li><strong>BMP:</strong> Uncompressed bitmap format</li>
+                    <li><strong>SVG:</strong> Vector graphics format (if Base64 encodes SVG XML)</li>
+                </ul>
+                
+                <h3>📖 How to Use</h3>
+                <ul>
+                    <li><strong>Step 1:</strong> Copy your Base64 encoded string from your API response, database, or JSON file</li>
+                    <li><strong>Step 2:</strong> Paste the Base64 string into the large text input area (accepts both raw Base64 and Data URI format)</li>
+                    <li><strong>Step 3:</strong> Click the "Decode to Image" button to process the Base64 string</li>
+                    <li><strong>Step 4:</strong> View the instant live preview of your decoded image</li>
+                    <li><strong>Step 5:</strong> Check the image information displayed (format, dimensions, file size)</li>
+                    <li><strong>Step 6:</strong> Click "Download Image" to save the decoded image file to your device</li>
+                    <li><strong>Step 7:</strong> The file will download with the correct extension based on detected format</li>
+                    <li><strong>Step 8:</strong> (Optional) Decode another image by pasting new Base64 data</li>
+                </ul>
+                
+                <h3>🔒 Privacy & Security</h3>
+                <ul>
+                    <li><strong>🌐 100% Browser-Based:</strong> All decoding happens locally in your browser using JavaScript</li>
+                    <li><strong>🚫 No Data Upload:</strong> Your Base64 strings are never sent to any server or cloud service</li>
+                    <li><strong>🔐 Complete Privacy:</strong> No tracking, analytics, or data collection of any kind</li>
+                    <li><strong>⚡ Offline Capable:</strong> Works without internet connection once the page is loaded</li>
+                    <li><strong>🔓 Open Standard:</strong> Uses standard browser APIs (atob, Blob, FileReader) for decoding</li>
+                    <li><strong>🛡️ Safe Processing:</strong> No external dependencies or third-party libraries that could compromise security</li>
+                </ul>
+                
+                <h3>⚠️ Important Notes & Tips</h3>
+                <ul>
+                    <li><strong>📋 Data URI Prefix:</strong> If your Base64 has a <code>data:image/...</code> prefix, it will be automatically stripped</li>
+                    <li><strong>✅ Format Detection:</strong> The tool automatically detects image format from Base64 header or Data URI MIME type</li>
+                    <li><strong>🔍 Validation:</strong> If decoding fails, check that your Base64 string is complete and not truncated</li>
+                    <li><strong>📏 String Length:</strong> Very long Base64 strings (several MB of image data) may take a moment to decode</li>
+                    <li><strong>🎨 Image Quality:</strong> Decoded images retain 100% of original quality - no compression or loss</li>
+                </ul>
+                
+                <h3>❓ Frequently Asked Questions</h3>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: What's the difference between raw Base64 and Data URI format?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        Raw Base64 is just the encoded string (like "iVBORw0KG..."), while Data URI includes the format prefix (like "data:image/png;base64,iVBORw0KG..."). Our tool handles both automatically! Data URI is commonly used in HTML/CSS, while raw Base64 is often found in JSON or databases.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: How do I know what format my decoded image is?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        The tool automatically detects and displays the image format! If you provided a Data URI, it reads the MIME type (data:image/png). For raw Base64, it analyzes the binary header to identify the format (PNG, JPG, GIF, etc.). The detected format is shown in the image information section.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: Can I decode multiple images at once?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        Currently, the tool decodes one Base64 string at a time for simplicity and accuracy. However, you can quickly decode multiple images by simply pasting a new Base64 string after downloading each decoded image. The process is very fast since everything happens locally in your browser.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: Why did my decoding fail?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        Common reasons include: incomplete/truncated Base64 string, invalid characters in the string, or the string doesn't represent an image. Make sure you copied the entire Base64 string including any prefix. If copied from JSON, ensure you removed quotes and escape characters (\).
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--primary);">Q: Is there a size limit for Base64 strings?</div>
+                    <div style="color: var(--text-muted); line-height: 1.6;">
+                        No server-imposed limit! Since decoding happens in your browser, you can decode Base64 strings of any length. However, extremely large strings (representing very large images) may take a moment to process depending on your device's performance.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
