@@ -324,6 +324,30 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 20. 🗜️ PDF Compressor
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/PDF+Compressor.png" alt="PDF Compressor" width="400"/>
+
+**URL:** https://toolstudio.in/tools/20/pdf-compressor  
+**Description:** Reduce PDF file size online with powerful compression while maintaining optimal quality. Perfect for reducing file sizes before emailing, uploading to websites, or saving storage space.
+
+**Features:**
+- 🎯 Three compression quality levels (Maximum, Balanced, High Quality)
+- 📊 Optimized content stream compression
+- ⚖️ Smart balance between size and quality
+- 🎨 Maximum compression for smallest file size
+- ✨ High quality mode with minimal quality loss
+- 🎯 Drag & drop file upload
+- ⚡ Instant compression processing
+- 💾 Download compressed PDF
+- 🔒 Secure server-side processing
+- 🗑️ Automatic file cleanup (privacy-first)
+- 📈 File size reduction visualization
+- 🎨 Dark & Light themes
+- ♾️ No file size limits
+- 🆓 Free unlimited use
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -380,6 +404,10 @@ tools/
 │   ├── index.html
 │   ├── main.py
 │   └── requirements.txt
+├── 20__PDF_Compressor/
+│   ├── index.html
+│   ├── main.py
+│   └── requirements.txt
 └── README.md (this file)
 ```
 
@@ -409,6 +437,7 @@ These tools require server-side processing for PDF/image/video manipulation:
 - PDF Password Remover (PyPDF2)
 - PDF Password Protector (PyPDF2)
 - Video to Audio Extractor (ffmpeg-python)
+- PDF Compressor (PyPDF2, Pillow)
 
 ## 🚀 Development
 
