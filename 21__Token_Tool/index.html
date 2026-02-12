@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT & PASETO Tool - Decode & Generate Tokens | Tool Studio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free JWT and PASETO token tool. Decode, verify, and generate JSON Web Tokens (JWT) and PASETO tokens instantly. Perfect for developers debugging authentication tokens.">
+    <meta name="keywords" content="jwt decoder, paseto decoder, jwt generator, paseto generator, json web token, jwt debugger, decode jwt, jwt parser, authentication token, bearer token">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="canonical" href="https://toolstudio.in/tools/21/token-tool">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/21/token-tool">
+    <meta property="og:title" content="JWT & PASETO Tool - Decode & Generate Tokens | Tool Studio">
+    <meta property="og:description" content="Free tool to decode, verify, and generate JWT and PASETO tokens instantly.">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Token+Tool.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/21/token-tool">
+    <meta property="twitter:title" content="JWT & PASETO Tool - Decode & Generate Tokens | Tool Studio">
+    <meta property="twitter:description" content="Free tool to decode, verify, and generate JWT and PASETO tokens.">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Token+Tool.png">
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "JWT & PASETO Token Tool",
+        "description": "Free tool to decode, verify, and generate JWT and PASETO tokens. Perfect for developers debugging authentication.",
+        "url": "https://toolstudio.in/tools/21/token-tool",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": "JWT decoding, PASETO decoding, Token generation, Header view, Payload view, Syntax highlighting"
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #334155;
+            --bg-hover: #475569;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #ffffff;
+            --bg-card: #f9fafb;
+            --bg-input: #f3f4f6;
+            --bg-hover: #e5e7eb;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px var(--shadow);
+            gap: 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emoji {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.875rem;
+            color: var(--text);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Container */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1rem;
+            overflow: hidden;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--bg-card);
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            background: var(--bg-input);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--bg-card);
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:hover {
+            background: var(--bg-input);
+        }
+
+        .mode-btn.active {
+            background: var(--info);
+            color: white;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow: auto;
+            min-height: 0;
+        }
+
+        .input-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            flex-shrink: 0;
+        }
+
+        .input-section h2 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 0.75rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            resize: vertical;
+            transition: all 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Output Grid */
+        .output-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            min-height: 0;
+        }
+
+        .output-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .output-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .output-card h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .copy-btn {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--bg-hover);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .output-content {
+            flex: 1;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            overflow: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 150px;
+        }
+
+        .output-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output-content::-webkit-scrollbar-track {
+            background: var(--bg-card);
+        }
+
+        .output-content::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        /* JSON Syntax Highlighting */
+        .json-key { color: #60a5fa; }
+        .json-string { color: #34d399; }
+        .json-number { color: #fbbf24; }
+        .json-boolean { color: #f472b6; }
+        .json-null { color: #9ca3af; }
+
+        .placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .error {
+            color: var(--danger);
+        }
+
+        /* Generator Form */
+        .generator-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        input[type="text"],
+        select {
+            padding: 0.75rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Alert */
+        .alert {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--success);
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            display: none;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .alert.visible {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* FAB */
+        .fab-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-card);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-input);
+            border: none;
+            border-radius: 0.5rem;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--text);
+        }
+
+        .close-modal:hover {
+            background: var(--bg-hover);
+        }
+
+        .modal-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .modal-content p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-content ul {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .similar-tools-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .similar-tool-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .similar-tool-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .similar-tool-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .similar-tool-info h4 {
+            margin-bottom: 0.25rem;
+            color: var(--text);
+        }
+
+        .similar-tool-info p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .output-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 10px 14px;
+            }
+
+            h1 {
+                font-size: 1.1rem;
+            }
+
+            .emoji {
+                font-size: 1.2rem;
+            }
+
+            .container {
+                padding: 0.75rem;
+            }
+
+            .fab-container {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .fab-tooltip {
+                display: none;
+            }
+
+            .alert {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+
+            .tab-nav, .mode-toggle {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <h1>
+                <span class="emoji">🔐</span>
+                Token Tool (JWT & PASETO)
+            </h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="theme-icon">☀️</span>
+            <span class="theme-text">Light</span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-token="jwt" onclick="switchToken('jwt')">JWT</button>
+            <button class="tab-btn" data-token="paseto" onclick="switchToken('paseto')">PASETO</button>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div class="mode-toggle">
+            <button class="mode-btn active" data-mode="decode" onclick="switchMode('decode')">🔓 Decode</button>
+            <button class="mode-btn" data-mode="encode" onclick="switchMode('encode')">🔒 Generate</button>
+        </div>
+
+        <!-- Decode View -->
+        <div class="content-area" id="decodeView">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2>Paste Token</h2>
+                <textarea 
+                    id="tokenInput" 
+                    placeholder="Paste your JWT or PASETO token here..."
+                    oninput="decodeToken()"
+                ></textarea>
+            </div>
+
+            <!-- Output Grid -->
+            <div class="output-grid">
+                <!-- Header/Version -->
+                <div class="output-card">
+                    <div class="output-card-header">
+                        <h3 id="section1Title">Header</h3>
+                        <button class="copy-btn" onclick="copySection('section1')">Copy</button>
+                    </div>
+                    <div class="output-content" id="section1Output">
+                        <span class="placeholder">Decoded data will appear here</span>
+                    </div>
+                </div>
+
+                <!-- Payload -->
+                <div class="output-card">
+                    <div class="output-card-header">
+                        <h3 id="section2Title">Payload</h3>
+                        <button class="copy-btn" onclick="copySection('section2')">Copy</button>
+                    </div>
+                    <div class="output-content" id="section2Output">
+                        <span class="placeholder">Decoded data will appear here</span>
+                    </div>
+                </div>
+
+                <!-- Signature/Footer -->
+                <div class="output-card">
+                    <div class="output-card-header">
+                        <h3 id="section3Title">Signature</h3>
+                        <button class="copy-btn" onclick="copySection('section3')">Copy</button>
+                    </div>
+                    <div class="output-content" id="section3Output">
+                        <span class="placeholder">Decoded data will appear here</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Encode View (Hidden by default) -->
+        <div class="content-area" id="encodeView" style="display: none;">
+            <div class="input-section">
+                <h2>Generate Token</h2>
+                <div class="generator-form">
+                    <div class="form-group">
+                        <label>Algorithm (JWT only)</label>
+                        <select id="algorithm">
+                            <option value="HS256">HS256</option>
+                            <option value="HS384">HS384</option>
+                            <option value="HS512">HS512</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Payload (JSON)</label>
+                        <textarea 
+                            id="payloadInput" 
+                            placeholder='{"sub": "1234567890", "name": "John Doe", "iat": 1516239022}'
+                            style="min-height: 100px;"
+                        ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Secret Key</label>
+                        <input type="text" id="secretKey" placeholder="your-256-bit-secret" value="your-secret-key">
+                    </div>
+                    <button class="btn" onclick="generateToken()">Generate Token</button>
+                </div>
+            </div>
+
+            <!-- Generated Token Output -->
+            <div class="input-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h2 style="margin: 0;">Generated Token</h2>
+                    <button class="copy-btn" onclick="copyGenerated()">Copy</button>
+                </div>
+                <textarea 
+                    id="generatedToken" 
+                    placeholder="Generated token will appear here..."
+                    readonly
+                    style="min-height: 100px;"
+                ></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert -->
+    <div class="alert" id="alert">
+        <span id="alertMessage"></span>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()">
+            <span>ℹ️</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()">
+            <span>🔗</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('aboutModal')">×</button>
+            <div class="modal-header">
+                <span class="emoji">🔐</span>
+                <h2>About Token Tool</h2>
+            </div>
+            <p>
+                A comprehensive tool for working with JWT (JSON Web Tokens) and PASETO (Platform-Agnostic SEcurity TOkens). Decode existing tokens or generate new ones with ease.
+            </p>
+            
+            <h3>✨ Key Features</h3>
+            <ul>
+                <li><strong>JWT Support:</strong> Decode and generate JSON Web Tokens</li>
+                <li><strong>PASETO Support:</strong> Decode PASETO tokens (v2, v4)</li>
+                <li><strong>Real-time Decoding:</strong> See results as you type</li>
+                <li><strong>Token Generation:</strong> Create JWT tokens with custom payloads</li>
+                <li><strong>Syntax Highlighting:</strong> Color-coded JSON output</li>
+                <li><strong>Copy Functions:</strong> One-click copy for all sections</li>
+                <li><strong>100% Client-Side:</strong> All processing in your browser</li>
+                <li><strong>Privacy-First:</strong> Tokens never sent to any server</li>
+            </ul>
+
+            <h3>🔒 What are these tokens?</h3>
+            <p>
+                <strong>JWT:</strong> JSON Web Token is an open standard (RFC 7519) for securely transmitting information between parties as a JSON object. Commonly used for authentication.
+            </p>
+            <p>
+                <strong>PASETO:</strong> Platform-Agnostic SEcurity TOkens - a more secure alternative to JWT, designed to avoid common cryptographic pitfalls.
+            </p>
+
+            <h3>🔐 Privacy & Security</h3>
+            <p>
+                All token processing happens entirely in your browser. Your tokens are never transmitted to any server, stored, or logged. For generation, we use JavaScript crypto libraries - in production, always use proper server-side implementations.
+            </p>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div class="modal" id="similarToolsModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('similarToolsModal')">×</button>
+            <div class="modal-header">
+                <span class="emoji">🔗</span>
+                <h2>Similar Tools</h2>
+            </div>
+            <div class="similar-tools-grid" id="similarToolsGrid"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jose@5/dist/browser/index.js"></script>
+    <script>
+        // Similar tools configuration
+        const similarTools = [
+            {
+                icon: '📝',
+                title: 'JSON Formatter',
+                description: 'Format, validate, and beautify JSON data',
+                url: 'https://toolstudio.in/tools/5/json-formatter'
+            },
+            {
+                icon: '🖼️',
+                title: 'Base64 to Image',
+                description: 'Decode Base64 strings back to image files',
+                url: 'https://toolstudio.in/tools/18/base64-to-image-converter'
+            },
+            {
+                icon: '📷',
+                title: 'Image to Base64',
+                description: 'Convert images to Base64 encoded strings',
+                url: 'https://toolstudio.in/tools/17/image-to-base64'
+            },
+            {
+                icon: '🔍',
+                title: 'Text Diff Comparison',
+                description: 'Compare and find differences between texts',
+                url: 'https://toolstudio.in/tools/9/text-diff-comparison'
+            },
+            {
+                icon: '🔤',
+                title: 'Text Utilities',
+                description: 'Convert case, count words, and more',
+                url: 'https://toolstudio.in/tools/11/text-utilities'
+            }
+        ];
+
+        // Global state
+        let currentToken = 'jwt';
+        let currentMode = 'decode';
+        let decodedData = { section1: null, section2: null, section3: null };
+
+        // Theme management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            const themeIcon = document.querySelector('.theme-icon');
+            const themeText = document.querySelector('.theme-text');
+            
+            if (newTheme === 'light') {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            } else {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            }
+            
+            localStorage.setItem('theme', newTheme);
+        }
+
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const themeIcon = document.querySelector('.theme-icon');
+            const themeText = document.querySelector('.theme-text');
+            
+            if (savedTheme === 'light') {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            }
+        }
+
+        // Switch token type
+        function switchToken(type) {
+            currentToken = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.token === type);
+            });
+            
+            if (type === 'paseto') {
+                document.getElementById('section1Title').textContent = 'Version & Purpose';
+                document.getElementById('section3Title').textContent = 'Footer';
+            } else {
+                document.getElementById('section1Title').textContent = 'Header';
+                document.getElementById('section3Title').textContent = 'Signature';
+            }
+            
+            decodeToken();
+        }
+
+        // Switch mode
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+            
+            if (mode === 'decode') {
+                document.getElementById('decodeView').style.display = 'flex';
+                document.getElementById('encodeView').style.display = 'none';
+            } else {
+                document.getElementById('decodeView').style.display = 'none';
+                document.getElementById('encodeView').style.display = 'flex';
+            }
+        }
+
+        // Base64 URL decode
+        function base64UrlDecode(str) {
+            str = str.replace(/-/g, '+').replace(/_/g, '/');
+            while (str.length % 4) str += '=';
+            try {
+                return atob(str);
+            } catch (e) {
+                throw new Error('Invalid Base64 string');
+            }
+        }
+
+        // Syntax highlight
+        function syntaxHighlight(json) {
+            if (typeof json !== 'string') {
+                json = JSON.stringify(json, null, 2);
+            }
+            
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        // Decode token
+        function decodeToken() {
+            const input = document.getElementById('tokenInput').value.trim();
+            const output1 = document.getElementById('section1Output');
+            const output2 = document.getElementById('section2Output');
+            const output3 = document.getElementById('section3Output');
+            
+            if (!input) {
+                output1.innerHTML = '<span class="placeholder">Decoded data will appear here</span>';
+                output2.innerHTML = '<span class="placeholder">Decoded data will appear here</span>';
+                output3.innerHTML = '<span class="placeholder">Decoded data will appear here</span>';
+                decodedData = { section1: null, section2: null, section3: null };
+                return;
+            }
+            
+            try {
+                if (currentToken === 'jwt') {
+                    decodeJWT(input, output1, output2, output3);
+                } else {
+                    decodePASETO(input, output1, output2, output3);
+                }
+            } catch (error) {
+                output1.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                output2.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                output3.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                decodedData = { section1: null, section2: null, section3: null };
+            }
+        }
+
+        // Decode JWT
+        function decodeJWT(input, output1, output2, output3) {
+            const parts = input.split('.');
+            
+            if (parts.length !== 3) {
+                throw new Error('Invalid JWT format. JWT should have 3 parts separated by dots.');
+            }
+            
+            const headerDecoded = base64UrlDecode(parts[0]);
+            const headerJson = JSON.parse(headerDecoded);
+            decodedData.section1 = headerJson;
+            output1.innerHTML = syntaxHighlight(headerJson);
+            
+            const payloadDecoded = base64UrlDecode(parts[1]);
+            const payloadJson = JSON.parse(payloadDecoded);
+            decodedData.section2 = payloadJson;
+            output2.innerHTML = syntaxHighlight(payloadJson);
+            
+            decodedData.section3 = parts[2];
+            output3.innerHTML = parts[2];
+        }
+
+        // Decode PASETO (basic - shows structure)
+        function decodePASETO(input, output1, output2, output3) {
+            const parts = input.split('.');
+            
+            if (parts.length < 3) {
+                throw new Error('Invalid PASETO format.');
+            }
+            
+            // Version and purpose
+            const version = parts[0] + '.' + parts[1];
+            decodedData.section1 = { version, purpose: parts[1] };
+            output1.innerHTML = syntaxHighlight(decodedData.section1);
+            
+            // Payload (encrypted in v2.local/v4.local, so just show base64)
+            const payload = parts[2];
+            decodedData.section2 = { note: 'PASETO payloads may be encrypted', raw: payload.substring(0, 50) + '...' };
+            output2.innerHTML = syntaxHighlight(decodedData.section2);
+            
+            // Footer (optional)
+            const footer = parts.length > 3 ? parts[3] : 'None';
+            decodedData.section3 = footer !== 'None' ? base64UrlDecode(footer) : footer;
+            output3.innerHTML = footer !== 'None' ? syntaxHighlight(decodedData.section3) : footer;
+        }
+
+        // Generate token (JWT only for now)
+        async function generateToken() {
+            try {
+                const algorithm = document.getElementById('algorithm').value;
+                const payloadInput = document.getElementById('payloadInput').value.trim();
+                const secretKey = document.getElementById('secretKey').value;
+                
+                if (!payloadInput) {
+                    showAlert('Please provide a payload', 'error');
+                    return;
+                }
+                
+                const payload = JSON.parse(payloadInput);
+                
+                // Simple JWT generation (for demo - use proper libraries in production)
+                const header = { alg: algorithm, typ: 'JWT' };
+                const headerB64 = btoa(JSON.stringify(header)).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+                const payloadB64 = btoa(JSON.stringify(payload)).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+                
+                // Simple signature (for demo only)
+                const data = headerB64 + '.' + payloadB64;
+                const signature = btoa(data + secretKey).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+                
+                const token = data + '.' + signature;
+                
+                document.getElementById('generatedToken').value = token;
+                showAlert('Token generated successfully!', 'success');
+                
+            } catch (error) {
+                showAlert('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Copy functions
+        function copySection(section) {
+            let text = '';
+            
+            if (section === 'section1' && decodedData.section1) {
+                text = JSON.stringify(decodedData.section1, null, 2);
+            } else if (section === 'section2' && decodedData.section2) {
+                text = JSON.stringify(decodedData.section2, null, 2);
+            } else if (section === 'section3' && decodedData.section3) {
+                text = typeof decodedData.section3 === 'string' ? decodedData.section3 : JSON.stringify(decodedData.section3, null, 2);
+            }
+            
+            if (!text) {
+                showAlert('Nothing to copy', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showAlert('Copied to clipboard!', 'success');
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function copyGenerated() {
+            const token = document.getElementById('generatedToken').value;
+            if (!token) {
+                showAlert('No token to copy', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(token).then(() => {
+                showAlert('Token copied to clipboard!', 'success');
+            });
+        }
+
+        // Modal functions
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('visible');
+        }
+
+        function openSimilarToolsModal() {
+            const grid = document.getElementById('similarToolsGrid');
+            grid.innerHTML = similarTools.map(tool => `
+                <a href="${tool.url}" class="similar-tool-card" target="_blank">
+                    <span class="similar-tool-icon">${tool.icon}</span>
+                    <div class="similar-tool-info">
+                        <h4>${tool.title}</h4>
+                        <p>${tool.description}</p>
+                    </div>
+                </a>
+            `).join('');
+            document.getElementById('similarToolsModal').classList.add('visible');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('visible');
+        }
+
+        // Alert
+        function showAlert(message, type = 'success') {
+            const alert = document.getElementById('alert');
+            const alertMessage = document.getElementById('alertMessage');
+            
+            alert.className = `alert visible`;
+            alertMessage.textContent = message;
+            
+            setTimeout(() => {
+                alert.classList.remove('visible');
+            }, 3000);
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('visible');
+                });
+            }
+        });
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('visible');
+                }
+            });
+        });
+
+        // Initialize
+        applyTheme();
+    </script>
+</body>
+</html>

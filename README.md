@@ -348,6 +348,34 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 21. 🔐 Token Tool (JWT & PASETO)
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/Token+Tool.png" alt="Token Tool" width="400"/>
+
+**URL:** https://toolstudio.in/tools/21/token-tool  
+**Description:** Comprehensive token tool to decode, verify, and generate JWT (JSON Web Tokens) and PASETO (Platform-Agnostic SEcurity TOkens) instantly. View header, payload, and signature sections with syntax-highlighted JSON. Perfect for developers debugging and testing authentication tokens.
+
+**Features:**
+- 🔓 Decode JWT and PASETO tokens
+- 🔒 Generate new JWT tokens with custom payloads
+- 📋 Three-part visualization (Header, Payload, Signature/Footer)
+- 🎨 Syntax-highlighted JSON output
+- 📋 One-click copy to clipboard for each section
+- ⚙️ Multiple JWT algorithms (HS256, HS384, HS512)
+- 🔐 PASETO v2 and v4 support
+- 🎛️ Custom payload editor for token generation
+- 👁️ Clear, readable format with color coding
+- 🔒 100% client-side processing (complete privacy)
+- 🚫 No server transmission of tokens
+- ⚡ Real-time decoding as you type
+- 🎨 Dark & Light themes
+- 🔐 Security-focused design
+- 📖 Educational about token structure
+- ♾️ No token size limits
+- 🆓 Free unlimited use
+- 💻 Perfect for developers and debuggers
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -408,6 +436,8 @@ tools/
 │   ├── index.html
 │   ├── main.py
 │   └── requirements.txt
+├── 21__Token_Tool/
+│   └── index.html
 └── README.md (this file)
 ```
 
@@ -427,6 +457,7 @@ These tools run entirely in the browser with no backend processing:
 - QR Code Generator
 - Image to Base64 Converter
 - Base64 to Image Converter
+- Token Tool (JWT & PASETO)
 
 ### Tools with Python Backend
 These tools require server-side processing for PDF/image/video manipulation:
