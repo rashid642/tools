@@ -1,20 +1,18 @@
 """
 PDF Compressor Backend
-Compresses PDF files by optimizing content streams and reducing image quality
+Compresses PDF files using Ghostscript for optimal compression
 """
 
 from fastapi import Request
 from fastapi.responses import FileResponse, JSONResponse
-from PyPDF2 import PdfReader, PdfWriter
-from PIL import Image
 import tempfile
 import os
-import io
+import subprocess
 
 
 async def execute(request: Request):
     """
-    Compress a PDF file
+    Compress a PDF file using Ghostscript
     
     Expected form data:
     - file: PDF file to compress
@@ -44,48 +42,66 @@ async def execute(request: Request):
             input_path = tmp_input.name
         
         try:
-            # Read the PDF
-            reader = PdfReader(input_path)
-            writer = PdfWriter()
-            
-            if len(reader.pages) == 0:
-                cleanup_files(input_path)
-                return JSONResponse(
-                    {"error": "PDF file has no pages"},
-                    status_code=400
-                )
-            
-            # Compression settings based on quality
-            compression_settings = {
-                'low': {'image_quality': 30, 'scale': 0.5},
-                'medium': {'image_quality': 60, 'scale': 0.7},
-                'high': {'image_quality': 85, 'scale': 0.9}
+            # Quality settings for Ghostscript
+            # Using PDFSETTINGS for different compression levels
+            quality_settings = {
+                'low': '/screen',      # Lowest quality, smallest size (72 dpi)
+                'medium': '/ebook',    # Medium quality (150 dpi)
+                'high': '/printer'     # High quality (300 dpi)
             }
             
-            settings = compression_settings.get(quality, compression_settings['medium'])
-            print(f"[PDF Compressor] Using quality: {quality}, settings: {settings}")
+            pdf_setting = quality_settings.get(quality, '/ebook')
+            print(f"[PDF Compressor] Using quality: {quality} (Ghostscript setting: {pdf_setting})")
             
-            # Process each page
-            for page_num, page in enumerate(reader.pages):
-                print(f"[PDF Compressor] Processing page {page_num + 1}/{len(reader.pages)}")
-                
-                # Compress page content
-                page.compress_content_streams()
-                
-                # Add to writer
-                writer.add_page(page)
-            
-            # Apply additional compression
-            for page in writer.pages:
-                page.compress_content_streams()
-            
-            # Create output file
+            # Create output file path
             with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_output:
                 output_path = tmp_output.name
             
-            # Write compressed PDF
-            with open(output_path, 'wb') as output_file:
-                writer.write(output_file)
+            # Ghostscript compression command
+            # Using optimal settings for compression while preserving content
+            gs_command = [
+                'gs',
+                '-sDEVICE=pdfwrite',
+                '-dCompatibilityLevel=1.4',
+                f'-dPDFSETTINGS={pdf_setting}',
+                '-dNOPAUSE',
+                '-dQUIET',
+                '-dBATCH',
+                '-dDetectDuplicateImages=true',
+                '-dCompressFonts=true',
+                '-dCompressPages=true',
+                '-dDownsampleColorImages=true',
+                '-dDownsampleGrayImages=true',
+                '-dDownsampleMonoImages=true',
+                f'-sOutputFile={output_path}',
+                input_path
+            ]
+            
+            print(f"[PDF Compressor] Running Ghostscript compression...")
+            
+            # Run Ghostscript
+            result = subprocess.run(
+                gs_command,
+                capture_output=True,
+                text=True,
+                timeout=60
+            )
+            
+            if result.returncode != 0:
+                print(f"[PDF Compressor] Ghostscript error: {result.stderr}")
+                cleanup_files(input_path, output_path)
+                return JSONResponse(
+                    {"error": "Failed to compress PDF. Please try again."},
+                    status_code=500
+                )
+            
+            # Check if output file was created and has content
+            if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
+                cleanup_files(input_path, output_path)
+                return JSONResponse(
+                    {"error": "Compression failed. Output file is empty."},
+                    status_code=500
+                )
             
             # Get file sizes
             input_size = os.path.getsize(input_path)
@@ -105,8 +121,20 @@ async def execute(request: Request):
                 background=lambda: cleanup_files(output_path)
             )
             
-        except Exception as e:
+        except subprocess.TimeoutExpired:
+            cleanup_files(input_path, output_path if 'output_path' in locals() else None)
+            return JSONResponse(
+                {"error": "Compression timed out. File may be too large."},
+                status_code=500
+            )
+        except FileNotFoundError:
             cleanup_files(input_path)
+            return JSONResponse(
+                {"error": "Ghostscript not installed on server. Please contact administrator."},
+                status_code=500
+            )
+        except Exception as e:
+            cleanup_files(input_path, output_path if 'output_path' in locals() else None)
             raise e
             
     except Exception as e:

@@ -437,7 +437,7 @@ These tools require server-side processing for PDF/image/video manipulation:
 - PDF Password Remover (PyPDF2)
 - PDF Password Protector (PyPDF2)
 - Video to Audio Extractor (ffmpeg-python)
-- PDF Compressor (PyPDF2, Pillow)
+- PDF Compressor (Ghostscript)
 
 ## 🚀 Development
 
