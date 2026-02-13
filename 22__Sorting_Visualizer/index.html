@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Visualizer | Tool Studio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free interactive sorting algorithm visualizer. Watch and learn how Bubble Sort, Quick Sort, Merge Sort, and more work in real-time with step-by-step animations.">
+    <meta name="keywords" content="sorting visualizer, algorithm visualizer, bubble sort, quick sort, merge sort, insertion sort, selection sort, heap sort, sorting algorithms, learn algorithms, data structures">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="canonical" href="https://toolstudio.in/tools/22/sorting-visualizer">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/22/sorting-visualizer">
+    <meta property="og:title" content="Sorting Algorithm Visualizer | Tool Studio">
+    <meta property="og:description" content="Watch sorting algorithms come to life with interactive visualizations.">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+22+sorting+visualizer.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/22/sorting-visualizer">
+    <meta property="twitter:title" content="Sorting Algorithm Visualizer | Tool Studio">
+    <meta property="twitter:description" content="Watch sorting algorithms come to life with interactive visualizations.">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+22+sorting+visualizer.png">
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Sorting Algorithm Visualizer",
+        "description": "Interactive tool to visualize and learn sorting algorithms including Bubble Sort, Quick Sort, Merge Sort, and more.",
+        "url": "https://toolstudio.in/tools/22/sorting-visualizer",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": "Multiple algorithms, Speed control, Array size control, Real-time statistics, Educational tool"
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #334155;
+            --bg-hover: #475569;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --comparing: #facc15;
+            --swapping: #ef4444;
+            --sorted: #10b981;
+            --pivot: #f97316;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #ffffff;
+            --bg-card: #f9fafb;
+            --bg-input: #f3f4f6;
+            --bg-hover: #e5e7eb;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px var(--shadow);
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emoji {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .theme-toggle, .about-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.875rem;
+            color: var(--text);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover, .about-btn:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Container */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        select, input[type="range"] {
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 150px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        input[type="range"] {
+            min-width: 120px;
+        }
+
+        .range-value {
+            font-size: 0.875rem;
+            color: var(--text);
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.625rem 1.25rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        button.secondary:hover:not(:disabled) {
+            background: var(--bg-hover);
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        button.danger:hover:not(:disabled) {
+            background: #dc2626;
+        }
+
+        /* Stats Panel */
+        .stats-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-value.highlight {
+            color: var(--primary);
+        }
+
+        /* Visualization Area */
+        .visualization-area {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            min-height: 300px;
+        }
+
+        .array-bar {
+            background: var(--primary);
+            border-radius: 2px 2px 0 0;
+            transition: all 0.1s ease;
+            position: relative;
+            min-width: 2px;
+        }
+
+        .array-bar.comparing {
+            background: var(--comparing);
+        }
+
+        .array-bar.swapping {
+            background: var(--swapping);
+        }
+
+        .array-bar.sorted {
+            background: var(--sorted);
+        }
+
+        .array-bar.pivot {
+            background: var(--pivot);
+        }
+
+        /* Legend */
+        .legend {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            z-index: 1;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 0;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .modal-body h3 {
+            font-size: 1.125rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        .modal-body ul, .modal-body ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .modal-body li {
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .modal-body strong {
+            color: var(--text);
+        }
+
+        .modal-body code {
+            background: var(--bg-input);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875em;
+            color: var(--primary);
+        }
+
+        .algorithm-info {
+            background: var(--bg-input);
+            border-left: 3px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .algorithm-info h4 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .complexity {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .complexity-item {
+            font-size: 0.875rem;
+        }
+
+        /* Desktop - maintain fixed height */
+        @media (min-width: 769px) {
+            body {
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .container {
+                overflow: hidden;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .container {
+                padding: 0.75rem;
+                overflow-y: auto;
+                height: auto;
+            }
+
+            h1 {
+                font-size: 1.1rem;
+            }
+
+            .emoji {
+                font-size: 1.2rem;
+            }
+
+            .control-panel {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.75rem;
+            }
+
+            .control-group {
+                width: 100%;
+            }
+
+            select, input[type="range"] {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .buttons-group {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .buttons-group button {
+                width: 100%;
+                justify-content: center;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .stats-panel {
+                justify-content: space-between;
+                gap: 1rem;
+                padding: 0.75rem;
+                flex-wrap: wrap;
+            }
+
+            .stat-item {
+                flex: 1;
+                min-width: calc(50% - 0.5rem);
+            }
+
+            .stat-value {
+                font-size: 1.125rem;
+            }
+
+            .visualization-area {
+                min-height: 250px;
+                padding: 0.75rem;
+            }
+
+            .legend {
+                gap: 0.75rem;
+                padding: 0.75rem;
+                flex-wrap: wrap;
+            }
+
+            .legend-item {
+                font-size: 0.75rem;
+            }
+
+            .modal-content {
+                margin: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 12px;
+            }
+
+            h1 {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 0.5rem;
+                gap: 0.75rem;
+            }
+
+            .theme-toggle span, .about-btn span {
+                display: none;
+            }
+
+            .control-panel, .stats-panel, .legend, .visualization-area {
+                padding: 0.5rem;
+            }
+
+            .visualization-area {
+                gap: 1px;
+                min-height: 200px;
+            }
+
+            button {
+                padding: 0.625rem;
+                font-size: 0.8125rem;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <h1>
+                <span class="emoji">📊</span>
+                <span>Sorting Visualizer</span>
+            </h1>
+        </div>
+        <div class="header-right">
+            <button class="about-btn" onclick="openModal()">
+                <span>ℹ️</span>
+                <span>About</span>
+            </button>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span id="themeIcon">🌙</span>
+                <span id="themeText">Dark</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="control-group">
+                <label for="algorithm">Algorithm</label>
+                <select id="algorithm">
+                    <option value="bubble">Bubble Sort</option>
+                    <option value="selection">Selection Sort</option>
+                    <option value="insertion">Insertion Sort</option>
+                    <option value="merge">Merge Sort</option>
+                    <option value="quick">Quick Sort</option>
+                    <option value="heap">Heap Sort</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="arraySize">Array Size: <span class="range-value" id="arraySizeValue">50</span></label>
+                <input type="range" id="arraySize" min="10" max="150" value="50" onchange="updateArraySizeValue(); generateArray()">
+            </div>
+
+            <div class="control-group">
+                <label for="speed">Speed: <span class="range-value" id="speedValue">Fast</span></label>
+                <input type="range" id="speed" min="1" max="5" value="4" onchange="updateSpeedValue()">
+            </div>
+
+            <div class="buttons-group">
+                <button id="sortBtn" onclick="startSort()">▶️ Sort</button>
+                <button id="stopBtn" class="danger" onclick="stopSort()" disabled>⏹️ Stop</button>
+                <button class="secondary" onclick="generateArray()">🔄 New Array</button>
+            </div>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Comparisons</span>
+                <span class="stat-value" id="comparisons">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Swaps</span>
+                <span class="stat-value" id="swaps">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Time Elapsed</span>
+                <span class="stat-value highlight" id="timeElapsed">0s</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Status</span>
+                <span class="stat-value" id="status">Ready</span>
+            </div>
+        </div>
+
+        <!-- Visualization Area -->
+        <div class="visualization-area" id="visualizationArea"></div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--primary);"></div>
+                <span>Unsorted</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--comparing);"></div>
+                <span>Comparing</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--swapping);"></div>
+                <span>Swapping</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--pivot);"></div>
+                <span>Pivot</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--sorted);"></div>
+                <span>Sorted</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>📊 About Sorting Visualizer</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <h3>🎯 What Does This Tool Do?</h3>
+                <p>
+                    The Sorting Visualizer is an interactive educational tool that brings sorting algorithms to life through real-time visual animations. Watch how different algorithms compare, swap, and organize data step-by-step.
+                </p>
+
+                <h3>✨ Key Features</h3>
+                <ul>
+                    <li><strong>6 Sorting Algorithms:</strong> Bubble, Selection, Insertion, Merge, Quick, and Heap Sort</li>
+                    <li><strong>Real-Time Visualization:</strong> See every comparison and swap as it happens</li>
+                    <li><strong>Adjustable Speed:</strong> Control animation speed from slow to very fast</li>
+                    <li><strong>Variable Array Size:</strong> Test with 10 to 150 elements</li>
+                    <li><strong>Live Statistics:</strong> Track comparisons, swaps, and execution time</li>
+                    <li><strong>Color-Coded States:</strong> Different colors for comparing, swapping, pivot, and sorted elements</li>
+                    <li><strong>Responsive Design:</strong> Works perfectly on desktop, tablet, and mobile</li>
+                    <li><strong>Educational:</strong> Perfect for learning algorithm complexity and behavior</li>
+                    <li><strong>Dark/Light Theme:</strong> Choose your preferred viewing mode</li>
+                    <li><strong>Pause & Reset:</strong> Stop sorting anytime and generate new arrays</li>
+                </ul>
+
+                <h3>🎓 Supported Algorithms</h3>
+
+                <div class="algorithm-info">
+                    <h4>1. Bubble Sort</h4>
+                    <p>Repeatedly steps through the list, compares adjacent elements and swaps them if they're in the wrong order.</p>
+                    <div class="complexity">
+                        <span class="complexity-item"><strong>Best:</strong> O(n)</span>
+                        <span class="complexity-item"><strong>Average:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Worst:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Space:</strong> O(1)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-info">
+                    <h4>2. Selection Sort</h4>
+                    <p>Divides the array into sorted and unsorted regions, repeatedly selecting the smallest element from unsorted.</p>
+                    <div class="complexity">
+                        <span class="complexity-item"><strong>Best:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Average:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Worst:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Space:</strong> O(1)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-info">
+                    <h4>3. Insertion Sort</h4>
+                    <p>Builds the final sorted array one item at a time by inserting each element into its correct position.</p>
+                    <div class="complexity">
+                        <span class="complexity-item"><strong>Best:</strong> O(n)</span>
+                        <span class="complexity-item"><strong>Average:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Worst:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Space:</strong> O(1)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-info">
+                    <h4>4. Merge Sort</h4>
+                    <p>Divide-and-conquer algorithm that divides the array into halves, sorts them, and merges them back.</p>
+                    <div class="complexity">
+                        <span class="complexity-item"><strong>Best:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Average:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Worst:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Space:</strong> O(n)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-info">
+                    <h4>5. Quick Sort</h4>
+                    <p>Picks a pivot element and partitions the array around it, recursively sorting the sub-arrays.</p>
+                    <div class="complexity">
+                        <span class="complexity-item"><strong>Best:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Average:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Worst:</strong> O(n²)</span>
+                        <span class="complexity-item"><strong>Space:</strong> O(log n)</span>
+                    </div>
+                </div>
+
+                <div class="algorithm-info">
+                    <h4>6. Heap Sort</h4>
+                    <p>Uses a binary heap data structure to sort elements by building a max heap and extracting elements.</p>
+                    <div class="complexity">
+                        <span class="complexity-item"><strong>Best:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Average:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Worst:</strong> O(n log n)</span>
+                        <span class="complexity-item"><strong>Space:</strong> O(1)</span>
+                    </div>
+                </div>
+
+                <h3>📖 How to Use</h3>
+                <ol>
+                    <li><strong>Select Algorithm:</strong> Choose from 6 different sorting algorithms in the dropdown</li>
+                    <li><strong>Adjust Array Size:</strong> Use the slider to set array size (10-150 elements)</li>
+                    <li><strong>Set Speed:</strong> Control visualization speed from very slow to very fast</li>
+                    <li><strong>Generate Array:</strong> Click "New Array" to create a random unsorted array</li>
+                    <li><strong>Start Sorting:</strong> Click "Sort" to begin the visualization</li>
+                    <li><strong>Watch & Learn:</strong> Observe comparisons (yellow), swaps (red), pivots (orange), and sorted elements (green)</li>
+                    <li><strong>Monitor Stats:</strong> Track comparisons, swaps, and elapsed time in real-time</li>
+                    <li><strong>Stop Anytime:</strong> Use the "Stop" button to halt the sorting process</li>
+                </ol>
+
+                <h3>🎨 Color Legend</h3>
+                <ul>
+                    <li><strong style="color: var(--primary);">Purple:</strong> Unsorted elements</li>
+                    <li><strong style="color: var(--comparing);">Yellow:</strong> Elements being compared</li>
+                    <li><strong style="color: var(--swapping);">Red:</strong> Elements being swapped</li>
+                    <li><strong style="color: var(--pivot);">Orange:</strong> Pivot element (Quick Sort)</li>
+                    <li><strong style="color: var(--sorted);">Green:</strong> Sorted elements</li>
+                </ul>
+
+                <h3>💡 Educational Benefits</h3>
+                <ul>
+                    <li><strong>Visual Learning:</strong> See abstract algorithms in action</li>
+                    <li><strong>Compare Efficiency:</strong> Understand why some algorithms are faster</li>
+                    <li><strong>Time Complexity:</strong> Observe how O(n²) differs from O(n log n)</li>
+                    <li><strong>Algorithm Behavior:</strong> Learn how pivots, partitions, and merges work</li>
+                    <li><strong>Interview Prep:</strong> Master sorting algorithms for coding interviews</li>
+                    <li><strong>Data Structures:</strong> Understand heaps, arrays, and recursion</li>
+                </ul>
+
+                <h3>🎯 Use Cases</h3>
+                <ul>
+                    <li>Computer Science students learning algorithms</li>
+                    <li>Interview preparation for technical roles</li>
+                    <li>Teaching sorting algorithms in classrooms</li>
+                    <li>Comparing algorithm performance</li>
+                    <li>Understanding time and space complexity</li>
+                    <li>Learning data structures and algorithm design</li>
+                    <li>Self-paced algorithm education</li>
+                    <li>Visual demonstration for presentations</li>
+                </ul>
+
+                <h3>🔒 Privacy & Performance</h3>
+                <p>
+                    All sorting operations run entirely in your browser using JavaScript. No data is sent to any server. The tool is optimized for smooth animations even with large arrays, using efficient rendering techniques and requestAnimationFrame.
+                </p>
+
+                <h3>💡 Tips & Best Practices</h3>
+                <ul>
+                    <li>Start with small arrays (20-30 elements) to see details clearly</li>
+                    <li>Use slower speeds for learning, faster for demonstrations</li>
+                    <li>Try the same array with different algorithms to compare</li>
+                    <li>Notice how Merge and Quick Sort are faster than Bubble Sort</li>
+                    <li>Watch the statistics to understand algorithm efficiency</li>
+                    <li>Use larger arrays to see performance differences more clearly</li>
+                </ul>
+
+                <h3>❓ FAQ</h3>
+                <p><strong>Q: Which algorithm is fastest?</strong><br>
+                A: Merge Sort, Quick Sort, and Heap Sort are generally fastest with O(n log n) complexity. Quick Sort is often fastest in practice due to cache efficiency.</p>
+
+                <p><strong>Q: Why is Bubble Sort so slow?</strong><br>
+                A: Bubble Sort has O(n²) time complexity, making many comparisons and swaps even for small arrays.</p>
+
+                <p><strong>Q: What's the difference between comparison-based and non-comparison sorts?</strong><br>
+                A: All algorithms here are comparison-based (they compare elements). Non-comparison sorts like Counting Sort can be faster for specific data.</p>
+
+                <p><strong>Q: Can I use this for interview prep?</strong><br>
+                A: Absolutely! Understanding these algorithms visually helps tremendously for coding interviews at top tech companies.</p>
+
+                <p><strong>Q: Why does Quick Sort have orange bars?</strong><br>
+                A: Orange bars represent pivot elements, which are key to Quick Sort's partitioning strategy.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let array = [];
+        let sorting = false;
+        let stopFlag = false;
+        let comparisons = 0;
+        let swaps = 0;
+        let startTime = 0;
+        let timerInterval = null;
+
+        // Speed mapping (ms delay)
+        const speedMap = {
+            1: 100,  // Very Slow
+            2: 50,   // Slow
+            3: 20,   // Medium
+            4: 5,    // Fast
+            5: 1     // Very Fast
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateArray();
+            loadTheme();
+        });
+
+        // Generate random array
+        function generateArray() {
+            const size = parseInt(document.getElementById('arraySize').value);
+            array = [];
+            for (let i = 0; i < size; i++) {
+                array.push(Math.floor(Math.random() * 400) + 10);
+            }
+            renderArray();
+            resetStats();
+        }
+
+        // Render array as bars
+        function renderArray(highlights = {}) {
+            const container = document.getElementById('visualizationArea');
+            container.innerHTML = '';
+            
+            const maxValue = Math.max(...array);
+            const containerHeight = container.clientHeight;
+            const barWidth = Math.max(2, (container.clientWidth - array.length * 2) / array.length);
+
+            array.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'array-bar';
+                const height = (value / maxValue) * (containerHeight - 20);
+                bar.style.height = `${height}px`;
+                bar.style.width = `${barWidth}px`;
+
+                // Apply highlight classes
+                if (highlights.comparing && highlights.comparing.includes(index)) {
+                    bar.classList.add('comparing');
+                }
+                if (highlights.swapping && highlights.swapping.includes(index)) {
+                    bar.classList.add('swapping');
+                }
+                if (highlights.sorted && highlights.sorted.includes(index)) {
+                    bar.classList.add('sorted');
+                }
+                if (highlights.pivot && highlights.pivot.includes(index)) {
+                    bar.classList.add('pivot');
+                }
+
+                container.appendChild(bar);
+            });
+        }
+
+        // Sleep function for visualization delay
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Get current speed delay
+        function getDelay() {
+            const speed = parseInt(document.getElementById('speed').value);
+            return speedMap[speed];
+        }
+
+        // Update UI values
+        function updateArraySizeValue() {
+            document.getElementById('arraySizeValue').textContent = document.getElementById('arraySize').value;
+        }
+
+        function updateSpeedValue() {
+            const speed = parseInt(document.getElementById('speed').value);
+            const labels = ['', 'Very Slow', 'Slow', 'Medium', 'Fast', 'Very Fast'];
+            document.getElementById('speedValue').textContent = labels[speed];
+        }
+
+        // Reset statistics
+        function resetStats() {
+            comparisons = 0;
+            swaps = 0;
+            document.getElementById('comparisons').textContent = '0';
+            document.getElementById('swaps').textContent = '0';
+            document.getElementById('timeElapsed').textContent = '0s';
+            document.getElementById('status').textContent = 'Ready';
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('comparisons').textContent = comparisons.toLocaleString();
+            document.getElementById('swaps').textContent = swaps.toLocaleString();
+        }
+
+        // Start timer
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                document.getElementById('timeElapsed').textContent = `${elapsed}s`;
+            }, 10);
+        }
+
+        // Stop timer
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        // Start sorting
+        async function startSort() {
+            if (sorting) return;
+
+            sorting = true;
+            stopFlag = false;
+            resetStats();
+            startTimer();
+
+            document.getElementById('sortBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            document.getElementById('algorithm').disabled = true;
+            document.getElementById('arraySize').disabled = true;
+            document.getElementById('status').textContent = 'Sorting...';
+
+            const algorithm = document.getElementById('algorithm').value;
+
+            try {
+                switch (algorithm) {
+                    case 'bubble':
+                        await bubbleSort();
+                        break;
+                    case 'selection':
+                        await selectionSort();
+                        break;
+                    case 'insertion':
+                        await insertionSort();
+                        break;
+                    case 'merge':
+                        await mergeSort(0, array.length - 1);
+                        break;
+                    case 'quick':
+                        await quickSort(0, array.length - 1);
+                        break;
+                    case 'heap':
+                        await heapSort();
+                        break;
+                }
+
+                if (!stopFlag) {
+                    document.getElementById('status').textContent = 'Completed!';
+                    // Mark all as sorted
+                    renderArray({ sorted: array.map((_, i) => i) });
+                } else {
+                    document.getElementById('status').textContent = 'Stopped';
+                }
+            } catch (error) {
+                console.error('Sorting error:', error);
+                document.getElementById('status').textContent = 'Error';
+            }
+
+            stopTimer();
+            sorting = false;
+            document.getElementById('sortBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('algorithm').disabled = false;
+            document.getElementById('arraySize').disabled = false;
+        }
+
+        // Stop sorting
+        function stopSort() {
+            stopFlag = true;
+            stopTimer();
+        }
+
+        // Check if should stop
+        function shouldStop() {
+            return stopFlag;
+        }
+
+        // ========== SORTING ALGORITHMS ==========
+
+        // Bubble Sort
+        async function bubbleSort() {
+            const n = array.length;
+            for (let i = 0; i < n - 1; i++) {
+                if (shouldStop()) return;
+                for (let j = 0; j < n - i - 1; j++) {
+                    if (shouldStop()) return;
+                    
+                    comparisons++;
+                    updateStats();
+                    renderArray({ comparing: [j, j + 1] });
+                    await sleep(getDelay());
+
+                    if (array[j] > array[j + 1]) {
+                        swaps++;
+                        updateStats();
+                        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                        renderArray({ swapping: [j, j + 1] });
+                        await sleep(getDelay());
+                    }
+                }
+            }
+        }
+
+        // Selection Sort
+        async function selectionSort() {
+            const n = array.length;
+            for (let i = 0; i < n - 1; i++) {
+                if (shouldStop()) return;
+                let minIdx = i;
+
+                for (let j = i + 1; j < n; j++) {
+                    if (shouldStop()) return;
+                    
+                    comparisons++;
+                    updateStats();
+                    renderArray({ comparing: [minIdx, j], sorted: Array.from({ length: i }, (_, k) => k) });
+                    await sleep(getDelay());
+
+                    if (array[j] < array[minIdx]) {
+                        minIdx = j;
+                    }
+                }
+
+                if (minIdx !== i) {
+                    swaps++;
+                    updateStats();
+                    [array[i], array[minIdx]] = [array[minIdx], array[i]];
+                    renderArray({ swapping: [i, minIdx], sorted: Array.from({ length: i }, (_, k) => k) });
+                    await sleep(getDelay());
+                }
+            }
+        }
+
+        // Insertion Sort
+        async function insertionSort() {
+            const n = array.length;
+            for (let i = 1; i < n; i++) {
+                if (shouldStop()) return;
+                
+                let key = array[i];
+                let j = i - 1;
+
+                while (j >= 0 && array[j] > key) {
+                    if (shouldStop()) return;
+                    
+                    comparisons++;
+                    updateStats();
+                    renderArray({ comparing: [j, j + 1], sorted: Array.from({ length: i }, (_, k) => k) });
+                    await sleep(getDelay());
+
+                    swaps++;
+                    updateStats();
+                    array[j + 1] = array[j];
+                    renderArray({ swapping: [j, j + 1] });
+                    await sleep(getDelay());
+                    j--;
+                }
+
+                array[j + 1] = key;
+                renderArray({ sorted: Array.from({ length: i + 1 }, (_, k) => k) });
+            }
+        }
+
+        // Merge Sort
+        async function mergeSort(left, right) {
+            if (left >= right || shouldStop()) return;
+
+            const mid = Math.floor((left + right) / 2);
+            await mergeSort(left, mid);
+            await mergeSort(mid + 1, right);
+            await merge(left, mid, right);
+        }
+
+        async function merge(left, mid, right) {
+            const leftArr = array.slice(left, mid + 1);
+            const rightArr = array.slice(mid + 1, right + 1);
+
+            let i = 0, j = 0, k = left;
+
+            while (i < leftArr.length && j < rightArr.length) {
+                if (shouldStop()) return;
+
+                comparisons++;
+                updateStats();
+                renderArray({ comparing: [k, k] });
+                await sleep(getDelay());
+
+                if (leftArr[i] <= rightArr[j]) {
+                    array[k] = leftArr[i];
+                    i++;
+                } else {
+                    array[k] = rightArr[j];
+                    j++;
+                }
+                swaps++;
+                updateStats();
+                renderArray({ swapping: [k] });
+                await sleep(getDelay());
+                k++;
+            }
+
+            while (i < leftArr.length) {
+                if (shouldStop()) return;
+                array[k] = leftArr[i];
+                swaps++;
+                updateStats();
+                renderArray({ swapping: [k] });
+                await sleep(getDelay());
+                i++;
+                k++;
+            }
+
+            while (j < rightArr.length) {
+                if (shouldStop()) return;
+                array[k] = rightArr[j];
+                swaps++;
+                updateStats();
+                renderArray({ swapping: [k] });
+                await sleep(getDelay());
+                j++;
+                k++;
+            }
+        }
+
+        // Quick Sort
+        async function quickSort(low, high) {
+            if (low < high && !shouldStop()) {
+                const pi = await partition(low, high);
+                await quickSort(low, pi - 1);
+                await quickSort(pi + 1, high);
+            }
+        }
+
+        async function partition(low, high) {
+            const pivot = array[high];
+            let i = low - 1;
+
+            renderArray({ pivot: [high] });
+            await sleep(getDelay());
+
+            for (let j = low; j < high; j++) {
+                if (shouldStop()) return i + 1;
+
+                comparisons++;
+                updateStats();
+                renderArray({ comparing: [j, high], pivot: [high] });
+                await sleep(getDelay());
+
+                if (array[j] < pivot) {
+                    i++;
+                    swaps++;
+                    updateStats();
+                    [array[i], array[j]] = [array[j], array[i]];
+                    renderArray({ swapping: [i, j], pivot: [high] });
+                    await sleep(getDelay());
+                }
+            }
+
+            swaps++;
+            updateStats();
+            [array[i + 1], array[high]] = [array[high], array[i + 1]];
+            renderArray({ swapping: [i + 1, high] });
+            await sleep(getDelay());
+
+            return i + 1;
+        }
+
+        // Heap Sort
+        async function heapSort() {
+            const n = array.length;
+
+            // Build max heap
+            for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+                if (shouldStop()) return;
+                await heapify(n, i);
+            }
+
+            // Extract elements from heap
+            for (let i = n - 1; i > 0; i--) {
+                if (shouldStop()) return;
+
+                swaps++;
+                updateStats();
+                [array[0], array[i]] = [array[i], array[0]];
+                renderArray({ swapping: [0, i], sorted: Array.from({ length: n - i }, (_, k) => n - 1 - k) });
+                await sleep(getDelay());
+
+                await heapify(i, 0);
+            }
+        }
+
+        async function heapify(n, i) {
+            let largest = i;
+            const left = 2 * i + 1;
+            const right = 2 * i + 2;
+
+            if (left < n) {
+                comparisons++;
+                updateStats();
+                renderArray({ comparing: [left, largest] });
+                await sleep(getDelay());
+
+                if (array[left] > array[largest]) {
+                    largest = left;
+                }
+            }
+
+            if (right < n) {
+                comparisons++;
+                updateStats();
+                renderArray({ comparing: [right, largest] });
+                await sleep(getDelay());
+
+                if (array[right] > array[largest]) {
+                    largest = right;
+                }
+            }
+
+            if (largest !== i) {
+                swaps++;
+                updateStats();
+                [array[i], array[largest]] = [array[largest], array[i]];
+                renderArray({ swapping: [i, largest] });
+                await sleep(getDelay());
+
+                await heapify(n, largest);
+            }
+        }
+
+        // ========== THEME TOGGLE ==========
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (theme === 'dark') {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = '☀️';
+                text.textContent = 'Light';
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+
+        // ========== MODAL FUNCTIONS ==========
+        function openModal() {
+            document.getElementById('aboutModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('aboutModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOnOutsideClick(event) {
+            if (event.target.id === 'aboutModal') {
+                closeModal();
+            }
+        }
+
+        // Keyboard shortcut for modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Regenerate array on window resize for better responsiveness
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (!sorting) {
+                    renderArray();
+                }
+            }, 250);
+        });
+    </script>
+</body>
+</html>
+

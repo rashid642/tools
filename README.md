@@ -376,6 +376,38 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 22. 📊 Sorting Visualizer
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+22+sorting+visualizer.png" alt="Sorting Visualizer" width="400"/>
+
+**URL:** https://toolstudio.in/tools/22/sorting-visualizer  
+**Description:** Interactive sorting algorithm visualizer to watch and learn how different sorting algorithms work in real-time. Visualize Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, and Heap Sort with step-by-step animations. Perfect for computer science students, developers preparing for interviews, and anyone learning algorithms.
+
+**Features:**
+- 📊 6 Different Sorting Algorithms (Bubble, Selection, Insertion, Merge, Quick, Heap)
+- 🎨 Real-time color-coded visualization
+- ⚡ Adjustable speed control (Very Slow to Very Fast)
+- 📏 Variable array size (10-150 elements)
+- 📈 Live statistics (comparisons, swaps, time)
+- 🎯 Educational complexity information (Big O notation)
+- 🌈 Color legend for different states:
+  - 🟣 Purple: Unsorted elements
+  - 🟡 Yellow: Comparing elements
+  - 🔴 Red: Swapping elements
+  - 🟠 Orange: Pivot element (Quick Sort)
+  - 🟢 Green: Sorted elements
+- ⏱️ Real-time timer tracking execution time
+- 🔄 Generate new random arrays instantly
+- ⏹️ Stop and restart sorting anytime
+- 🎨 Dark & Light themes
+- 📱 Fully responsive (Desktop, Tablet, Mobile)
+- 🎓 Perfect for learning algorithm efficiency
+- 💡 Visual understanding of O(n²) vs O(n log n)
+- 🔒 100% client-side processing
+- 🆓 Free unlimited use
+- 💻 No installation required
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -438,6 +470,8 @@ tools/
 │   └── requirements.txt
 ├── 21__Token_Tool/
 │   └── index.html
+├── 22__Sorting_Visualizer/
+│   └── index.html
 └── README.md (this file)
 ```
 
@@ -458,6 +492,7 @@ These tools run entirely in the browser with no backend processing:
 - Image to Base64 Converter
 - Base64 to Image Converter
 - Token Tool (JWT & PASETO)
+- Sorting Visualizer
 
 ### Tools with Python Backend
 These tools require server-side processing for PDF/image/video manipulation:
