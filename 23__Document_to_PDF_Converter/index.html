@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document to PDF Converter - Convert DOC, DOCX, PPT, PPTX, XLS to PDF | Tool Studio</title>
+    <meta name="description" content="Convert Microsoft Office documents (DOC, DOCX, PPT, PPTX, XLS, XLSX) to PDF format instantly. Free online document to PDF converter with no file size limits.">
+    <meta name="keywords" content="document to pdf, doc to pdf, docx to pdf, ppt to pdf, pptx to pdf, xls to pdf, xlsx to pdf, office to pdf converter, free pdf converter">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/23/document-to-pdf-converter">
+    <meta property="og:title" content="Document to PDF Converter - Convert Office Files to PDF">
+    <meta property="og:description" content="Convert Microsoft Office documents (DOC, DOCX, PPT, PPTX, XLS, XLSX) to PDF format instantly. Free online document to PDF converter with no file size limits.">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+23+document+to+pdf.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/23/document-to-pdf-converter">
+    <meta property="twitter:title" content="Document to PDF Converter - Convert Office Files to PDF">
+    <meta property="twitter:description" content="Convert Microsoft Office documents (DOC, DOCX, PPT, PPTX, XLS, XLSX) to PDF format instantly. Free online document to PDF converter with no file size limits.">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+23+document+to+pdf.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://toolstudio.in/tools/23/document-to-pdf-converter">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Document to PDF Converter",
+        "description": "Convert Microsoft Office documents (DOC, DOCX, PPT, PPTX, XLS, XLSX) to PDF format instantly",
+        "url": "https://toolstudio.in/tools/23/document-to-pdf-converter",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Convert DOC/DOCX to PDF",
+            "Convert PPT/PPTX to PDF",
+            "Convert XLS/XLSX to PDF",
+            "Drag and drop support",
+            "Fast server-side conversion"
+        ]
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #3B82F6;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --bg-main: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #16213e;
+            --text: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --border: #27272a;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            background: linear-gradient(135deg, var(--primary) 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-badge {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .icon-badge .material-symbols-outlined {
+            font-size: 28px;
+            color: white;
+        }
+
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .theme-toggle .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-tertiary);
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        .upload-area .material-symbols-outlined {
+            font-size: 64px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .upload-area p {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .file-info {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-info.show {
+            display: flex;
+        }
+
+        .file-info .material-symbols-outlined {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .remove-file {
+            background: var(--danger);
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .remove-file:hover {
+            opacity: 0.8;
+        }
+
+        .remove-file .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .supported-formats {
+            text-align: center;
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+        }
+
+        .supported-formats p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .format-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .format-badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert.show {
+            display: flex;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .alert .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        .fab .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-secondary);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 32px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .close-modal .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        .modal-body h3 {
+            color: var(--text);
+            margin: 16px 0 8px;
+        }
+
+        .modal-body p,
+        .modal-body ul {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .modal-body ul {
+            padding-left: 24px;
+        }
+
+        .similar-tools-grid {
+            display: grid;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .similar-tool-card {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+            display: flex;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .similar-tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .similar-tool-card .material-symbols-outlined {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .similar-tool-info h4 {
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .similar-tool-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .upload-area {
+                padding: 32px 16px;
+            }
+
+            .upload-area .material-symbols-outlined {
+                font-size: 48px;
+            }
+
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+
+            .fab-tooltip {
+                display: none;
+            }
+
+            .modal-content {
+                padding: 24px;
+            }
+
+            .icon-badge {
+                width: 40px;
+                height: 40px;
+            }
+
+            .icon-badge .material-symbols-outlined {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <div class="icon-badge">
+                    <span class="material-symbols-outlined">picture_as_pdf</span>
+                </div>
+                <h1>Document to PDF</h1>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span class="material-symbols-outlined theme-icon">light_mode</span>
+                <span class="theme-text">Light</span>
+            </button>
+        </header>
+
+        <div class="card">
+            <div id="successAlert" class="alert alert-success">
+                <span class="material-symbols-outlined">check_circle</span>
+                <span>Document converted successfully!</span>
+            </div>
+
+            <div id="errorAlert" class="alert alert-error">
+                <span class="material-symbols-outlined">error</span>
+                <span id="errorMessage">An error occurred</span>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <span class="material-symbols-outlined">upload_file</span>
+                <p><strong>Click to upload</strong> or drag and drop</p>
+                <p style="font-size: 14px;">Select your document file</p>
+                <input type="file" id="fileInput" accept=".doc,.docx,.ppt,.pptx,.xls,.xlsx" style="display: none;">
+            </div>
+
+            <div id="fileInfo" class="file-info">
+                <span class="material-symbols-outlined">description</span>
+                <div class="file-details">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                </div>
+                <button class="remove-file" onclick="removeFile()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="supported-formats">
+                <p><strong>Supported formats:</strong></p>
+                <div class="format-badges">
+                    <span class="format-badge">DOC</span>
+                    <span class="format-badge">DOCX</span>
+                    <span class="format-badge">PPT</span>
+                    <span class="format-badge">PPTX</span>
+                    <span class="format-badge">XLS</span>
+                    <span class="format-badge">XLSX</span>
+                </div>
+            </div>
+
+            <button class="btn" id="convertBtn" onclick="convertDocument()" disabled>
+                <span class="material-symbols-outlined">transform</span>
+                <span>Convert to PDF</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- FAB Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()">
+            <span class="material-symbols-outlined">info</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()">
+            <span class="material-symbols-outlined">link</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>About Document to PDF Converter</h2>
+                <button class="close-modal" onclick="closeModal('aboutModal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Convert your Microsoft Office documents to PDF format quickly and easily.</p>
+                
+                <h3>Features</h3>
+                <ul>
+                    <li>Convert Word documents (DOC, DOCX) to PDF</li>
+                    <li>Convert PowerPoint presentations (PPT, PPTX) to PDF</li>
+                    <li>Convert Excel spreadsheets (XLS, XLSX) to PDF</li>
+                    <li>Preserves original formatting and layout</li>
+                    <li>Fast server-side conversion using LibreOffice</li>
+                </ul>
+
+                <h3>How to Use</h3>
+                <ul>
+                    <li>Click the upload area or drag and drop your document</li>
+                    <li>Click "Convert to PDF"</li>
+                    <li>Wait for the conversion to complete</li>
+                    <li>Download your converted PDF file</li>
+                </ul>
+
+                <h3>Privacy & Security</h3>
+                <p>All files are processed securely on our server and automatically deleted after conversion. We never store or share your documents.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Tools Modal -->
+    <div id="similarToolsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Similar Tools</h2>
+                <button class="close-modal" onclick="closeModal('similarToolsModal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="similar-tools-grid" id="similarToolsGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Similar tools configuration
+        const similarTools = [
+            {
+                icon: 'picture_as_pdf',
+                title: 'PDF Merger',
+                description: 'Combine multiple PDF files into one',
+                url: 'https://toolstudio.in/tools/3/pdf-merger'
+            },
+            {
+                icon: 'splitscreen',
+                title: 'PDF Splitter',
+                description: 'Split PDF files into separate pages',
+                url: 'https://toolstudio.in/tools/4/pdf-splitter'
+            },
+            {
+                icon: 'compress',
+                title: 'PDF Compressor',
+                description: 'Reduce PDF file size',
+                url: 'https://toolstudio.in/tools/5/pdf-compressor'
+            }
+        ];
+
+        let selectedFile = null;
+
+        // Theme Management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const icon = document.querySelector('.theme-icon');
+            const text = document.querySelector('.theme-text');
+            if (theme === 'light') {
+                icon.textContent = 'dark_mode';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = 'light_mode';
+                text.textContent = 'Light';
+            }
+        }
+
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+
+        // File Upload Handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const convertBtn = document.getElementById('convertBtn');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            const validExtensions = ['.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx'];
+            const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            
+            if (!validExtensions.includes(fileExtension)) {
+                showError('Please select a valid document file (DOC, DOCX, PPT, PPTX, XLS, XLSX)');
+                return;
+            }
+
+            selectedFile = file;
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            fileInfo.classList.add('show');
+            convertBtn.disabled = false;
+            hideAlerts();
+        }
+
+        function removeFile() {
+            selectedFile = null;
+            fileInput.value = '';
+            fileInfo.classList.remove('show');
+            convertBtn.disabled = true;
+            hideAlerts();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Document Conversion
+        async function convertDocument() {
+            if (!selectedFile) {
+                showError('Please select a document file first');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            // Show loading state
+            const btnContent = convertBtn.innerHTML;
+            convertBtn.innerHTML = '<div class="spinner"></div><span>Converting...</span>';
+            convertBtn.disabled = true;
+            hideAlerts();
+
+            try {
+                // Get the current tool ID from URL or use a default
+                const pathParts = window.location.pathname.split('/');
+                const toolId = pathParts.includes('tools') ? pathParts[pathParts.indexOf('tools') + 1] : '23';
+                
+                const response = await fetch(`/api/v1/tools/${toolId}/execute`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Conversion failed');
+                }
+
+                // Download the converted PDF
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = selectedFile.name.replace(/\.[^/.]+$/, '') + '.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                showSuccess();
+                removeFile();
+            } catch (error) {
+                console.error('Conversion error:', error);
+                showError(error.message || 'Failed to convert document. Please try again.');
+            } finally {
+                convertBtn.innerHTML = btnContent;
+                convertBtn.disabled = false;
+            }
+        }
+
+        // Alert Management
+        function showSuccess() {
+            hideAlerts();
+            document.getElementById('successAlert').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('successAlert').classList.remove('show');
+            }, 5000);
+        }
+
+        function showError(message) {
+            hideAlerts();
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorAlert').classList.add('show');
+        }
+
+        function hideAlerts() {
+            document.getElementById('successAlert').classList.remove('show');
+            document.getElementById('errorAlert').classList.remove('show');
+        }
+
+        // Modal Management
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('show');
+        }
+
+        function openSimilarToolsModal() {
+            renderSimilarTools();
+            document.getElementById('similarToolsModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function renderSimilarTools() {
+            const grid = document.getElementById('similarToolsGrid');
+            grid.innerHTML = similarTools.map(tool => `
+                <a href="${tool.url}" class="similar-tool-card" target="_blank">
+                    <span class="material-symbols-outlined">${tool.icon}</span>
+                    <div class="similar-tool-info">
+                        <h4>${tool.title}</h4>
+                        <p>${tool.description}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('aboutModal');
+                closeModal('similarToolsModal');
+            }
+        });
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Initialize
+        applyTheme();
+    </script>
+</body>
+</html>
+

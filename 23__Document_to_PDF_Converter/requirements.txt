@@ -1,0 +1,8 @@
+# No additional Python dependencies required
+# This tool uses LibreOffice for document conversion via subprocess
+# 
+# System Requirements:
+# - LibreOffice must be installed on the server
+# - Install on Ubuntu/Debian: sudo apt-get install libreoffice
+# - Install on Alpine (Docker): apk add libreoffice
+

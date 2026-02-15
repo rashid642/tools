@@ -408,6 +408,24 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 23. 📄 Document to PDF Converter
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+23+document+to+pdf.png" alt="Document to PDF Converter" width="400"/>
+
+**URL:** https://toolstudio.in/tools/23/document-to-pdf-converter  
+**Description:** Convert Microsoft Office documents to PDF format instantly. Supports Word documents (DOC, DOCX), PowerPoint presentations (PPT, PPTX), and Excel spreadsheets (XLS, XLSX) with fast server-side conversion using LibreOffice.
+
+**Features:**
+- Convert DOC/DOCX to PDF
+- Convert PPT/PPTX to PDF
+- Convert XLS/XLSX to PDF
+- Preserves original formatting
+- Drag & drop file upload
+- Fast server-side conversion
+- Instant download
+- Secure processing with auto-cleanup
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -472,6 +490,10 @@ tools/
 │   └── index.html
 ├── 22__Sorting_Visualizer/
 │   └── index.html
+├── 23__Document_to_PDF_Converter/
+│   ├── index.html
+│   ├── main.py
+│   └── requirements.txt
 └── README.md (this file)
 ```
 
@@ -504,6 +526,7 @@ These tools require server-side processing for PDF/image/video manipulation:
 - PDF Password Protector (PyPDF2)
 - Video to Audio Extractor (ffmpeg-python)
 - PDF Compressor (Ghostscript)
+- Document to PDF Converter (LibreOffice)
 
 ## 🚀 Development
 
