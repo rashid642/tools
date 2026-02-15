@@ -964,9 +964,15 @@
                 
                 <div class="upload-area" id="uploadArea">
                     <span class="material-symbols-outlined">add_photo_alternate</span>
-                    <p><strong>Click to upload</strong> or drag and drop</p>
+                    <p id="uploadText"><strong>Click to upload</strong> or drag and drop</p>
                     <p style="font-size: 14px;">Select multiple image files (JPG, PNG, GIF, WebP, BMP)</p>
+                    <p style="font-size: 13px; margin-top: 8px; color: var(--text-muted);">Maximum 50 images</p>
                     <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+                </div>
+                
+                <div id="reorderHint" style="display: none; padding: 12px; background: var(--bg-input); border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem; color: var(--text-muted); text-align: center;">
+                    <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; color: var(--primary);">info</span>
+                    Click on the position numbers to reorder images
                 </div>
                 
                 <div class="images-grid" id="imagesGrid">
@@ -1212,31 +1218,55 @@
         }
         
         // Image Management
+        const MAX_IMAGES = 50; // Maximum images allowed
         let uploadedImages = [];
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const imagesGrid = document.getElementById('imagesGrid');
         const actions = document.getElementById('actions');
         
+        // Detect if device is mobile
+        function isMobileDevice() {
+            return window.innerWidth <= 768 || 
+                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // Update upload text based on device
+        function updateUploadText() {
+            const uploadText = document.getElementById('uploadText');
+            if (isMobileDevice()) {
+                uploadText.innerHTML = '<strong>Click to upload images</strong>';
+            } else {
+                uploadText.innerHTML = '<strong>Click to upload</strong> or drag and drop';
+            }
+        }
+        
+        // Initialize upload text
+        updateUploadText();
+        window.addEventListener('resize', updateUploadText);
+        
         uploadArea.addEventListener('click', () => fileInput.click());
         
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-        
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
-            if (files.length > 0) {
-                handleFiles(files);
-            }
-        });
+        // Only enable drag and drop on desktop
+        if (!isMobileDevice()) {
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+                if (files.length > 0) {
+                    handleFiles(files);
+                }
+            });
+        }
         
         fileInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
@@ -1246,6 +1276,13 @@
         });
         
         function handleFiles(files) {
+            // Check if adding these files would exceed the limit
+            if (uploadedImages.length + files.length > MAX_IMAGES) {
+                const remaining = MAX_IMAGES - uploadedImages.length;
+                showError(`Maximum ${MAX_IMAGES} images allowed. You can add ${remaining} more image${remaining !== 1 ? 's' : ''}.`);
+                return;
+            }
+            
             files.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -1262,19 +1299,33 @@
         }
         
         function renderImages() {
+            const reorderHint = document.getElementById('reorderHint');
+            
             if (uploadedImages.length === 0) {
                 imagesGrid.classList.remove('show');
                 actions.style.display = 'none';
+                reorderHint.style.display = 'none';
                 return;
             }
             
             imagesGrid.classList.add('show');
             actions.style.display = 'flex';
             
+            const isMobile = isMobileDevice();
+            const draggableAttr = isMobile ? 'false' : 'true';
+            const orderTitle = isMobile ? 'Click to change position' : 'Click to edit position or drag to reorder';
+            
+            // Show reorder hint on mobile when there are multiple images
+            if (isMobile && uploadedImages.length > 1) {
+                reorderHint.style.display = 'block';
+            } else {
+                reorderHint.style.display = 'none';
+            }
+            
             imagesGrid.innerHTML = uploadedImages.map((img, index) => `
-                <div class="image-item" draggable="true" data-id="${img.id}" data-index="${index}">
+                <div class="image-item" draggable="${draggableAttr}" data-id="${img.id}" data-index="${index}">
                     <img src="${img.dataUrl}" alt="Image ${index + 1}">
-                    <div class="image-order" onclick="toggleReorderControls('${img.id}')" title="Click to change position">${index + 1}</div>
+                    <div class="image-order" onclick="toggleReorderControls('${img.id}')" title="${orderTitle}">${index + 1}</div>
                     <button class="image-remove" onclick="removeImage('${img.id}')">
                         <span class="material-symbols-outlined">close</span>
                     </button>
@@ -1353,110 +1404,55 @@
         
         function setupDragAndDrop() {
             const items = document.querySelectorAll('.image-item');
+            const isMobile = isMobileDevice();
             
             items.forEach((item, index) => {
-                // Desktop drag events
-                item.addEventListener('dragstart', (e) => {
-                    draggedElement = item;
-                    draggedIndex = index;
-                    item.classList.add('dragging');
-                    e.dataTransfer.effectAllowed = 'move';
-                });
-                
-                item.addEventListener('dragend', () => {
-                    item.classList.remove('dragging');
-                    draggedElement = null;
-                    draggedIndex = -1;
-                });
-                
-                item.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'move';
+                // Only enable drag and drop on desktop
+                if (!isMobile) {
+                    // Desktop drag events
+                    item.addEventListener('dragstart', (e) => {
+                        draggedElement = item;
+                        draggedIndex = index;
+                        item.classList.add('dragging');
+                        e.dataTransfer.effectAllowed = 'move';
+                    });
                     
-                    if (!draggedElement || item === draggedElement) return;
+                    item.addEventListener('dragend', () => {
+                        item.classList.remove('dragging');
+                        draggedElement = null;
+                        draggedIndex = -1;
+                    });
                     
-                    // Determine if we should insert before or after based on position
-                    const itemRect = item.getBoundingClientRect();
-                    const itemCenter = itemRect.left + itemRect.width / 2;
-                    const draggedCenter = e.clientX;
-                    
-                    if (draggedCenter < itemCenter) {
-                        item.parentNode.insertBefore(draggedElement, item);
-                    } else {
-                        item.parentNode.insertBefore(draggedElement, item.nextSibling);
-                    }
-                });
-                
-                item.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    updateImageOrder();
-                });
-                
-                // Mobile touch events
-                item.addEventListener('touchstart', (e) => {
-                    // Don't interfere with clicks on buttons or inputs
-                    if (e.target.closest('.image-remove') || e.target.closest('.image-order') || 
-                        e.target.closest('.image-reorder-controls')) {
-                        return;
-                    }
-                    
-                    const touch = e.touches[0];
-                    touchStartX = touch.clientX;
-                    touchStartY = touch.clientY;
-                    
-                    // Wait a bit to distinguish between tap and drag
-                    setTimeout(() => {
-                        if (!isTouchDragging && Math.abs(touch.clientX - touchStartX) < 10 && 
-                            Math.abs(touch.clientY - touchStartY) < 10) {
-                            draggedElement = item;
-                            draggedIndex = index;
-                            item.classList.add('dragging');
-                            isTouchDragging = true;
-                        }
-                    }, 200);
-                }, { passive: true });
-                
-                item.addEventListener('touchmove', (e) => {
-                    if (!isTouchDragging || !draggedElement) return;
-                    
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    
-                    // Find element under touch point
-                    const elementAtPoint = document.elementFromPoint(touch.clientX, touch.clientY);
-                    const targetItem = elementAtPoint?.closest('.image-item');
-                    
-                    if (targetItem && targetItem !== draggedElement) {
-                        const targetRect = targetItem.getBoundingClientRect();
-                        const targetCenter = targetRect.left + targetRect.width / 2;
+                    item.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
                         
-                        if (touch.clientX < targetCenter) {
-                            targetItem.parentNode.insertBefore(draggedElement, targetItem);
+                        if (!draggedElement || item === draggedElement) return;
+                        
+                        // Determine if we should insert before or after based on position
+                        const itemRect = item.getBoundingClientRect();
+                        const itemCenter = itemRect.left + itemRect.width / 2;
+                        const draggedCenter = e.clientX;
+                        
+                        if (draggedCenter < itemCenter) {
+                            item.parentNode.insertBefore(draggedElement, item);
                         } else {
-                            targetItem.parentNode.insertBefore(draggedElement, targetItem.nextSibling);
+                            item.parentNode.insertBefore(draggedElement, item.nextSibling);
                         }
-                    }
-                }, { passive: false });
-                
-                item.addEventListener('touchend', () => {
-                    if (isTouchDragging && draggedElement) {
-                        draggedElement.classList.remove('dragging');
+                    });
+                    
+                    item.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         updateImageOrder();
-                    }
-                    draggedElement = null;
-                    draggedIndex = -1;
-                    isTouchDragging = false;
-                }, { passive: true });
+                    });
+                } else {
+                    // On mobile, disable draggable attribute
+                    item.setAttribute('draggable', 'false');
+                }
                 
-                item.addEventListener('touchcancel', () => {
-                    if (draggedElement) {
-                        draggedElement.classList.remove('dragging');
-                    }
-                    draggedElement = null;
-                    draggedIndex = -1;
-                    isTouchDragging = false;
-                }, { passive: true });
+                // Mobile touch events are disabled - users should use the manual position input instead
+                // This provides a more reliable experience on mobile devices
             });
             
             // Desktop drag events on grid container
