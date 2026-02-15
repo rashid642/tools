@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Upload multiple images, arrange them in any order with drag & drop, and convert to a single PDF document. Perfect for creating photo albums, presentations, or multi-page documents from images.">
+    <meta name="keywords" content="images to pdf, arrange images, reorder images pdf, multiple images to pdf, photo album pdf, image organizer, drag drop pdf converter, combine images pdf">
+    <meta name="author" content="Tool Studio">
+    <meta name="theme-color" content="#6366f1">
+    
+    <title>Image Arranger to PDF - Upload, Reorder & Convert Images to PDF | Tool Studio</title>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://toolstudio.in/tools/24/image-arranger-to-pdf">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolstudio.in/tools/24/image-arranger-to-pdf">
+    <meta property="og:title" content="Image Arranger to PDF - Upload, Reorder & Convert Images to PDF">
+    <meta property="og:description" content="Upload multiple images, arrange them in any order with drag & drop, and convert to a single PDF document. Perfect for creating photo albums, presentations, or multi-page documents from images.">
+    <meta property="og:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+24+image+arranger+to+pdf.png">
+    <meta property="og:site_name" content="Tool Studio">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolstudio.in/tools/24/image-arranger-to-pdf">
+    <meta property="twitter:title" content="Image Arranger to PDF - Upload, Reorder & Convert Images to PDF">
+    <meta property="twitter:description" content="Upload multiple images, arrange them in any order with drag & drop, and convert to a single PDF document. Perfect for creating photo albums, presentations, or multi-page documents from images.">
+    <meta property="twitter:image" content="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+24+image+arranger+to+pdf.png">
+    
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Image Arranger to PDF",
+      "description": "Upload multiple images, arrange them in any order with drag & drop, and convert to a single PDF document",
+      "url": "https://toolstudio.in/tools/24/image-arranger-to-pdf",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Upload multiple images at once",
+        "Drag and drop to reorder images",
+        "Preview all images before conversion",
+        "Convert to single PDF document",
+        "Support for JPG, PNG, GIF, WebP, BMP formats"
+      ],
+      "creator": {
+        "@type": "Organization",
+        "name": "Tool Studio"
+      }
+    }
+    </script>
+    
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+        
+        /* Dark Theme (Default) */
+        :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        h1 {
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h1 .material-symbols-outlined {
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .theme-toggle {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--bg-main);
+            transform: translateY(-2px);
+        }
+        
+        .theme-toggle .material-symbols-outlined {
+            font-size: 20px;
+        }
+        
+        .main-content {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 24px;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-input);
+        }
+        
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+        }
+        
+        .upload-area .material-symbols-outlined {
+            font-size: 64px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        
+        .upload-area p {
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .upload-area strong {
+            color: var(--text);
+        }
+        
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+            display: none;
+        }
+        
+        .images-grid.show {
+            display: grid;
+        }
+        
+        .image-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            cursor: move;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+        }
+        
+        .image-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px var(--shadow);
+            border-color: var(--primary);
+        }
+        
+        .image-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-order {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            z-index: 10;
+        }
+        
+        .image-order::after {
+            content: '✏️';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            font-size: 0.65rem;
+            background: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-order:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.6);
+            background: var(--primary-dark);
+        }
+        
+        .image-order:hover::after {
+            transform: scale(1.1);
+        }
+        
+        /* Pulse animation to draw attention to clickable badges */
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            }
+            50% {
+                box-shadow: 0 2px 16px rgba(99, 102, 241, 0.6);
+            }
+        }
+        
+        .image-item:nth-child(-n+3) .image-order {
+            animation: pulse 2s ease-in-out 3;
+        }
+        
+        .image-reorder-controls {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 8px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            animation: slideUp 0.2s ease;
+            z-index: 15;
+        }
+        
+        [data-theme="light"] .image-reorder-controls {
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .image-item.show-reorder .image-reorder-controls {
+            display: flex;
+        }
+        
+        .reorder-input {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-align: center;
+            width: 50px;
+        }
+        
+        .reorder-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .reorder-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .reorder-btn .material-symbols-outlined {
+            font-size: 16px;
+        }
+        
+        .image-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            padding: 0;
+            z-index: 10;
+        }
+        
+        .image-remove:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+        
+        .image-remove .material-symbols-outlined {
+            font-size: 20px;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn .material-symbols-outlined {
+            font-size: 20px;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .alert {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert.show {
+            display: flex;
+        }
+        
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+        
+        .alert .material-symbols-outlined {
+            font-size: 24px;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-top: 24px;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+        
+        .info-card .material-symbols-outlined {
+            font-size: 28px;
+            color: var(--primary);
+            flex-shrink: 0;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+        
+        .info-card p {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        
+        .info-card p strong {
+            color: var(--primary);
+        }
+        
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+        
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            padding: 0;
+            position: relative;
+        }
+        
+        .fab .material-symbols-outlined {
+            font-size: 1.7rem;
+            color: white;
+        }
+        
+        .fab:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.6);
+        }
+        
+        .fab-tooltip {
+            position: absolute;
+            right: 70px;
+            background: var(--bg-card);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .fab:hover .fab-tooltip {
+            opacity: 1;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text);
+        }
+        
+        .modal-title .material-symbols-outlined {
+            font-size: 1.7rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .modal-close {
+            background: var(--bg-hover);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--bg-input);
+            transform: rotate(90deg);
+        }
+        
+        .modal-close .material-symbols-outlined {
+            font-size: 24px;
+        }
+        
+        .modal-content {
+            padding: 24px;
+        }
+        
+        .modal-section {
+            margin-bottom: 28px;
+        }
+        
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .modal-section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+        
+        .modal-section-title .material-symbols-outlined {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        
+        .modal-section p {
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+        
+        .modal-section ul li {
+            padding: 10px 0;
+            line-height: 1.7;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .modal-section ul li:last-child {
+            border-bottom: none;
+        }
+        
+        .modal-section ul li strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--bg-input);
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .faq-question {
+            display: flex;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .faq-question span:first-child {
+            color: var(--primary);
+        }
+        
+        .faq-answer {
+            padding-left: 20px;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+        
+        .similar-tools-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .similar-tool-card {
+            background: var(--bg-input);
+            padding: 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            display: flex;
+            gap: 12px;
+            align-items: start;
+        }
+        
+        .similar-tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+            border-color: var(--primary);
+        }
+        
+        .similar-tool-card .material-symbols-outlined {
+            font-size: 32px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        .similar-tool-info h4 {
+            color: var(--text);
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+        
+        .similar-tool-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-input);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 12px 16px;
+            }
+            
+            h1 {
+                font-size: 1.1rem;
+            }
+            
+            h1 .material-symbols-outlined {
+                font-size: 1.4rem;
+            }
+            
+            .theme-toggle {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .main-content {
+                padding: 20px 16px;
+            }
+            
+            .card {
+                padding: 24px 16px;
+            }
+            
+            .images-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+            
+            .fab-container {
+                bottom: 16px;
+                right: 16px;
+            }
+            
+            .fab {
+                width: 48px;
+                height: 48px;
+            }
+            
+            .fab .material-symbols-outlined {
+                font-size: 24px;
+            }
+            
+            .fab-tooltip {
+                display: none;
+            }
+            
+            .modal {
+                margin: 0;
+                border-radius: 16px 16px 0 0;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                padding: 20px 16px 12px;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
+            }
+            
+            .modal-content {
+                padding: 16px;
+            }
+            
+            .modal-section-title {
+                font-size: 1.05rem;
+            }
+            
+            .faq-item {
+                padding: 12px;
+            }
+            
+            .btn {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>
+                    <span class="material-symbols-outlined">photo_library</span>
+                    <span>Image Arranger to PDF</span>
+                </h1>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+                <span id="theme-text">Dark</span>
+            </button>
+        </header>
+        
+        <div class="main-content">
+            <div class="card">
+                <div id="successAlert" class="alert alert-success">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span>PDF generated successfully! Download will start automatically.</span>
+                </div>
+                
+                <div id="errorAlert" class="alert alert-error">
+                    <span class="material-symbols-outlined">error</span>
+                    <span id="errorMessage">An error occurred</span>
+                </div>
+                
+                <div class="upload-area" id="uploadArea">
+                    <span class="material-symbols-outlined">add_photo_alternate</span>
+                    <p><strong>Click to upload</strong> or drag and drop</p>
+                    <p style="font-size: 14px;">Select multiple image files (JPG, PNG, GIF, WebP, BMP)</p>
+                    <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+                </div>
+                
+                <div class="images-grid" id="imagesGrid">
+                    <!-- Images will be added here dynamically -->
+                </div>
+                
+                <div class="actions" id="actions" style="display: none;">
+                    <button class="btn btn-secondary" onclick="clearAll()">
+                        <span class="material-symbols-outlined">delete_sweep</span>
+                        <span>Clear All</span>
+                    </button>
+                    <button class="btn btn-primary" id="generateBtn" onclick="generatePDF()">
+                        <span class="material-symbols-outlined">picture_as_pdf</span>
+                        <span>Generate PDF</span>
+                    </button>
+                </div>
+                
+                <div class="info-card">
+                    <span class="material-symbols-outlined">info</span>
+                    <p><strong>💡 How to Reorder:</strong> Drag images to rearrange OR click the numbered badge with ✏️ icon to type a new position. The grid order becomes your PDF page order.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAB Buttons -->
+    <div class="fab-container">
+        <button class="fab" onclick="openAboutModal()" aria-label="About this tool">
+            <span class="material-symbols-outlined">info</span>
+            <span class="fab-tooltip">About This Tool</span>
+        </button>
+        <button class="fab" onclick="openSimilarToolsModal()" aria-label="Similar tools">
+            <span class="material-symbols-outlined">link</span>
+            <span class="fab-tooltip">Similar Tools</span>
+        </button>
+    </div>
+    
+    <!-- About Modal -->
+    <div class="modal-overlay" id="about-modal" onclick="closeModal('about-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span class="material-symbols-outlined">photo_library</span>
+                    <span>About Image Arranger to PDF</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">lightbulb</span>
+                        <span>What Does This Tool Do?</span>
+                    </h3>
+                    <p>
+                        Image Arranger to PDF is a powerful tool that lets you upload multiple images, arrange them in any order you want, and combine them into a single PDF document. Whether you're creating a photo album, compiling receipts, organizing scanned documents, or preparing a presentation, this tool gives you complete control over the final layout.
+                    </p>
+                    <p>
+                        The intuitive drag-and-drop interface makes it incredibly easy to reorder your images. Simply drag an image to a new position, and the PDF will be generated with images in exactly that order. Each image becomes a separate page in your PDF, maintaining its original quality and aspect ratio.
+                    </p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">rocket_launch</span>
+                        <span>Key Features</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Multiple Image Upload:</strong> Upload as many images as you need at once</li>
+                        <li><strong>Flexible Reordering:</strong> Two easy ways to arrange images:
+                            <br>• Drag & Drop (works on desktop and mobile with touch support)
+                            <br>• Click position number to manually enter desired position
+                        </li>
+                        <li><strong>Live Preview:</strong> See all your images in a grid before generating the PDF</li>
+                        <li><strong>Format Support:</strong> Works with JPG, PNG, GIF, WebP, and BMP image formats</li>
+                        <li><strong>Quality Preservation:</strong> Images maintain their original quality in the PDF</li>
+                        <li><strong>Delete Individual Images:</strong> Remove unwanted images before generating</li>
+                        <li><strong>Visual Ordering:</strong> Each image shows its position number for easy reference</li>
+                        <li><strong>Fast Processing:</strong> Quick server-side PDF generation and download</li>
+                        <li><strong>Dark & Light Themes:</strong> Choose your preferred viewing experience</li>
+                        <li><strong>No File Limits:</strong> Upload as many images as needed without restrictions</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">menu_book</span>
+                        <span>How to Use</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Step 1:</strong> Click the upload area or drag and drop your image files (you can select multiple at once)</li>
+                        <li><strong>Step 2:</strong> Review your images in the grid - each shows a position number</li>
+                        <li><strong>Step 3:</strong> Reorder images using one of two methods:
+                            <br>• <strong>Drag & Drop:</strong> Click and drag images to rearrange them (works on desktop and mobile)
+                            <br>• <strong>Manual Entry:</strong> Click the position number, enter the desired position (1-N), and click the checkmark
+                        </li>
+                        <li><strong>Step 4:</strong> Remove any unwanted images by clicking the red X button</li>
+                        <li><strong>Step 5:</strong> Click "Generate PDF" to create your document</li>
+                        <li><strong>Step 6:</strong> Your PDF will be generated and automatically downloaded</li>
+                        <li><strong>Tip:</strong> The order in the grid (left to right, top to bottom) determines the page order in your PDF</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">help</span>
+                        <span>Frequently Asked Questions</span>
+                    </h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What image formats are supported?</span>
+                        </div>
+                        <div class="faq-answer">
+                            The tool supports all common image formats including JPG/JPEG, PNG, GIF, WebP, and BMP. You can mix different formats in the same PDF.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>How do I change the order of images?</span>
+                        </div>
+                        <div class="faq-answer">
+                            You have two easy methods: <strong>1) Drag & Drop:</strong> Click and drag any image to a new position (works on both desktop and mobile with touch support). <strong>2) Manual Entry:</strong> Click the blue position number on any image, type the new position you want (e.g., move image 5 to position 2), and click the checkmark. The images will automatically reorder and update their position numbers.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Is there a limit on the number of images?</span>
+                        </div>
+                        <div class="faq-answer">
+                            No, there is no hard limit on the number of images. However, processing a very large number of high-resolution images may take longer. For best performance, we recommend keeping it under 100 images per PDF.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Will my images lose quality in the PDF?</span>
+                        </div>
+                        <div class="faq-answer">
+                            No! Images are embedded in the PDF at their original resolution. We don't compress or reduce quality during the conversion process. Each image becomes a full page in the PDF, maintaining its aspect ratio.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What happens to my uploaded images?</span>
+                        </div>
+                        <div class="faq-answer">
+                            All images are processed on our server and automatically deleted immediately after the PDF is generated. We never store, access, or share your images. Your privacy is our top priority.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Can I edit the PDF after generation?</span>
+                        </div>
+                        <div class="faq-answer">
+                            The generated PDF contains your images as pages. If you need to make changes, you'll need to rearrange and regenerate the PDF using this tool. For PDF editing, check out our other PDF tools like PDF Merger or PDF Splitter.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What page size is used for the PDF?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Each page automatically sizes to fit its image perfectly, preserving the original aspect ratio. This means landscape images create landscape pages, and portrait images create portrait pages.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Does this work on mobile devices?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! The tool is fully responsive and works great on mobile. You can upload images from your phone's camera or gallery. For reordering on mobile, you can use touch drag-and-drop (press and hold an image, then drag to move it) or simply tap the position number and enter the new position - perfect for precise ordering on smaller screens.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Similar Tools Modal -->
+    <div class="modal-overlay" id="similar-tools-modal" onclick="closeModal('similar-tools-modal')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span class="material-symbols-outlined">link</span>
+                    <span>Similar Tools</span>
+                </h2>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-section">
+                    <p>Explore other useful image and PDF tools from Tool Studio:</p>
+                    <div class="similar-tools-list" id="similar-tools-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Theme Management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+        
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'light') {
+                icon.textContent = 'dark_mode';
+                text.textContent = 'Dark';
+            } else {
+                icon.textContent = 'light_mode';
+                text.textContent = 'Light';
+            }
+        }
+        
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+        
+        // Image Management
+        let uploadedImages = [];
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const imagesGrid = document.getElementById('imagesGrid');
+        const actions = document.getElementById('actions');
+        
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+            if (files.length > 0) {
+                handleFiles(files);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if (files.length > 0) {
+                handleFiles(files);
+            }
+        });
+        
+        function handleFiles(files) {
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    uploadedImages.push({
+                        file: file,
+                        dataUrl: e.target.result,
+                        id: Date.now() + Math.random()
+                    });
+                    renderImages();
+                };
+                reader.readAsDataURL(file);
+            });
+            hideAlerts();
+        }
+        
+        function renderImages() {
+            if (uploadedImages.length === 0) {
+                imagesGrid.classList.remove('show');
+                actions.style.display = 'none';
+                return;
+            }
+            
+            imagesGrid.classList.add('show');
+            actions.style.display = 'flex';
+            
+            imagesGrid.innerHTML = uploadedImages.map((img, index) => `
+                <div class="image-item" draggable="true" data-id="${img.id}" data-index="${index}">
+                    <img src="${img.dataUrl}" alt="Image ${index + 1}">
+                    <div class="image-order" onclick="toggleReorderControls('${img.id}')" title="Click to change position">${index + 1}</div>
+                    <button class="image-remove" onclick="removeImage('${img.id}')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                    <div class="image-reorder-controls" id="reorder-${img.id}">
+                        <span style="font-size: 0.75rem; color: var(--text);">Move to:</span>
+                        <input type="number" class="reorder-input" id="input-${img.id}" min="1" max="${uploadedImages.length}" value="${index + 1}" onclick="event.stopPropagation()">
+                        <button class="reorder-btn" onclick="moveToPosition('${img.id}'); event.stopPropagation();">
+                            <span class="material-symbols-outlined">done</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            setupDragAndDrop();
+        }
+        
+        function removeImage(id) {
+            uploadedImages = uploadedImages.filter(img => img.id !== id);
+            renderImages();
+            hideAlerts();
+        }
+        
+        function clearAll() {
+            if (confirm('Are you sure you want to remove all images?')) {
+                uploadedImages = [];
+                fileInput.value = '';
+                renderImages();
+                hideAlerts();
+            }
+        }
+        
+        // Manual Reorder Functions
+        function toggleReorderControls(id) {
+            const item = document.querySelector(`.image-item[data-id="${id}"]`);
+            const allItems = document.querySelectorAll('.image-item');
+            
+            // Close all other reorder controls
+            allItems.forEach(i => {
+                if (i.getAttribute('data-id') !== id) {
+                    i.classList.remove('show-reorder');
+                }
+            });
+            
+            // Toggle current
+            item.classList.toggle('show-reorder');
+        }
+        
+        function moveToPosition(id) {
+            const input = document.getElementById(`input-${id}`);
+            const newPosition = parseInt(input.value);
+            
+            if (isNaN(newPosition) || newPosition < 1 || newPosition > uploadedImages.length) {
+                showError(`Please enter a position between 1 and ${uploadedImages.length}`);
+                return;
+            }
+            
+            const currentIndex = uploadedImages.findIndex(img => img.id == id);
+            if (currentIndex === -1) return;
+            
+            // Remove from current position
+            const [movedImage] = uploadedImages.splice(currentIndex, 1);
+            
+            // Insert at new position (newPosition - 1 because array is 0-indexed)
+            uploadedImages.splice(newPosition - 1, 0, movedImage);
+            
+            renderImages();
+            hideAlerts();
+        }
+        
+        // Drag and Drop for Reordering (Desktop & Mobile)
+        let draggedElement = null;
+        let draggedIndex = -1;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isTouchDragging = false;
+        
+        function setupDragAndDrop() {
+            const items = document.querySelectorAll('.image-item');
+            
+            items.forEach((item, index) => {
+                // Desktop drag events
+                item.addEventListener('dragstart', (e) => {
+                    draggedElement = item;
+                    draggedIndex = index;
+                    item.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                
+                item.addEventListener('dragend', () => {
+                    item.classList.remove('dragging');
+                    draggedElement = null;
+                    draggedIndex = -1;
+                });
+                
+                item.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    
+                    if (!draggedElement || item === draggedElement) return;
+                    
+                    // Determine if we should insert before or after based on position
+                    const itemRect = item.getBoundingClientRect();
+                    const itemCenter = itemRect.left + itemRect.width / 2;
+                    const draggedCenter = e.clientX;
+                    
+                    if (draggedCenter < itemCenter) {
+                        item.parentNode.insertBefore(draggedElement, item);
+                    } else {
+                        item.parentNode.insertBefore(draggedElement, item.nextSibling);
+                    }
+                });
+                
+                item.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    updateImageOrder();
+                });
+                
+                // Mobile touch events
+                item.addEventListener('touchstart', (e) => {
+                    // Don't interfere with clicks on buttons or inputs
+                    if (e.target.closest('.image-remove') || e.target.closest('.image-order') || 
+                        e.target.closest('.image-reorder-controls')) {
+                        return;
+                    }
+                    
+                    const touch = e.touches[0];
+                    touchStartX = touch.clientX;
+                    touchStartY = touch.clientY;
+                    
+                    // Wait a bit to distinguish between tap and drag
+                    setTimeout(() => {
+                        if (!isTouchDragging && Math.abs(touch.clientX - touchStartX) < 10 && 
+                            Math.abs(touch.clientY - touchStartY) < 10) {
+                            draggedElement = item;
+                            draggedIndex = index;
+                            item.classList.add('dragging');
+                            isTouchDragging = true;
+                        }
+                    }, 200);
+                }, { passive: true });
+                
+                item.addEventListener('touchmove', (e) => {
+                    if (!isTouchDragging || !draggedElement) return;
+                    
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    
+                    // Find element under touch point
+                    const elementAtPoint = document.elementFromPoint(touch.clientX, touch.clientY);
+                    const targetItem = elementAtPoint?.closest('.image-item');
+                    
+                    if (targetItem && targetItem !== draggedElement) {
+                        const targetRect = targetItem.getBoundingClientRect();
+                        const targetCenter = targetRect.left + targetRect.width / 2;
+                        
+                        if (touch.clientX < targetCenter) {
+                            targetItem.parentNode.insertBefore(draggedElement, targetItem);
+                        } else {
+                            targetItem.parentNode.insertBefore(draggedElement, targetItem.nextSibling);
+                        }
+                    }
+                }, { passive: false });
+                
+                item.addEventListener('touchend', () => {
+                    if (isTouchDragging && draggedElement) {
+                        draggedElement.classList.remove('dragging');
+                        updateImageOrder();
+                    }
+                    draggedElement = null;
+                    draggedIndex = -1;
+                    isTouchDragging = false;
+                }, { passive: true });
+                
+                item.addEventListener('touchcancel', () => {
+                    if (draggedElement) {
+                        draggedElement.classList.remove('dragging');
+                    }
+                    draggedElement = null;
+                    draggedIndex = -1;
+                    isTouchDragging = false;
+                }, { passive: true });
+            });
+            
+            // Desktop drag events on grid container
+            imagesGrid.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            });
+            
+            imagesGrid.addEventListener('drop', (e) => {
+                e.preventDefault();
+                updateImageOrder();
+            });
+        }
+        
+        function updateImageOrder() {
+            const items = document.querySelectorAll('.image-item');
+            const newOrder = [];
+            
+            items.forEach(item => {
+                const id = item.getAttribute('data-id');
+                const img = uploadedImages.find(i => i.id == id);
+                if (img) newOrder.push(img);
+            });
+            
+            uploadedImages = newOrder;
+            renderImages();
+        }
+        
+        // PDF Generation
+        async function generatePDF() {
+            if (uploadedImages.length === 0) {
+                showError('Please upload at least one image');
+                return;
+            }
+            
+            const generateBtn = document.getElementById('generateBtn');
+            const btnContent = generateBtn.innerHTML;
+            generateBtn.innerHTML = '<div class="spinner"></div><span>Generating PDF...</span>';
+            generateBtn.disabled = true;
+            hideAlerts();
+            
+            try {
+                const formData = new FormData();
+                uploadedImages.forEach((img, index) => {
+                    formData.append('images', img.file);
+                });
+                
+                // Get tool ID from URL
+                const pathParts = window.location.pathname.split('/');
+                const toolId = pathParts.includes('tools') ? pathParts[pathParts.indexOf('tools') + 1] : '24';
+                
+                const response = await fetch(`/api/v1/tools/${toolId}/execute`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'PDF generation failed');
+                }
+                
+                // Download the PDF
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `images-${Date.now()}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                showSuccess();
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showError(error.message || 'Failed to generate PDF. Please try again.');
+            } finally {
+                generateBtn.innerHTML = btnContent;
+                generateBtn.disabled = false;
+            }
+        }
+        
+        // Alert Management
+        function showSuccess() {
+            hideAlerts();
+            document.getElementById('successAlert').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('successAlert').classList.remove('show');
+            }, 5000);
+        }
+        
+        function showError(message) {
+            hideAlerts();
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorAlert').classList.add('show');
+        }
+        
+        function hideAlerts() {
+            document.getElementById('successAlert').classList.remove('show');
+            document.getElementById('errorAlert').classList.remove('show');
+        }
+        
+        // Modal Management
+        function openAboutModal() {
+            document.getElementById('about-modal').classList.add('active');
+        }
+        
+        function openSimilarToolsModal() {
+            renderSimilarTools();
+            document.getElementById('similar-tools-modal').classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        function renderSimilarTools() {
+            const tools = [
+                {
+                    icon: 'picture_as_pdf',
+                    title: 'PDF Merger',
+                    description: 'Combine multiple PDF files into one document',
+                    url: 'https://toolstudio.in/tools/10/pdf-merger'
+                },
+                {
+                    icon: 'splitscreen',
+                    title: 'PDF Splitter',
+                    description: 'Split PDF files into separate pages or ranges',
+                    url: 'https://toolstudio.in/tools/6/pdf-splitter'
+                },
+                {
+                    icon: 'compress',
+                    title: 'PDF Compressor',
+                    description: 'Reduce PDF file size while maintaining quality',
+                    url: 'https://toolstudio.in/tools/20/pdf-compressor'
+                },
+                {
+                    icon: 'transform',
+                    title: 'Document to PDF Converter',
+                    description: 'Convert DOC, DOCX, PPT, PPTX, XLS files to PDF',
+                    url: 'https://toolstudio.in/tools/23/document-to-pdf-converter'
+                },
+                {
+                    icon: 'crop',
+                    title: 'Image Aspect Ratio Editor',
+                    description: 'Crop and resize images to specific aspect ratios',
+                    url: 'https://toolstudio.in/tools/14/image-aspect-ratio-editor'
+                },
+                {
+                    icon: 'photo_size_select_large',
+                    title: 'Image Compressor',
+                    description: 'Compress images while maintaining quality',
+                    url: 'https://toolstudio.in/tools/15/image-compressor'
+                }
+            ];
+            
+            const list = document.getElementById('similar-tools-list');
+            list.innerHTML = tools.map(tool => `
+                <a href="${tool.url}" class="similar-tool-card" target="_blank">
+                    <span class="material-symbols-outlined">${tool.icon}</span>
+                    <div class="similar-tool-info">
+                        <h4>${tool.title}</h4>
+                        <p>${tool.description}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+        
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('about-modal');
+                closeModal('similar-tools-modal');
+            }
+        });
+        
+        // Initialize
+        applyTheme();
+    </script>
+</body>
+</html>
+

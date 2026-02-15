@@ -426,6 +426,25 @@ This directory contains all the individual tools available on Tool Studio. Each 
 
 ---
 
+### 24. 🖼️ Image Arranger to PDF
+<img src="https://tool-studio.s3.ap-south-1.amazonaws.com/public/tool-images/tool+24+image+arranger+to+pdf.png" alt="Image Arranger to PDF" width="400"/>
+
+**URL:** https://toolstudio.in/tools/24/image-arranger-to-pdf  
+**Description:** Upload multiple images, arrange them in any order with drag-and-drop, and convert to a single PDF document. Perfect for creating photo albums, organizing scanned documents, and compiling image-based reports.
+
+**Features:**
+- Upload multiple images at once
+- Drag and drop to reorder images
+- Live preview with position numbers
+- Support for JPG, PNG, GIF, WebP, BMP
+- Delete individual images
+- Quality preservation in PDF
+- Each image becomes a full page
+- Fast server-side conversion
+- Secure processing with auto-cleanup
+
+---
+
 ## 🏗️ Directory Structure
 
 ```
@@ -494,6 +513,10 @@ tools/
 │   ├── index.html
 │   ├── main.py
 │   └── requirements.txt
+├── 24__Image_Arranger_to_PDF/
+│   ├── index.html
+│   ├── main.py
+│   └── requirements.txt
 └── README.md (this file)
 ```
 
@@ -527,6 +550,7 @@ These tools require server-side processing for PDF/image/video manipulation:
 - Video to Audio Extractor (ffmpeg-python)
 - PDF Compressor (Ghostscript)
 - Document to PDF Converter (LibreOffice)
+- Image Arranger to PDF (Pillow, img2pdf)
 
 ## 🚀 Development
 

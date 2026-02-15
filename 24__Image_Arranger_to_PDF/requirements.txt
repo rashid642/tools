@@ -1,0 +1,8 @@
+fastapi==0.115.5
+uvicorn==0.34.0
+python-multipart==0.0.20
+Pillow==11.0.0
+img2pdf==0.5.1
+
+# Note: No system libraries required - all dependencies are Python packages
+
