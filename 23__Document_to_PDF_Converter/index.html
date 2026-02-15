@@ -91,60 +91,52 @@
             color: var(--text);
             line-height: 1.6;
             transition: background 0.3s ease, color 0.3s ease;
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            gap: 16px;
+            padding: 12px 20px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 8px;
         }
 
         h1 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            background: linear-gradient(135deg, var(--primary) 0%, #ec4899 100%);
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1 .material-symbols-outlined {
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .icon-badge {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .icon-badge .material-symbols-outlined {
-            font-size: 28px;
-            color: white;
         }
 
         .theme-toggle {
-            background: var(--bg-secondary);
+            background: var(--bg-tertiary);
             border: 1px solid var(--border);
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 10px;
             cursor: pointer;
             display: flex;
@@ -162,6 +154,14 @@
 
         .theme-toggle .material-symbols-outlined {
             font-size: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 32px 24px;
         }
 
         .card {
@@ -489,19 +489,85 @@
             font-size: 24px;
         }
 
-        .modal-body h3 {
-            color: var(--text);
-            margin: 16px 0 8px;
+        .modal-body {
+            padding: 0;
         }
 
-        .modal-body p,
-        .modal-body ul {
+        .modal-section {
+            margin-bottom: 28px;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+
+        .modal-section-title .material-symbols-outlined {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .modal-section p {
+            line-height: 1.7;
             color: var(--text-secondary);
             margin-bottom: 12px;
         }
 
-        .modal-body ul {
-            padding-left: 24px;
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+
+        .modal-section ul li {
+            padding: 10px 0;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-section ul li:last-child {
+            border-bottom: none;
+        }
+
+        .modal-section ul li strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .faq-question {
+            display: flex;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .faq-question span:first-child {
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            padding-left: 20px;
+            line-height: 1.7;
+            color: var(--text-secondary);
         }
 
         .similar-tools-grid {
@@ -544,8 +610,25 @@
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 16px;
+            header {
+                padding: 12px 16px;
+            }
+
+            h1 {
+                font-size: 1.1rem;
+            }
+
+            h1 .material-symbols-outlined {
+                font-size: 1.4rem;
+            }
+
+            .theme-toggle {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .main-content {
+                padding: 20px 16px;
             }
 
             .card {
@@ -565,21 +648,38 @@
                 right: 16px;
             }
 
+            .fab {
+                width: 48px;
+                height: 48px;
+            }
+
+            .fab .material-symbols-outlined {
+                font-size: 24px;
+            }
+
             .fab-tooltip {
                 display: none;
             }
 
+            .modal {
+                padding: 16px;
+            }
+
             .modal-content {
-                padding: 24px;
+                padding: 24px 16px;
+                max-height: 85vh;
             }
 
-            .icon-badge {
-                width: 40px;
-                height: 40px;
+            .modal-header h2 {
+                font-size: 1.3rem;
             }
 
-            .icon-badge .material-symbols-outlined {
-                font-size: 24px;
+            .modal-section-title {
+                font-size: 1.05rem;
+            }
+
+            .faq-item {
+                padding: 12px;
             }
         }
     </style>
@@ -588,10 +688,10 @@
     <div class="container">
         <header>
             <div class="header-left">
-                <div class="icon-badge">
+                <h1>
                     <span class="material-symbols-outlined">picture_as_pdf</span>
-                </div>
-                <h1>Document to PDF</h1>
+                    <span>Document to PDF Converter</span>
+                </h1>
             </div>
             <button class="theme-toggle" onclick="toggleTheme()">
                 <span class="material-symbols-outlined theme-icon">light_mode</span>
@@ -599,7 +699,8 @@
             </button>
         </header>
 
-        <div class="card">
+        <div class="main-content">
+            <div class="card">
             <div id="successAlert" class="alert alert-success">
                 <span class="material-symbols-outlined">check_circle</span>
                 <span>Document converted successfully!</span>
@@ -645,6 +746,7 @@
                 <span>Convert to PDF</span>
             </button>
         </div>
+        </div>
     </div>
 
     <!-- FAB Buttons -->
@@ -663,33 +765,126 @@
     <div id="aboutModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>About Document to PDF Converter</h2>
+                <h2>
+                    <span class="material-symbols-outlined">picture_as_pdf</span>
+                    About Document to PDF Converter
+                </h2>
                 <button class="close-modal" onclick="closeModal('aboutModal')">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Convert your Microsoft Office documents to PDF format quickly and easily.</p>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">lightbulb</span>
+                        <span>What Does This Tool Do?</span>
+                    </h3>
+                    <p>
+                        The Document to PDF Converter is a powerful online tool that transforms your Microsoft Office documents (Word, PowerPoint, Excel) into universally compatible PDF files. Whether you need to convert a Word document for professional distribution, a PowerPoint presentation for easy sharing, or an Excel spreadsheet for archiving, our tool handles it all with precision and speed.
+                    </p>
+                    <p>
+                        PDFs maintain consistent formatting across all devices and platforms, making them ideal for sharing documents that need to look exactly as intended. Our converter uses LibreOffice's robust conversion engine to ensure high-fidelity conversion that preserves your document's layout, fonts, images, and formatting.
+                    </p>
+                </div>
                 
-                <h3>Features</h3>
-                <ul>
-                    <li>Convert Word documents (DOC, DOCX) to PDF</li>
-                    <li>Convert PowerPoint presentations (PPT, PPTX) to PDF</li>
-                    <li>Convert Excel spreadsheets (XLS, XLSX) to PDF</li>
-                    <li>Preserves original formatting and layout</li>
-                    <li>Fast server-side conversion using LibreOffice</li>
-                </ul>
-
-                <h3>How to Use</h3>
-                <ul>
-                    <li>Click the upload area or drag and drop your document</li>
-                    <li>Click "Convert to PDF"</li>
-                    <li>Wait for the conversion to complete</li>
-                    <li>Download your converted PDF file</li>
-                </ul>
-
-                <h3>Privacy & Security</h3>
-                <p>All files are processed securely on our server and automatically deleted after conversion. We never store or share your documents.</p>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">rocket_launch</span>
+                        <span>Key Features</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Multi-Format Support:</strong> Convert DOC, DOCX, PPT, PPTX, XLS, and XLSX files to PDF</li>
+                        <li><strong>High-Quality Conversion:</strong> Preserves original formatting, fonts, images, and layout</li>
+                        <li><strong>Fast Processing:</strong> Server-side conversion powered by LibreOffice ensures quick results</li>
+                        <li><strong>Drag & Drop:</strong> Simple interface with drag-and-drop file upload support</li>
+                        <li><strong>Secure Processing:</strong> Files are automatically deleted after conversion for privacy</li>
+                        <li><strong>No File Size Limits:</strong> Convert documents of any size without restrictions</li>
+                        <li><strong>Dark & Light Themes:</strong> Choose your preferred viewing experience</li>
+                        <li><strong>Instant Download:</strong> Get your converted PDF immediately after processing</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">menu_book</span>
+                        <span>How to Use</span>
+                    </h3>
+                    <ul>
+                        <li><strong>Step 1:</strong> Click the upload area or drag and drop your document file (DOC, DOCX, PPT, PPTX, XLS, or XLSX)</li>
+                        <li><strong>Step 2:</strong> Review the file name and size shown in the file info section</li>
+                        <li><strong>Step 3:</strong> Click the "Convert to PDF" button to start the conversion process</li>
+                        <li><strong>Step 4:</strong> Wait a few seconds while the conversion completes</li>
+                        <li><strong>Step 5:</strong> Your PDF will automatically download once the conversion is finished</li>
+                        <li><strong>Tip:</strong> You can convert multiple documents by repeating the process - each conversion starts fresh</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <span class="material-symbols-outlined">help</span>
+                        <span>Frequently Asked Questions</span>
+                    </h3>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>What file formats can I convert to PDF?</span>
+                        </div>
+                        <div class="faq-answer">
+                            You can convert Microsoft Word documents (.doc, .docx), PowerPoint presentations (.ppt, .pptx), and Excel spreadsheets (.xls, .xlsx) to PDF format. All common Office formats are supported.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Will my document formatting be preserved?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Yes! Our converter uses LibreOffice's powerful conversion engine which maintains original formatting including fonts, images, tables, headers, footers, page layout, and styles. Complex documents with multiple columns, embedded images, and charts are handled with high fidelity.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Is there a file size limit?</span>
+                        </div>
+                        <div class="faq-answer">
+                            No, there are no file size restrictions. You can convert documents of any size, whether it's a single-page letter or a 500-page technical manual. However, larger files may take slightly longer to process.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Is my data secure? What happens to uploaded files?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Absolutely secure! All files are processed on our server and automatically deleted immediately after conversion. We never store, access, or share your documents. Your privacy is our top priority.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>How long does the conversion take?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Most conversions complete within 5-15 seconds depending on file size and complexity. Simple documents convert almost instantly, while complex presentations with many images may take a bit longer.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>Can I convert password-protected documents?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Password-protected documents must be unlocked before conversion. Please remove any password protection from your file before uploading it to our converter.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -698,14 +893,20 @@
     <div id="similarToolsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Similar Tools</h2>
+                <h2>
+                    <span class="material-symbols-outlined">link</span>
+                    Similar Tools
+                </h2>
                 <button class="close-modal" onclick="closeModal('similarToolsModal')">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="similar-tools-grid" id="similarToolsGrid">
-                    <!-- Populated by JavaScript -->
+                <div class="modal-section">
+                    <p>Explore other useful document and PDF tools from Tool Studio:</p>
+                    <div class="similar-tools-grid" id="similarToolsGrid">
+                        <!-- Populated by JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -717,20 +918,38 @@
             {
                 icon: 'picture_as_pdf',
                 title: 'PDF Merger',
-                description: 'Combine multiple PDF files into one',
-                url: 'https://toolstudio.in/tools/3/pdf-merger'
+                description: 'Combine multiple PDF files into one document',
+                url: 'https://toolstudio.in/tools/10/pdf-merger'
             },
             {
                 icon: 'splitscreen',
                 title: 'PDF Splitter',
-                description: 'Split PDF files into separate pages',
-                url: 'https://toolstudio.in/tools/4/pdf-splitter'
+                description: 'Split PDF files into separate pages or ranges',
+                url: 'https://toolstudio.in/tools/12/pdf-splitter'
             },
             {
                 icon: 'compress',
                 title: 'PDF Compressor',
-                description: 'Reduce PDF file size',
-                url: 'https://toolstudio.in/tools/5/pdf-compressor'
+                description: 'Reduce PDF file size while maintaining quality',
+                url: 'https://toolstudio.in/tools/20/pdf-compressor'
+            },
+            {
+                icon: 'image',
+                title: 'Image to PDF',
+                description: 'Convert images (JPG, PNG, GIF) to PDF format',
+                url: 'https://toolstudio.in/tools/13/image-to-pdf'
+            },
+            {
+                icon: 'photo_library',
+                title: 'PDF to Image',
+                description: 'Extract images from PDF files',
+                url: 'https://toolstudio.in/tools/6/pdf-to-image'
+            },
+            {
+                icon: 'description',
+                title: 'README Viewer',
+                description: 'View and edit markdown documentation files',
+                url: 'https://toolstudio.in/tools/1/readme-viewer'
             }
         ];
 
