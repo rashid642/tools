@@ -327,31 +327,69 @@
             box-shadow: 0 8px 16px var(--shadow);
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 16px 0;
+        /* Loading Indicator */
+        .loading-container {
             display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin: 16px 0;
         }
 
-        .progress-bar.show {
-            display: block;
+        .loading-container.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .loading-subtext {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-input);
+            border-radius: 3px;
+            overflow: hidden;
+            max-width: 300px;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
-            width: 0%;
-            transition: width 0.3s ease;
-            animation: shimmer 2s infinite;
+            width: 100%;
+            animation: progressSlide 2s ease-in-out infinite;
+            background-size: 200% 100%;
         }
 
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
+        @keyframes progressSlide {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .alert {
@@ -694,9 +732,14 @@
                 </div>
             </div>
 
-            <!-- Progress Bar -->
-            <div id="progressBar" class="progress-bar">
-                <div class="progress-fill"></div>
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="loading-container">
+                <div class="spinner"></div>
+                <div class="loading-text">🎵 Extracting Audio...</div>
+                <div class="loading-subtext">Processing your video with FFmpeg. This may take 5-30 seconds.</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
             </div>
 
             <!-- Action Buttons -->
@@ -1009,11 +1052,15 @@
             const format = document.getElementById('formatSelect').value;
             const quality = document.getElementById('qualitySelect').value;
             const extractBtn = document.getElementById('extractBtn');
-            const progressBar = document.getElementById('progressBar');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const btnText = extractBtn.querySelector('span:last-child');
+            const originalBtnText = btnText.textContent;
 
             try {
+                // Show loading state
                 extractBtn.disabled = true;
-                progressBar.classList.add('show');
+                btnText.textContent = 'Processing...';
+                loadingIndicator.classList.add('show');
                 
                 const formData = new FormData();
                 formData.append('file', selectedFile);
@@ -1047,8 +1094,10 @@
                 console.error('Extraction error:', error);
                 showAlert('❌ ' + error.message, 'error');
             } finally {
+                // Hide loading state
                 extractBtn.disabled = false;
-                progressBar.classList.remove('show');
+                btnText.textContent = originalBtnText;
+                loadingIndicator.classList.remove('show');
             }
         }
 
