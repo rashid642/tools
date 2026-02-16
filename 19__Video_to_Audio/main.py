@@ -94,17 +94,38 @@ async def execute(request: Request):
         
         print(f"[Video to Audio] Running FFmpeg: {' '.join(ffmpeg_cmd)}")
         
-        # Run FFmpeg
-        result = subprocess.run(
-            ffmpeg_cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            timeout=300  # 5 minute timeout
-        )
+        # Run FFmpeg with proper process control
+        process = None
+        try:
+            process = subprocess.Popen(
+                ffmpeg_cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            
+            # Wait for completion with timeout
+            stdout, stderr = process.communicate(timeout=300)  # 5 minute timeout
+            returncode = process.returncode
+            
+        except subprocess.TimeoutExpired:
+            # CRITICAL: Kill the process to prevent zombies
+            print(f"[Video to Audio] FFmpeg timeout, killing process...")
+            if process:
+                try:
+                    process.kill()
+                    process.wait(timeout=5)  # Wait for kill to complete
+                except:
+                    pass
+            cleanup_files(temp_input.name if temp_input else None, temp_output.name if temp_output else None)
+            return JSONResponse(
+                {"error": "Processing timeout. Video file may be too large."},
+                status_code=500
+            )
         
-        if result.returncode != 0:
-            error_msg = result.stderr.decode('utf-8')
+        if returncode != 0:
+            error_msg = stderr.decode('utf-8')
             print(f"[Video to Audio] FFmpeg error: {error_msg}")
+            cleanup_files(temp_input.name if temp_input else None, temp_output.name if temp_output else None)
             return JSONResponse(
                 {"error": f"Audio extraction failed: {error_msg[:200]}"},
                 status_code=500
@@ -132,13 +153,6 @@ async def execute(request: Request):
             background=lambda: cleanup_files(temp_input.name, temp_output.name)
         )
         
-    except subprocess.TimeoutExpired:
-        print(f"[Video to Audio] Error: FFmpeg timeout")
-        cleanup_files(temp_input.name if temp_input else None, temp_output.name if temp_output else None)
-        return JSONResponse(
-            {"error": "Processing timeout. Video file may be too large."},
-            status_code=500
-        )
     except Exception as e:
         print(f"[Video to Audio] Error: {e}")
         import traceback

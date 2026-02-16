@@ -29,9 +29,9 @@ async def execute(request: Request):
                 status_code=400
             )
         
-        if len(images) > 50:
+        if len(images) > 200:
             return JSONResponse(
-                {"error": "Maximum 50 images allowed per PDF"},
+                {"error": "Maximum 200 images allowed per PDF"},
                 status_code=400
             )
         

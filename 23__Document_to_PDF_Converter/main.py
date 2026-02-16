@@ -65,9 +65,11 @@ async def execute(request: Request):
             
             conversion_successful = False
             for cmd in libreoffice_commands:
+                process = None
                 try:
                     # Run LibreOffice in headless mode to convert to PDF
-                    result = subprocess.run(
+                    # Using Popen for better process control
+                    process = subprocess.Popen(
                         [
                             cmd,
                             '--headless',
@@ -75,10 +77,18 @@ async def execute(request: Request):
                             '--outdir', os.path.dirname(output_file),
                             input_file
                         ],
-                        capture_output=True,
-                        text=True,
-                        timeout=60  # 60 second timeout
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True
                     )
+                    
+                    # Wait for completion with timeout
+                    stdout, stderr = process.communicate(timeout=60)
+                    result = type('obj', (object,), {
+                        'returncode': process.returncode,
+                        'stdout': stdout,
+                        'stderr': stderr
+                    })
                     
                     if result.returncode == 0:
                         conversion_successful = True
@@ -91,10 +101,27 @@ async def execute(request: Request):
                             # Rename to our desired output file
                             os.rename(expected_output, output_file)
                         break
+                except subprocess.TimeoutExpired:
+                    # CRITICAL: Kill the process to prevent zombies
+                    if process:
+                        try:
+                            process.kill()
+                            process.wait(timeout=5)  # Wait for kill to complete
+                            print(f"[Document to PDF] Killed timed-out {cmd} process")
+                        except:
+                            pass
+                    continue
                 except FileNotFoundError:
                     continue
                 except Exception as e:
                     print(f"[Document to PDF] Error with {cmd}: {e}")
+                    # Kill process if still running
+                    if process and process.poll() is None:
+                        try:
+                            process.kill()
+                            process.wait(timeout=5)
+                        except:
+                            pass
                     continue
             
             if not conversion_successful:
@@ -104,6 +131,8 @@ async def execute(request: Request):
                 )
         
         except subprocess.TimeoutExpired:
+            # This should not be reached due to inner handling, but just in case
+            print("[Document to PDF] Global timeout handler reached")
             return JSONResponse(
                 {"error": "Conversion timeout. File may be too large or complex."},
                 status_code=500

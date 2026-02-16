@@ -79,16 +79,37 @@ async def execute(request: Request):
             
             print(f"[PDF Compressor] Running Ghostscript compression...")
             
-            # Run Ghostscript
-            result = subprocess.run(
-                gs_command,
-                capture_output=True,
-                text=True,
-                timeout=60
-            )
+            # Run Ghostscript with proper process control
+            process = None
+            try:
+                process = subprocess.Popen(
+                    gs_command,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
+                
+                # Wait for completion with timeout
+                stdout, stderr = process.communicate(timeout=60)
+                returncode = process.returncode
+                
+            except subprocess.TimeoutExpired:
+                # CRITICAL: Kill the process to prevent zombies
+                print(f"[PDF Compressor] Ghostscript timeout, killing process...")
+                if process:
+                    try:
+                        process.kill()
+                        process.wait(timeout=5)  # Wait for kill to complete
+                    except:
+                        pass
+                cleanup_files(input_path, output_path)
+                return JSONResponse(
+                    {"error": "Compression timed out. File may be too large."},
+                    status_code=500
+                )
             
-            if result.returncode != 0:
-                print(f"[PDF Compressor] Ghostscript error: {result.stderr}")
+            if returncode != 0:
+                print(f"[PDF Compressor] Ghostscript error: {stderr}")
                 cleanup_files(input_path, output_path)
                 return JSONResponse(
                     {"error": "Failed to compress PDF. Please try again."},
@@ -121,12 +142,6 @@ async def execute(request: Request):
                 background=lambda: cleanup_files(output_path)
             )
             
-        except subprocess.TimeoutExpired:
-            cleanup_files(input_path, output_path if 'output_path' in locals() else None)
-            return JSONResponse(
-                {"error": "Compression timed out. File may be too large."},
-                status_code=500
-            )
         except FileNotFoundError:
             cleanup_files(input_path)
             return JSONResponse(
