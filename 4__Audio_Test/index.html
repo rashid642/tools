@@ -52,6 +52,9 @@
     }
     </script>
     
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
     <style>
         * {
             margin: 0;
@@ -115,6 +118,9 @@
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
             box-shadow: 0 2px 8px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .header-left {
@@ -124,35 +130,59 @@
         }
         
         h1 {
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         
-        h1 .emoji {
-            font-size: 1.3rem;
-        }
-        
-        h1 .title-text {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        h1 .material-symbols-outlined {
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        h1 .title-text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        [data-theme="light"] h1 .material-symbols-outlined {
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        [data-theme="light"] h1 .title-text {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed, #db2777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
         
         .theme-toggle {
             background: var(--bg-input);
             border: 2px solid var(--border);
             border-radius: 50px;
-            padding: 6px 12px;
+            padding: 6px 14px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text);
             white-space: nowrap;
         }
@@ -160,6 +190,11 @@
         .theme-toggle:hover {
             border-color: var(--primary);
             transform: scale(1.05);
+            background: var(--bg-hover);
+        }
+        
+        .theme-toggle .material-symbols-outlined {
+            font-size: 1.1rem;
         }
         
         .main-content {
@@ -172,11 +207,24 @@
         
         .card {
             background: var(--bg-card);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 32px;
             border: 1px solid var(--border);
-            box-shadow: 0 4px 12px var(--shadow);
+            box-shadow: 0 8px 24px var(--shadow);
             margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+            pointer-events: none;
         }
         
         .section-title {
@@ -185,24 +233,43 @@
             margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-title .material-symbols-outlined {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
         }
         
         .visualizer-container {
             background: var(--bg-input);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 24px;
             margin-bottom: 20px;
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: relative;
+            z-index: 1;
         }
         
         .visualizer {
             width: 100%;
             height: 120px;
             background: var(--bg-main);
-            border-radius: 8px;
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--border);
         }
         
         #waveform {
@@ -228,18 +295,20 @@
         }
         
         .meter-bar {
-            height: 8px;
+            height: 10px;
             background: var(--bg-hover);
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
             position: relative;
+            border: 1px solid var(--border);
         }
         
         .meter-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
             width: 0%;
             transition: width 0.1s ease;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
         }
         
         .controls {
@@ -250,16 +319,21 @@
         }
         
         button {
-            padding: 12px 24px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            justify-content: center;
+        }
+        
+        button .material-symbols-outlined {
+            font-size: 1.2rem;
         }
         
         button:disabled {
@@ -270,64 +344,78 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
         
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
         }
         
         .btn-danger {
-            background: var(--danger);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
         
         .btn-danger:hover:not(:disabled) {
-            background: #dc2626;
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.5);
         }
         
         .btn-success {
-            background: var(--success);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
         
         .btn-success:hover:not(:disabled) {
-            background: #059669;
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
         }
         
         .btn-secondary {
             background: var(--bg-input);
             color: var(--text);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
         }
         
         .btn-secondary:hover:not(:disabled) {
             background: var(--bg-hover);
             border-color: var(--primary);
+            transform: translateY(-2px);
         }
         
         .btn-group {
             display: flex;
             gap: 8px;
             background: var(--bg-input);
-            padding: 4px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
+            padding: 6px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: relative;
+            z-index: 1;
         }
         
         .btn-group button {
             flex: 1;
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: transparent;
             color: var(--text);
             border: none;
+            border-radius: 8px;
+        }
+        
+        .btn-group button .material-symbols-outlined {
+            font-size: 1.1rem;
         }
         
         .btn-group button.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
         }
         
         .btn-group button:hover:not(:disabled) {
@@ -335,7 +423,8 @@
         }
         
         .btn-group button.active:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
         }
         
         .status {
@@ -366,6 +455,73 @@
             font-variant-numeric: tabular-nums;
         }
         
+        .audio-progress-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg-input);
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .progress-time-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .progress-bar-container {
+            position: relative;
+            width: 100%;
+            height: 8px;
+            background: var(--bg-hover);
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: visible;
+        }
+        
+        .progress-bar-container:hover {
+            height: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s linear;
+            position: relative;
+        }
+        
+        .progress-handle {
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+        }
+        
+        .progress-handle:active {
+            cursor: grabbing;
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .progress-bar-container:hover .progress-handle {
+            transform: translateY(-50%) scale(1.15);
+        }
+        
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -375,15 +531,18 @@
         
         .info-card {
             background: var(--bg-input);
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px var(--shadow);
+            position: relative;
+            z-index: 1;
         }
         
         .info-label {
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         
         .info-value {
@@ -401,50 +560,64 @@
         
         .speaker-icon {
             text-align: center;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 24px;
+            border-radius: 16px;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 2px solid var(--border);
+            background: var(--bg-input);
         }
         
         .speaker-icon.active {
             background: rgba(99, 102, 241, 0.1);
             border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            transform: scale(1.05);
         }
         
-        .speaker-icon .icon {
+        .speaker-icon .icon .material-symbols-outlined {
             font-size: 3rem;
             margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .speaker-icon.active .icon .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
         }
         
         .speaker-icon .label {
             font-size: 0.9rem;
             color: var(--text-muted);
+            font-weight: 500;
         }
         
         .toast {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 24px;
+            right: 24px;
             padding: 16px 24px;
-            border-radius: 8px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             display: none;
             animation: slideIn 0.3s ease;
-            z-index: 1000;
+            z-index: 1001;
             color: white;
+            font-weight: 500;
+            font-size: 0.95rem;
         }
         
         .toast.success {
-            background: var(--success);
+            background: linear-gradient(135deg, #10b981, #059669);
         }
         
         .toast.error {
-            background: var(--danger);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
         }
         
         .toast.warning {
-            background: var(--warning);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
         }
         
         @keyframes slideIn {
@@ -483,8 +656,8 @@
         }
         
         .fab {
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -493,14 +666,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
             transition: all 0.3s ease;
+            position: relative;
+            padding: 0;
+        }
+        
+        .fab .material-symbols-outlined {
+            font-size: 1.8rem;
+            font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
         }
         
         .fab:hover {
             transform: translateY(-4px) scale(1.1);
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.6);
+            box-shadow: 0 10px 28px rgba(99, 102, 241, 0.6);
         }
         
         .fab-tooltip {
@@ -588,25 +767,37 @@
             color: var(--text);
         }
         
+        .modal-title .material-symbols-outlined {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+        
         .modal-close {
             background: var(--bg-hover);
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
             color: var(--text);
             transition: all 0.3s ease;
+            padding: 0;
+        }
+        
+        .modal-close .material-symbols-outlined {
+            font-size: 1.3rem;
         }
         
         .modal-close:hover {
             background: var(--danger);
             color: white;
-            transform: rotate(90deg);
+            transform: rotate(90deg) scale(1.1);
         }
         
         .modal-content {
@@ -631,6 +822,10 @@
             gap: 8px;
         }
         
+        .modal-section-title .material-symbols-outlined {
+            font-size: 1.4rem;
+        }
+        
         .modal-section p {
             color: var(--text);
             line-height: 1.6;
@@ -643,57 +838,76 @@
         }
         
         .modal-section li {
-            padding: 10px;
+            padding: 14px 16px;
             background: var(--bg-input);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border-left: 3px solid var(--primary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
             color: var(--text);
+            transition: all 0.3s ease;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+        
+        .modal-section li:hover {
+            background: var(--bg-hover);
+            transform: translateX(2px);
         }
         
         .modal-section li strong {
             color: var(--primary);
+            font-weight: 600;
         }
         
         .faq-item {
             background: var(--bg-input);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
         }
         
         .faq-question {
             font-weight: 600;
             color: var(--text);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             align-items: start;
             gap: 8px;
+            font-size: 0.95rem;
         }
         
         .faq-answer {
             color: var(--text-muted);
             line-height: 1.6;
             padding-left: 24px;
+            font-size: 0.9rem;
         }
         
         .tool-link {
             display: block;
             background: var(--bg-input);
-            padding: 16px;
-            border-radius: 8px;
+            padding: 18px;
+            border-radius: 12px;
             margin-bottom: 12px;
             text-decoration: none;
             color: var(--text);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow);
         }
         
         .tool-link:hover {
             background: var(--bg-hover);
             border-color: var(--primary);
             transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
         }
         
         .tool-link-title {
@@ -701,13 +915,18 @@
             margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             color: var(--primary);
+        }
+        
+        .tool-link-title .material-symbols-outlined {
+            font-size: 1.5rem;
         }
         
         .tool-link-desc {
             font-size: 0.9rem;
             color: var(--text-muted);
+            line-height: 1.5;
         }
         
         /* Tablet optimizations */
@@ -745,12 +964,12 @@
                 font-size: 1.1rem;
             }
             
-            h1 .emoji {
-                font-size: 1.2rem;
+            h1 .material-symbols-outlined {
+                font-size: 1.4rem;
             }
             
             header {
-                padding: 10px 14px;
+                padding: 12px 16px;
             }
             
             .main-content {
@@ -792,6 +1011,10 @@
                 font-size: 0.95rem;
             }
             
+            button .material-symbols-outlined {
+                font-size: 1.1rem;
+            }
+            
             .speaker-icons {
                 gap: 12px;
                 margin: 16px 0;
@@ -799,11 +1022,11 @@
             }
             
             .speaker-icon {
-                padding: 12px 16px;
-                min-width: 80px;
+                padding: 16px 20px;
+                min-width: 90px;
             }
             
-            .speaker-icon .icon {
+            .speaker-icon .icon .material-symbols-outlined {
                 font-size: 2.2rem;
                 margin-bottom: 4px;
             }
@@ -842,15 +1065,38 @@
                 font-size: 1rem;
             }
             
+            .audio-progress-container {
+                padding: 16px;
+                margin: 16px 0;
+            }
+            
+            .progress-time-info {
+                font-size: 0.85rem;
+                margin-bottom: 8px;
+            }
+            
+            .progress-bar-container {
+                height: 10px;
+            }
+            
+            .progress-handle {
+                width: 18px;
+                height: 18px;
+                right: -9px;
+            }
+            
             .fab-container {
                 bottom: 16px;
                 right: 16px;
             }
             
             .fab {
-                width: 48px;
-                height: 48px;
-                font-size: 1.3rem;
+                width: 52px;
+                height: 52px;
+            }
+            
+            .fab .material-symbols-outlined {
+                font-size: 1.5rem;
             }
             
             .fab-tooltip {
@@ -871,24 +1117,35 @@
                 font-size: 1.3rem;
             }
             
+            .modal-title .material-symbols-outlined {
+                font-size: 1.5rem;
+            }
+            
             .modal-content {
                 padding: 16px;
             }
             
+            .toast {
+                top: 16px;
+                right: 16px;
+                font-size: 0.88rem;
+                max-width: calc(100vw - 32px);
+            }
+            
             .theme-toggle {
-                padding: 8px;
-                font-size: 1rem;
-                gap: 0;
-                width: auto;
-                min-width: 40px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                gap: 6px;
+                min-width: auto;
+                max-width: fit-content;
+            }
+            
+            .theme-toggle .material-symbols-outlined {
+                font-size: 1.1rem;
             }
             
             .theme-toggle #theme-text {
-                display: none;
-            }
-            
-            .theme-toggle #theme-icon {
-                font-size: 1.2rem;
+                display: inline;
             }
         }
         
@@ -898,8 +1155,8 @@
                 font-size: 1rem;
             }
             
-            h1 .emoji {
-                font-size: 1.1rem;
+            h1 .material-symbols-outlined {
+                font-size: 1.3rem;
             }
             
             .main-content {
@@ -915,6 +1172,10 @@
                 font-size: 1rem;
             }
             
+            .section-title .material-symbols-outlined {
+                font-size: 1.5rem;
+            }
+            
             .visualizer-container {
                 padding: 12px;
             }
@@ -925,11 +1186,11 @@
             }
             
             .speaker-icon {
-                padding: 10px 12px;
-                min-width: 70px;
+                padding: 12px 14px;
+                min-width: 75px;
             }
             
-            .speaker-icon .icon {
+            .speaker-icon .icon .material-symbols-outlined {
                 font-size: 2rem;
             }
             
@@ -942,29 +1203,44 @@
                 font-size: 0.9rem;
             }
             
+            button .material-symbols-outlined {
+                font-size: 1rem;
+            }
+            
             .btn-group button {
                 padding: 10px 14px;
                 font-size: 0.9rem;
             }
             
             .theme-toggle {
-                padding: 6px;
-                width: auto;
-                min-width: 36px;
+                padding: 6px 10px;
+                font-size: 0.75rem;
             }
             
-            .theme-toggle #theme-icon {
-                font-size: 1.1rem;
+            .theme-toggle .material-symbols-outlined {
+                font-size: 1rem;
             }
             
             .fab {
-                width: 44px;
-                height: 44px;
-                font-size: 1.2rem;
+                width: 48px;
+                height: 48px;
+            }
+            
+            .fab .material-symbols-outlined {
+                font-size: 1.4rem;
             }
             
             .recording-time {
                 font-size: 1.4rem;
+            }
+            
+            .audio-progress-container {
+                padding: 12px;
+                margin: 12px 0;
+            }
+            
+            .progress-time-info {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -974,12 +1250,12 @@
         <header>
             <div class="header-left">
                 <h1>
-                    <span class="emoji">🎤</span>
+                    <span class="material-symbols-outlined">mic</span>
                     <span class="title-text">Microphone & Speaker Test</span>
                 </h1>
             </div>
             <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
-                <span id="theme-icon">☀️</span>
+                <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
                 <span id="theme-text">Light</span>
             </button>
         </header>
@@ -988,7 +1264,7 @@
             <!-- Microphone Test -->
             <div class="card">
                 <div class="section-title">
-                    <span>🎙️</span>
+                    <span class="material-symbols-outlined">mic</span>
                     <span>Microphone Test</span>
                 </div>
                 
@@ -1010,11 +1286,11 @@
                 
                 <div class="controls">
                     <button class="btn-primary" id="start-record-btn" onclick="startRecording()">
-                        <span>🔴</span>
+                        <span class="material-symbols-outlined">radio_button_checked</span>
                         <span>Start Recording</span>
                     </button>
                     <button class="btn-danger" id="stop-record-btn" onclick="stopRecording()" disabled>
-                        <span>⏹️</span>
+                        <span class="material-symbols-outlined">stop</span>
                         <span>Stop Recording</span>
                     </button>
                 </div>
@@ -1040,51 +1316,69 @@
             <!-- Speaker Test -->
             <div class="card" id="playback-section" style="display: none;">
                 <div class="section-title">
-                    <span>🔊</span>
+                    <span class="material-symbols-outlined">volume_up</span>
                     <span>Speaker Test</span>
                 </div>
                 
                 <div class="speaker-icons">
                     <div class="speaker-icon" id="left-icon">
-                        <div class="icon">🔈</div>
+                        <div class="icon">
+                            <span class="material-symbols-outlined">speaker</span>
+                        </div>
                         <div class="label">Left</div>
                     </div>
                     <div class="speaker-icon" id="both-icon">
-                        <div class="icon">🔊</div>
+                        <div class="icon">
+                            <span class="material-symbols-outlined">speaker_group</span>
+                        </div>
                         <div class="label">Both</div>
                     </div>
                     <div class="speaker-icon" id="right-icon">
-                        <div class="icon">🔉</div>
+                        <div class="icon">
+                            <span class="material-symbols-outlined">speaker</span>
+                        </div>
                         <div class="label">Right</div>
                     </div>
                 </div>
                 
                 <div class="btn-group">
                     <button onclick="setChannel('left')" id="left-btn">
-                        <span>🔈</span>
+                        <span class="material-symbols-outlined">speaker</span>
                         <span>Left Only</span>
                     </button>
                     <button onclick="setChannel('both')" id="both-btn" class="active">
-                        <span>🔊</span>
+                        <span class="material-symbols-outlined">speaker_group</span>
                         <span>Both</span>
                     </button>
                     <button onclick="setChannel('right')" id="right-btn">
-                        <span>🔉</span>
+                        <span class="material-symbols-outlined">speaker</span>
                         <span>Right Only</span>
                     </button>
                 </div>
                 
+                <div class="audio-progress-container" id="audio-progress" style="display: none;">
+                    <div class="progress-time-info">
+                        <span id="current-time">0:00</span>
+                        <span id="total-time">0:00</span>
+                    </div>
+                    <div class="progress-bar-container" id="progress-container">
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress-handle"></div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="controls" style="margin-top: 20px;">
                     <button class="btn-success" id="play-btn" onclick="playAudio()">
-                        <span>▶️</span>
+                        <span class="material-symbols-outlined">play_arrow</span>
                         <span>Play Recording</span>
                     </button>
                     <button class="btn-danger" id="pause-btn" onclick="pauseAudio()" disabled>
-                        <span>⏸️</span>
+                        <span class="material-symbols-outlined">pause</span>
                         <span>Pause</span>
                     </button>
                     <button class="btn-secondary" id="download-btn" onclick="downloadRecording()">
-                        <span>💾</span>
+                        <span class="material-symbols-outlined">download</span>
                         <span>Download</span>
                     </button>
                 </div>
@@ -1099,11 +1393,11 @@
     <!-- Floating Action Buttons -->
     <div class="fab-container">
         <button class="fab" onclick="openAboutModal()" aria-label="About this tool">
-            <span>ℹ️</span>
+            <span class="material-symbols-outlined">info</span>
             <span class="fab-tooltip">About This Tool</span>
         </button>
         <button class="fab" onclick="openSimilarToolsModal()" aria-label="Similar tools">
-            <span>🔗</span>
+            <span class="material-symbols-outlined">apps</span>
             <span class="fab-tooltip">Similar Tools</span>
         </button>
     </div>
@@ -1113,15 +1407,17 @@
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <span>🎤</span>
+                    <span class="material-symbols-outlined">mic</span>
                     <span>About Audio Test</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>💡</span>
+                        <span class="material-symbols-outlined">lightbulb</span>
                         <span>What Does This Tool Do?</span>
                     </h3>
                     <p>
@@ -1131,13 +1427,14 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>🚀</span>
+                        <span class="material-symbols-outlined">rocket_launch</span>
                         <span>Key Features</span>
                     </h3>
                     <ul>
                         <li><strong>Live Waveform Visualization:</strong> See your audio input in real-time with beautiful waveforms</li>
-                        <li><strong>Audio Recording:</strong> Record audio and play it back to test your microphone</li>
+                        <li><strong>Audio Recording:</strong> Record up to 1 minute of audio and play it back to test your microphone</li>
                         <li><strong>Stereo Channel Control:</strong> Test left, right, or both speakers independently</li>
+                        <li><strong>Seekable Playback:</strong> Click or drag the progress bar to jump to any timestamp</li>
                         <li><strong>Input Level Meter:</strong> Monitor your microphone input levels visually</li>
                         <li><strong>Download Recordings:</strong> Save your test recordings for later analysis</li>
                         <li><strong>Sample Rate Info:</strong> View audio sample rate and recording statistics</li>
@@ -1146,14 +1443,14 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>📝</span>
+                        <span class="material-symbols-outlined">checklist</span>
                         <span>How to Use</span>
                     </h3>
                     <ul>
                         <li><strong>Step 1:</strong> Click "Start Recording" to activate your microphone (grant permission if prompted)</li>
                         <li><strong>Step 2:</strong> Speak into your microphone and watch the waveform visualization</li>
                         <li><strong>Step 3:</strong> Monitor the input level meter to ensure proper audio levels</li>
-                        <li><strong>Step 4:</strong> Click "Stop Recording" when finished</li>
+                        <li><strong>Step 4:</strong> Click "Stop Recording" when finished (max 1 minute, auto-stops)</li>
                         <li><strong>Step 5:</strong> Select channel (Left, Both, or Right) and play back your recording</li>
                         <li><strong>Step 6:</strong> Download your recording if needed for further testing</li>
                     </ul>
@@ -1161,7 +1458,7 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>❓</span>
+                        <span class="material-symbols-outlined">help</span>
                         <span>Frequently Asked Questions</span>
                     </h3>
                     
@@ -1182,6 +1479,16 @@
                         </div>
                         <div class="faq-answer">
                             The channel selector lets you test your left and right speakers independently to ensure your stereo setup is working correctly.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Q:</span>
+                            <span>How long can I record for?</span>
+                        </div>
+                        <div class="faq-answer">
+                            Recordings are limited to 1 minute (60 seconds). The recording will automatically stop when the limit is reached. This is sufficient for quick microphone tests and audio checks.
                         </div>
                     </div>
                     
@@ -1214,10 +1521,12 @@
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <span>🔗</span>
+                    <span class="material-symbols-outlined">apps</span>
                     <span>Similar Tools</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
@@ -1237,19 +1546,19 @@
         // ========================================
         const similarTools = [
             {
-                icon: '📖',
+                icon: 'book',
                 title: 'README Viewer',
                 description: 'Beautiful README.md viewer with live markdown rendering',
                 url: 'https://toolstudio.in/tools/1/readme-viewer'
             },
             {
-                icon: '📷',
+                icon: 'photo_camera',
                 title: 'Camera Test',
                 description: 'Test your camera, capture photos, and download images instantly',
                 url: 'https://toolstudio.in/tools/2/camera-test'
             },
             {
-                icon: '📄',
+                icon: 'description',
                 title: 'PDF Page Remover',
                 description: 'Remove specific pages from PDF files quickly and easily',
                 url: 'https://toolstudio.in/tools/3/pdf-page-remover'
@@ -1289,7 +1598,7 @@
             container.innerHTML = similarTools.map(tool => `
                 <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
                     <div class="tool-link-title">
-                        <span>${tool.icon}</span>
+                        <span class="material-symbols-outlined">${tool.icon}</span>
                         <span>${tool.title}</span>
                     </div>
                     <div class="tool-link-desc">${tool.description}</div>
@@ -1318,10 +1627,10 @@
             const icon = document.getElementById('theme-icon');
             const text = document.getElementById('theme-text');
             if (theme === 'dark') {
-                icon.textContent = '🌙';
+                icon.textContent = 'dark_mode';
                 text.textContent = 'Dark';
             } else {
-                icon.textContent = '☀️';
+                icon.textContent = 'light_mode';
                 text.textContent = 'Light';
             }
         }
@@ -1382,6 +1691,7 @@
                 mediaRecorder.onstop = () => {
                     audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                     document.getElementById('playback-section').style.display = 'block';
+                    document.getElementById('audio-progress').style.display = 'block';
                     document.getElementById('playback-section').scrollIntoView({ behavior: 'smooth' });
                 };
                 
@@ -1488,6 +1798,12 @@
             const timeStr = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             document.getElementById('recording-time').textContent = timeStr;
             document.getElementById('rec-duration').textContent = timeStr;
+            
+            // Auto-stop recording after 1 minute (60 seconds)
+            if (seconds >= 60) {
+                stopRecording();
+                showToast('Recording stopped - 1 minute limit reached', 'warning');
+            }
         }
         
         // Set audio channel
@@ -1551,6 +1867,14 @@
             
             applyPanning();
             
+            // Set up progress tracking
+            audioElement.addEventListener('loadedmetadata', () => {
+                const duration = audioElement.duration;
+                document.getElementById('total-time').textContent = formatTime(duration);
+            });
+            
+            audioElement.addEventListener('timeupdate', updateProgress);
+            
             audioElement.play();
             
             // Update UI
@@ -1560,6 +1884,7 @@
             audioElement.onended = () => {
                 document.getElementById('play-btn').disabled = false;
                 document.getElementById('pause-btn').disabled = true;
+                updateProgress(); // Final update to show 100%
             };
             
             showToast(`Playing on ${currentChannel} speaker(s)`, 'success');
@@ -1589,6 +1914,70 @@
             
             showToast('Recording downloaded!', 'success');
         };
+        
+        // Format time in MM:SS format
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            if (!audioElement) return;
+            
+            const currentTime = audioElement.currentTime;
+            const duration = audioElement.duration;
+            
+            if (duration && !isNaN(duration)) {
+                const progressPercent = (currentTime / duration) * 100;
+                document.getElementById('progress-bar').style.width = progressPercent + '%';
+                document.getElementById('current-time').textContent = formatTime(currentTime);
+            }
+        }
+        
+        // Seek functionality
+        const progressContainer = document.getElementById('progress-container');
+        let isSeeking = false;
+        
+        progressContainer.addEventListener('mousedown', startSeeking);
+        progressContainer.addEventListener('touchstart', startSeeking);
+        
+        function startSeeking(e) {
+            if (!audioElement || !audioElement.duration) return;
+            
+            isSeeking = true;
+            seek(e);
+            
+            document.addEventListener('mousemove', seek);
+            document.addEventListener('touchmove', seek);
+            document.addEventListener('mouseup', stopSeeking);
+            document.addEventListener('touchend', stopSeeking);
+        }
+        
+        function seek(e) {
+            if (!isSeeking && e.type !== 'mousedown' && e.type !== 'touchstart') return;
+            if (!audioElement || !audioElement.duration) return;
+            
+            e.preventDefault();
+            
+            const rect = progressContainer.getBoundingClientRect();
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            const offsetX = clientX - rect.left;
+            const percentage = Math.max(0, Math.min(1, offsetX / rect.width));
+            
+            audioElement.currentTime = percentage * audioElement.duration;
+            updateProgress();
+        }
+        
+        function stopSeeking() {
+            isSeeking = false;
+            document.removeEventListener('mousemove', seek);
+            document.removeEventListener('touchmove', seek);
+            document.removeEventListener('mouseup', stopSeeking);
+            document.removeEventListener('touchend', stopSeeking);
+        }
         
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
