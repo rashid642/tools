@@ -12,6 +12,9 @@
     
     <title>JSON Formatter - Validate & Beautify JSON Online | Tool Studio</title>
     
+    <!-- Google Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    
     <!-- Canonical URL -->
     <link rel="canonical" href="https://toolstudio.in/tools/5/json-formatter">
     
@@ -94,6 +97,25 @@
             --code-bg: #f8fafc;
         }
         
+        /* Material Symbols */
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            font-feature-settings: 'liga';
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-main);
@@ -113,7 +135,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
+            padding: 8px 16px;
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
             box-shadow: 0 2px 8px var(--shadow);
@@ -122,19 +144,19 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
         
         h1 {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         
         h1 .emoji {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
         }
         
         h1 .title-text {
@@ -148,14 +170,18 @@
             background: var(--bg-input);
             border: 2px solid var(--border);
             border-radius: 50px;
-            padding: 6px 12px;
+            padding: 4px 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
+            gap: 5px;
+            font-size: 0.8rem;
             color: var(--text);
+        }
+        
+        .theme-toggle .material-symbols-outlined {
+            font-size: 18px;
         }
         
         .theme-toggle:hover {
@@ -177,18 +203,18 @@
             }
             
             h1 {
-                font-size: 1.3rem;
+                font-size: 1rem;
             }
             
             header {
-                padding: 12px 16px;
+                padding: 8px 12px;
             }
         }
         
         .panel {
             background: var(--bg-card);
             border-right: 1px solid var(--border);
-            padding: 12px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -202,39 +228,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
             border-bottom: 1px solid var(--border);
             flex-wrap: wrap;
-            gap: 10px;
-            row-gap: 8px;
+            gap: 8px;
+            row-gap: 6px;
         }
         
         .panel-title {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+        }
+        
+        .panel-title .material-symbols-outlined {
+            font-size: 20px;
         }
         
         .btn-group {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             flex-wrap: wrap;
         }
         
         button {
-            padding: 6px 12px;
+            padding: 5px 10px;
             border: none;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 4px;
+        }
+        
+        button .material-symbols-outlined {
+            font-size: 18px;
         }
         
         button:disabled {
@@ -500,8 +534,8 @@
         }
         
         .fab {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -510,9 +544,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
             transition: all 0.3s ease;
+        }
+        
+        .fab .material-symbols-outlined {
+            font-size: 22px;
         }
         
         .fab:hover {
@@ -871,7 +909,7 @@
                 </h1>
             </div>
             <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
-                <span id="theme-icon">🌙</span>
+                <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
                 <span id="theme-text">Dark</span>
             </button>
         </header>
@@ -881,24 +919,24 @@
             <div class="panel">
                 <div class="panel-header">
                     <div class="panel-title">
-                        <span>📝</span>
+                        <span class="material-symbols-outlined">description</span>
                         <span>JSON Input</span>
                     </div>
                     <div class="btn-group">
                         <button class="btn-secondary" onclick="clearInput()">
-                            <span>🗑️</span>
+                            <span class="material-symbols-outlined">delete</span>
                             <span>Clear</span>
                         </button>
                         <button class="btn-secondary" onclick="loadExample()">
-                            <span>📋</span>
+                            <span class="material-symbols-outlined">content_copy</span>
                             <span>Example</span>
                         </button>
                         <button class="btn-primary" onclick="formatJSON()">
-                            <span>✨</span>
+                            <span class="material-symbols-outlined">auto_awesome</span>
                             <span>Format</span>
                         </button>
                         <button class="btn-success" onclick="minifyJSON()">
-                            <span>⚡</span>
+                            <span class="material-symbols-outlined">bolt</span>
                             <span>Minify</span>
                         </button>
                     </div>
@@ -936,7 +974,7 @@ Example:
             <div class="panel">
                 <div class="panel-header">
                     <div class="panel-title">
-                        <span>✨</span>
+                        <span class="material-symbols-outlined">auto_awesome</span>
                         <span>Formatted JSON</span>
                     </div>
                     <div class="indent-control">
@@ -945,19 +983,15 @@ Example:
                     </div>
                     <div class="btn-group">
                         <button class="btn-secondary" onclick="expandAll()" id="expand-btn" style="display: none;">
-                            <span>⬇️</span>
+                            <span class="material-symbols-outlined">unfold_more</span>
                             <span>Expand All</span>
                         </button>
-                        <button class="btn-secondary" onclick="collapseAll()" id="collapse-btn" style="display: none;">
-                            <span>⬆️</span>
-                            <span>Collapse All</span>
-                        </button>
                         <button class="btn-secondary" onclick="copyOutput()">
-                            <span>📋</span>
+                            <span class="material-symbols-outlined">content_copy</span>
                             <span>Copy</span>
                         </button>
                         <button class="btn-secondary" onclick="downloadJSON()">
-                            <span>💾</span>
+                            <span class="material-symbols-outlined">download</span>
                             <span>Download</span>
                         </button>
                     </div>
@@ -972,11 +1006,11 @@ Example:
     <!-- Floating Action Buttons -->
     <div class="fab-container">
         <button class="fab" onclick="openAboutModal()" aria-label="About this tool">
-            <span>ℹ️</span>
+            <span class="material-symbols-outlined">info</span>
             <span class="fab-tooltip">About This Tool</span>
         </button>
         <button class="fab" onclick="openSimilarToolsModal()" aria-label="Similar tools">
-            <span>🔗</span>
+            <span class="material-symbols-outlined">apps</span>
             <span class="fab-tooltip">Similar Tools</span>
         </button>
     </div>
@@ -989,51 +1023,57 @@ Example:
                     <span>{ }</span>
                     <span>About JSON Formatter</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>💡</span>
+                        <span class="material-symbols-outlined">lightbulb</span>
                         <span>What Does This Tool Do?</span>
                     </h3>
                     <p>
-                        JSON Formatter is a powerful tool for developers to format, validate, and beautify JSON data. Whether you need to make minified JSON readable, validate JSON syntax, or compress formatted JSON, this tool handles it all instantly. Perfect for debugging, API development, and working with JSON configuration files.
+                        JSON Formatter is an advanced tool for developers to format, validate, and beautify JSON data with an interactive collapsible tree view. Make minified JSON readable with proper indentation, validate syntax, compress formatted JSON, and navigate through complex JSON structures with ease. Perfect for debugging, API development, and working with JSON configuration files.
                     </p>
                 </div>
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>🚀</span>
+                        <span class="material-symbols-outlined">rocket_launch</span>
                         <span>Key Features</span>
                     </h3>
                     <ul>
+                        <li><strong>Interactive Tree View:</strong> Collapse and expand JSON nodes for easy navigation</li>
+                        <li><strong>Syntax Highlighting:</strong> Color-coded keys, values, and types for better readability</li>
+                        <li><strong>Line Numbers:</strong> Track exactly where you are in the JSON structure</li>
                         <li><strong>Format & Beautify:</strong> Make minified JSON readable with proper indentation</li>
                         <li><strong>Minify JSON:</strong> Compress formatted JSON by removing whitespace</li>
                         <li><strong>Validate Syntax:</strong> Instantly check if your JSON is valid</li>
                         <li><strong>Custom Indentation:</strong> Choose indent size from 1-8 spaces</li>
+                        <li><strong>Expand All:</strong> Quick control to open all nodes at once</li>
                         <li><strong>Copy & Download:</strong> Easy export options for your formatted JSON</li>
-                        <li><strong>Real-time Stats:</strong> Track character count, line count, and file size</li>
+                        <li><strong>Real-time Stats:</strong> Track character count, line count, file size, and validity</li>
                     </ul>
                 </div>
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>📝</span>
+                        <span class="material-symbols-outlined">checklist</span>
                         <span>How to Use</span>
                     </h3>
                     <ul>
                         <li><strong>Step 1:</strong> Paste your JSON data into the input panel on the left</li>
                         <li><strong>Step 2:</strong> Choose your preferred indent size (default is 2 spaces)</li>
                         <li><strong>Step 3:</strong> Click "Format" to beautify or "Minify" to compress</li>
-                        <li><strong>Step 4:</strong> View the formatted result in the output panel</li>
-                        <li><strong>Step 5:</strong> Use "Copy" to copy to clipboard or "Download" to save as file</li>
+                        <li><strong>Step 4:</strong> View the formatted result in the interactive tree view on the right</li>
+                        <li><strong>Step 5:</strong> Click the ▶ and ▼ arrows to collapse/expand JSON nodes</li>
+                        <li><strong>Step 6:</strong> Use "Expand All" to open all collapsed nodes at once</li>
+                        <li><strong>Step 7:</strong> Use "Copy" to copy to clipboard or "Download" to save as file</li>
                     </ul>
                 </div>
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>❓</span>
+                        <span class="material-symbols-outlined">help</span>
                         <span>Frequently Asked Questions</span>
                     </h3>
                     
@@ -1086,10 +1126,10 @@ Example:
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <span>🔗</span>
+                    <span class="material-symbols-outlined">apps</span>
                     <span>Similar Tools</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
@@ -1109,22 +1149,28 @@ Example:
         // ========================================
         const similarTools = [
             {
-                icon: '📖',
+                icon: 'book',
                 title: 'README Viewer',
                 description: 'Beautiful README.md viewer with live markdown rendering',
                 url: 'https://toolstudio.in/tools/1/readme-viewer'
             },
             {
-                icon: '📄',
+                icon: 'description',
                 title: 'PDF Page Remover',
                 description: 'Remove specific pages from PDF files quickly and easily',
                 url: 'https://toolstudio.in/tools/3/pdf-page-remover'
             },
             {
-                icon: '📷',
+                icon: 'photo_camera',
                 title: 'Camera Test',
                 description: 'Test your camera, capture photos, and download images instantly',
                 url: 'https://toolstudio.in/tools/2/camera-test'
+            },
+            {
+                icon: 'mic',
+                title: 'Audio Test',
+                description: 'Test your microphone with real-time visualization and recording',
+                url: 'https://toolstudio.in/tools/4/audio-test'
             }
         ];
         
@@ -1161,7 +1207,7 @@ Example:
             container.innerHTML = similarTools.map(tool => `
                 <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
                     <div class="tool-link-title">
-                        <span>${tool.icon}</span>
+                        <span class="material-symbols-outlined">${tool.icon}</span>
                         <span>${tool.title}</span>
                     </div>
                     <div class="tool-link-desc">${tool.description}</div>
@@ -1188,10 +1234,10 @@ Example:
             const icon = document.getElementById('theme-icon');
             const text = document.getElementById('theme-text');
             if (theme === 'dark') {
-                icon.textContent = '🌙';
+                icon.textContent = 'dark_mode';
                 text.textContent = 'Dark';
             } else {
-                icon.textContent = '☀️';
+                icon.textContent = 'light_mode';
                 text.textContent = 'Light';
             }
         }
@@ -1510,9 +1556,8 @@ Example:
                 
                 buildNode(parsed, 0, output, false, undefined);
                 
-                // Show expand/collapse buttons
+                // Show expand button
                 document.getElementById('expand-btn').style.display = 'flex';
-                document.getElementById('collapse-btn').style.display = 'flex';
                 
                 // Calculate stats based on formatted JSON
                 const indent = parseInt(document.getElementById('indent-size').value) || 2;
@@ -1546,9 +1591,8 @@ Example:
                 currentOutputMode = 'minified';
                 allNodes = []; // Clear nodes
                 
-                // Hide expand/collapse buttons for minified view
+                // Hide expand button for minified view
                 document.getElementById('expand-btn').style.display = 'none';
-                document.getElementById('collapse-btn').style.display = 'none';
                 
                 updateOutputStats(minified, true);
                 input.classList.remove('error');
@@ -1576,20 +1620,6 @@ Example:
         };
         
         // Collapse all nodes
-        window.collapseAll = function() {
-            allNodes.forEach(node => {
-                if (!node.collapsed) {
-                    node.collapsed = true;
-                    node.toggle.textContent = "▶ ";
-                    node.bracket.textContent = node.isArray ? `[...${node.length}]` : `{...${node.length}}`;
-                    node.children.forEach(child => {
-                        setVisibility(child, false);
-                    });
-                }
-            });
-            showToast('✓ All nodes collapsed!');
-        };
-        
         function updateOutputStats(text, valid) {
             const bytes = new Blob([text]).size;
             document.getElementById('output-size').textContent = formatBytes(bytes);
@@ -1605,7 +1635,7 @@ Example:
         }
         
         function showError(message) {
-            inputError.textContent = '❌ ' + message;
+            inputError.textContent = '✗ ' + message;
             inputError.classList.add('active');
         }
         
@@ -1631,7 +1661,7 @@ Example:
                 navigator.clipboard.writeText(text).then(() => {
                     showToast('✓ Copied to clipboard!');
                 }).catch(() => {
-                    showToast('❌ Failed to copy', true);
+                    showToast('✗ Failed to copy', true);
                 });
             } catch (error) {
                 showError('Cannot copy invalid JSON');
@@ -1688,9 +1718,8 @@ Example:
             updateOutputStats('', false);
             input.classList.remove('error');
             
-            // Hide expand/collapse buttons
+            // Hide expand button
             document.getElementById('expand-btn').style.display = 'none';
-            document.getElementById('collapse-btn').style.display = 'none';
         };
         
         window.loadExample = function() {
