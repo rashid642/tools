@@ -165,7 +165,7 @@
         
         .layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 45% 55%;
             gap: 0;
             flex: 1;
             overflow: hidden;
@@ -203,10 +203,11 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
+            row-gap: 8px;
         }
         
         .panel-title {
@@ -324,6 +325,79 @@
             word-wrap: break-word;
         }
         
+        /* Collapsible JSON Viewer Styles */
+        .json-viewer {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .json-line-container {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .line-number {
+            min-width: 50px;
+            text-align: right;
+            padding-right: 12px;
+            color: var(--text-muted);
+            user-select: none;
+            opacity: 0.5;
+        }
+        
+        .json-line {
+            flex: 1;
+            white-space: pre;
+        }
+        
+        .toggle {
+            cursor: pointer;
+            margin-right: 6px;
+            color: var(--text-muted);
+            user-select: none;
+            display: inline-block;
+            width: 16px;
+            font-weight: bold;
+        }
+        
+        .toggle:hover {
+            color: var(--primary);
+        }
+        
+        /* JSON Syntax Highlighting */
+        .json-key { 
+            color: #38bdf8;
+            font-weight: 500;
+        }
+        
+        .json-string { 
+            color: #22c55e; 
+        }
+        
+        .json-number { 
+            color: #facc15; 
+        }
+        
+        .json-boolean { 
+            color: #f472b6;
+            font-weight: 600;
+        }
+        
+        .json-null { 
+            color: #f87171;
+            font-style: italic;
+        }
+        
+        .json-bracket {
+            color: var(--text);
+            font-weight: bold;
+        }
+        
+        .json-comma {
+            color: var(--text-muted);
+        }
+        
         .error-message {
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid var(--danger);
@@ -336,21 +410,6 @@
         }
         
         .error-message.active {
-            display: block;
-        }
-        
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: var(--success);
-            margin-top: 8px;
-            display: none;
-            font-size: 0.85rem;
-        }
-        
-        .success-message.active {
             display: block;
         }
         
@@ -834,6 +893,14 @@
                             <span>📋</span>
                             <span>Example</span>
                         </button>
+                        <button class="btn-primary" onclick="formatJSON()">
+                            <span>✨</span>
+                            <span>Format</span>
+                        </button>
+                        <button class="btn-success" onclick="minifyJSON()">
+                            <span>⚡</span>
+                            <span>Minify</span>
+                        </button>
                     </div>
                 </div>
                 <textarea id="json-input" placeholder='Paste your JSON here...
@@ -854,6 +921,14 @@ Example:
                         <span class="stat-label">Lines:</span>
                         <span class="stat-value" id="line-count">0</span>
                     </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Size:</span>
+                        <span class="stat-value" id="output-size">0 bytes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Valid:</span>
+                        <span class="stat-value" id="validity">-</span>
+                    </div>
                 </div>
             </div>
             
@@ -868,37 +943,26 @@ Example:
                         <label for="indent-size">Indent:</label>
                         <input type="number" id="indent-size" min="1" max="8" value="2">
                     </div>
-                </div>
-                <div class="btn-group" style="margin-bottom: 8px;">
-                    <button class="btn-primary" onclick="formatJSON()">
-                        <span>✨</span>
-                        <span>Format</span>
-                    </button>
-                    <button class="btn-success" onclick="minifyJSON()">
-                        <span>⚡</span>
-                        <span>Minify</span>
-                    </button>
-                    <button class="btn-secondary" onclick="copyOutput()">
-                        <span>📋</span>
-                        <span>Copy</span>
-                    </button>
-                    <button class="btn-secondary" onclick="downloadJSON()">
-                        <span>💾</span>
-                        <span>Download</span>
-                    </button>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="expandAll()" id="expand-btn" style="display: none;">
+                            <span>⬇️</span>
+                            <span>Expand All</span>
+                        </button>
+                        <button class="btn-secondary" onclick="collapseAll()" id="collapse-btn" style="display: none;">
+                            <span>⬆️</span>
+                            <span>Collapse All</span>
+                        </button>
+                        <button class="btn-secondary" onclick="copyOutput()">
+                            <span>📋</span>
+                            <span>Copy</span>
+                        </button>
+                        <button class="btn-secondary" onclick="downloadJSON()">
+                            <span>💾</span>
+                            <span>Download</span>
+                        </button>
+                    </div>
                 </div>
                 <div id="output"></div>
-                <div class="success-message" id="success-message"></div>
-                <div class="stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Size:</span>
-                        <span class="stat-value" id="output-size">0 bytes</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Valid:</span>
-                        <span class="stat-value" id="validity">-</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1138,7 +1202,6 @@ Example:
         const input = document.getElementById('json-input');
         const output = document.getElementById('output');
         const inputError = document.getElementById('input-error');
-        const successMessage = document.getElementById('success-message');
         const toast = document.getElementById('toast');
         
         // Load saved JSON from localStorage
@@ -1267,7 +1330,163 @@ Example:
         
         function hideMessages() {
             inputError.classList.remove('active');
-            successMessage.classList.remove('active');
+        }
+        
+        // ========================================
+        // COLLAPSIBLE JSON VIEWER
+        // ========================================
+        let lineCounter;
+        let currentOutputMode = 'formatted'; // 'formatted' or 'minified'
+        let allNodes = []; // Track all collapsible nodes
+        
+        function createLine(indent, container) {
+            const lineContainer = document.createElement("div");
+            lineContainer.className = "json-line-container";
+
+            const number = document.createElement("div");
+            number.className = "line-number";
+            number.textContent = lineCounter++;
+
+            const content = document.createElement("div");
+            content.className = "json-line";
+            content.style.paddingLeft = (indent * 20) + "px";
+
+            lineContainer.appendChild(number);
+            lineContainer.appendChild(content);
+            container.appendChild(lineContainer);
+
+            return { line: lineContainer, content };
+        }
+
+        function buildNode(value, indent, container, isArrayItem, key) {
+            if (typeof value !== "object" || value === null) {
+                const { line, content } = createLine(indent, container);
+                
+                // Add key if it exists
+                if (key !== undefined) {
+                    const keySpan = document.createElement("span");
+                    keySpan.className = "json-key";
+                    keySpan.textContent = `"${key}": `;
+                    content.appendChild(keySpan);
+                }
+                
+                // Add value with syntax highlighting
+                const valueSpan = document.createElement("span");
+                valueSpan.className = getTypeClass(value);
+                valueSpan.textContent = JSON.stringify(value);
+                content.appendChild(valueSpan);
+                
+                // Add comma if needed
+                if (!isArrayItem) {
+                    const comma = document.createElement("span");
+                    comma.className = "json-comma";
+                    comma.textContent = ",";
+                    content.appendChild(comma);
+                }
+                
+                return { line, children: [], collapsed: false };
+            }
+
+            const isArray = Array.isArray(value);
+            const entries = isArray ? value : Object.entries(value);
+            const length = isArray ? entries.length : entries.length;
+
+            const node = {
+                collapsed: false,
+                children: []
+            };
+
+            const { line, content } = createLine(indent, container);
+
+            const toggle = document.createElement("span");
+            toggle.className = "toggle";
+            toggle.textContent = "▼ ";
+            
+            // Add key if it exists
+            if (key !== undefined) {
+                const keySpan = document.createElement("span");
+                keySpan.className = "json-key";
+                keySpan.textContent = `"${key}": `;
+                content.appendChild(keySpan);
+            }
+
+            content.appendChild(toggle);
+
+            const bracket = document.createElement("span");
+            bracket.className = "json-bracket";
+            bracket.textContent = isArray ? "[" : "{";
+            content.appendChild(bracket);
+
+            node.line = line;
+            node.toggle = toggle;
+            node.bracket = bracket;
+            node.isArray = isArray;
+            node.length = length;
+
+            if (isArray) {
+                entries.forEach((item, index) => {
+                    const childNode = buildNode(item, indent + 1, container, index < entries.length - 1, undefined);
+                    node.children.push(childNode);
+                });
+            } else {
+                entries.forEach(([objKey, objValue], index) => {
+                    const childNode = buildNode(objValue, indent + 1, container, index < entries.length - 1, objKey);
+                    node.children.push(childNode);
+                });
+            }
+
+            const closing = createLine(indent, container);
+            const closeBracket = document.createElement("span");
+            closeBracket.className = "json-bracket";
+            closeBracket.textContent = isArray ? "]" : "}";
+            closing.content.appendChild(closeBracket);
+            
+            if (!isArrayItem) {
+                const comma = document.createElement("span");
+                comma.className = "json-comma";
+                comma.textContent = ",";
+                closing.content.appendChild(comma);
+            }
+            
+            node.children.push({ line: closing.line, children: [] });
+
+            toggle.onclick = () => {
+                node.collapsed = !node.collapsed;
+                toggle.textContent = node.collapsed ? "▶ " : "▼ ";
+
+                node.children.forEach(child => {
+                    setVisibility(child, !node.collapsed);
+                });
+
+                bracket.textContent = node.collapsed
+                    ? (isArray ? `[...${length}]` : `{...${length}}`)
+                    : (isArray ? "[" : "{");
+            };
+            
+            // Track this node for expand/collapse all functionality
+            allNodes.push(node);
+
+            return node;
+        }
+
+        function setVisibility(node, visible) {
+            node.line.style.display = visible ? "flex" : "none";
+
+            if (!visible) {
+                node.children.forEach(child => setVisibility(child, false));
+            } else {
+                if (!node.collapsed) {
+                    node.children.forEach(child => setVisibility(child, true));
+                }
+            }
+        }
+
+        function getTypeClass(value) {
+            if (typeof value === "string") return "json-string";
+            if (typeof value === "number") return "json-number";
+            if (typeof value === "boolean") return "json-boolean";
+            if (value === null) return "json-null";
+            return "";
         }
         
         window.formatJSON = function() {
@@ -1281,12 +1500,25 @@ Example:
             
             try {
                 const parsed = JSON.parse(inputText);
+                
+                // Clear output and rebuild with collapsible viewer
+                output.innerHTML = "";
+                output.className = "json-viewer";
+                lineCounter = 1;
+                currentOutputMode = 'formatted';
+                allNodes = []; // Reset nodes tracking
+                
+                buildNode(parsed, 0, output, false, undefined);
+                
+                // Show expand/collapse buttons
+                document.getElementById('expand-btn').style.display = 'flex';
+                document.getElementById('collapse-btn').style.display = 'flex';
+                
+                // Calculate stats based on formatted JSON
                 const indent = parseInt(document.getElementById('indent-size').value) || 2;
                 const formatted = JSON.stringify(parsed, null, indent);
-                
-                output.textContent = formatted;
                 updateOutputStats(formatted, true);
-                showSuccess('✓ JSON formatted successfully!');
+                input.classList.remove('error');
                 
             } catch (error) {
                 showError('Invalid JSON: ' + error.message);
@@ -1308,15 +1540,54 @@ Example:
                 const parsed = JSON.parse(inputText);
                 const minified = JSON.stringify(parsed);
                 
+                // Display as plain text for minified
                 output.textContent = minified;
+                output.className = "";
+                currentOutputMode = 'minified';
+                allNodes = []; // Clear nodes
+                
+                // Hide expand/collapse buttons for minified view
+                document.getElementById('expand-btn').style.display = 'none';
+                document.getElementById('collapse-btn').style.display = 'none';
+                
                 updateOutputStats(minified, true);
-                showSuccess('✓ JSON minified successfully!');
+                input.classList.remove('error');
                 
             } catch (error) {
                 showError('Invalid JSON: ' + error.message);
                 input.classList.add('error');
                 document.getElementById('validity').textContent = '✗ Invalid';
             }
+        };
+        
+        // Expand all nodes
+        window.expandAll = function() {
+            allNodes.forEach(node => {
+                if (node.collapsed) {
+                    node.collapsed = false;
+                    node.toggle.textContent = "▼ ";
+                    node.bracket.textContent = node.isArray ? "[" : "{";
+                    node.children.forEach(child => {
+                        setVisibility(child, true);
+                    });
+                }
+            });
+            showToast('✓ All nodes expanded!');
+        };
+        
+        // Collapse all nodes
+        window.collapseAll = function() {
+            allNodes.forEach(node => {
+                if (!node.collapsed) {
+                    node.collapsed = true;
+                    node.toggle.textContent = "▶ ";
+                    node.bracket.textContent = node.isArray ? `[...${node.length}]` : `{...${node.length}}`;
+                    node.children.forEach(child => {
+                        setVisibility(child, false);
+                    });
+                }
+            });
+            showToast('✓ All nodes collapsed!');
         };
         
         function updateOutputStats(text, valid) {
@@ -1338,45 +1609,68 @@ Example:
             inputError.classList.add('active');
         }
         
-        function showSuccess(message) {
-            successMessage.textContent = message;
-            successMessage.classList.add('active');
-        }
-        
         window.copyOutput = function() {
-            const text = output.textContent;
+            const inputText = input.value.trim();
             
-            if (!text) {
+            if (!inputText) {
                 showError('Nothing to copy! Format or minify JSON first.');
                 return;
             }
             
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('✓ Copied to clipboard!');
-            }).catch(() => {
-                showToast('❌ Failed to copy', true);
-            });
+            try {
+                const parsed = JSON.parse(inputText);
+                let text;
+                
+                if (currentOutputMode === 'formatted') {
+                    const indent = parseInt(document.getElementById('indent-size').value) || 2;
+                    text = JSON.stringify(parsed, null, indent);
+                } else {
+                    text = JSON.stringify(parsed);
+                }
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('✓ Copied to clipboard!');
+                }).catch(() => {
+                    showToast('❌ Failed to copy', true);
+                });
+            } catch (error) {
+                showError('Cannot copy invalid JSON');
+            }
         };
         
         window.downloadJSON = function() {
-            const text = output.textContent;
+            const inputText = input.value.trim();
             
-            if (!text) {
+            if (!inputText) {
                 showError('Nothing to download! Format or minify JSON first.');
                 return;
             }
             
-            const blob = new Blob([text], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'formatted-' + Date.now() + '.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showToast('✓ JSON downloaded!');
+            try {
+                const parsed = JSON.parse(inputText);
+                let text;
+                
+                if (currentOutputMode === 'formatted') {
+                    const indent = parseInt(document.getElementById('indent-size').value) || 2;
+                    text = JSON.stringify(parsed, null, indent);
+                } else {
+                    text = JSON.stringify(parsed);
+                }
+                
+                const blob = new Blob([text], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'formatted-' + Date.now() + '.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('✓ JSON downloaded!');
+            } catch (error) {
+                showError('Cannot download invalid JSON');
+            }
         };
         
         window.clearInput = function() {
@@ -1385,12 +1679,18 @@ Example:
             }
             
             input.value = '';
-            output.textContent = '';
+            output.innerHTML = '';
+            output.className = "";
+            allNodes = [];
             localStorage.removeItem('json-input');
             hideMessages();
             updateStats();
             updateOutputStats('', false);
             input.classList.remove('error');
+            
+            // Hide expand/collapse buttons
+            document.getElementById('expand-btn').style.display = 'none';
+            document.getElementById('collapse-btn').style.display = 'none';
         };
         
         window.loadExample = function() {
