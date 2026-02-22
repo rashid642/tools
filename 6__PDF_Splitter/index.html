@@ -12,6 +12,9 @@
     
     <title>PDF Splitter - Split PDF into Multiple Files Online | Tool Studio</title>
     
+    <!-- Google Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    
     <!-- Canonical URL -->
     <link rel="canonical" href="https://toolstudio.in/tools/6/pdf-splitter">
     
@@ -100,6 +103,23 @@
             min-height: 100vh;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            font-feature-settings: 'liga';
+            vertical-align: middle;
+        }
         
         .container {
             min-height: 100vh;
@@ -134,6 +154,10 @@
         h1 .emoji {
             font-size: 1.3rem;
         }
+
+        h1 .material-symbols-outlined {
+            font-size: 1.3rem;
+        }
         
         h1 .title-text {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -159,6 +183,10 @@
         .theme-toggle:hover {
             border-color: var(--primary);
             transform: scale(1.05);
+        }
+
+        .theme-toggle .material-symbols-outlined {
+            font-size: 1.1rem;
         }
         
         .main-content {
@@ -210,6 +238,10 @@
         .upload-icon {
             font-size: 3rem;
             margin-bottom: 12px;
+        }
+
+        .upload-icon .material-symbols-outlined {
+            font-size: 3rem;
         }
         
         .upload-text {
@@ -423,6 +455,11 @@
         .btn-secondary:hover:not(:disabled) {
             background: var(--bg-hover);
             border-color: var(--primary);
+        }
+
+        .main-content .btn-primary .material-symbols-outlined,
+        .main-content .btn-secondary .material-symbols-outlined {
+            font-size: 18px;
         }
         
         .btn-success {
@@ -661,6 +698,10 @@
             color: white;
             transform: rotate(90deg);
         }
+
+        .modal-close .material-symbols-outlined {
+            font-size: 1.2rem;
+        }
         
         .modal-content {
             padding: 24px;
@@ -828,12 +869,12 @@
         <header>
             <div class="header-left">
                 <h1>
-                    <span class="emoji">✂️</span>
+                    <span class="material-symbols-outlined">content_cut</span>
                     <span class="title-text">PDF Splitter</span>
                 </h1>
             </div>
             <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
-                <span id="theme-icon">☀️</span>
+                <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
                 <span id="theme-text">Light</span>
             </button>
         </header>
@@ -842,21 +883,21 @@
             <!-- Upload Section -->
             <div class="card">
                 <h2 class="card-title">
-                    <span>📁</span>
+                    <span class="material-symbols-outlined">folder_open</span>
                     <span>Upload PDF File</span>
                 </h2>
                 
                 <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
-                    <div class="upload-icon">📄</div>
+                    <div class="upload-icon"><span class="material-symbols-outlined">upload_file</span></div>
                     <div class="upload-text">Click to upload or drag and drop</div>
-                    <div class="upload-hint">PDF files only • Max size: 50MB</div>
+                    <div class="upload-hint">PDF files only • Max size: 20MB</div>
                 </div>
                 
                 <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)">
                 
                 <div class="file-info" id="file-info">
                     <div class="file-name">
-                        <span>📄</span>
+                        <span class="material-symbols-outlined">description</span>
                         <span id="file-name-text"></span>
                     </div>
                     <div class="file-details">
@@ -870,11 +911,11 @@
             <div class="card splits-container" id="splits-section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                     <h2 class="card-title" style="margin-bottom: 0;">
-                        <span>✂️</span>
+                        <span class="material-symbols-outlined">content_cut</span>
                         <span>Configure Splits</span>
                     </h2>
                     <button class="btn-secondary" onclick="addSplit()">
-                        <span>➕</span>
+                        <span class="material-symbols-outlined">add</span>
                         <span>Add Split</span>
                     </button>
                 </div>
@@ -901,21 +942,21 @@
                 </div>
                 
                 <div class="unused-pages" id="unused-pages-info">
-                    <div class="unused-title">⚠️ Unused Pages</div>
+                    <div class="unused-title"><span class="material-symbols-outlined">warning</span> Unused Pages</div>
                     <div class="unused-text" id="unused-pages-text"></div>
                 </div>
                 
                 <div class="action-buttons" style="margin-top: 16px;">
                     <button class="btn-primary" onclick="processSplits()" id="process-btn">
-                        <span>✂️</span>
+                        <span class="material-symbols-outlined">content_cut</span>
                         <span>Split PDF</span>
                     </button>
                     <button class="btn-secondary" onclick="validateSplits()">
-                        <span>✓</span>
+                        <span class="material-symbols-outlined">check_circle</span>
                         <span>Validate</span>
                     </button>
                     <button class="btn-secondary" onclick="resetAll()">
-                        <span>🔄</span>
+                        <span class="material-symbols-outlined">refresh</span>
                         <span>Reset</span>
                     </button>
                 </div>
@@ -933,11 +974,11 @@
     <!-- Floating Action Buttons -->
     <div class="fab-container">
         <button class="fab" onclick="openAboutModal()" aria-label="About this tool">
-            <span>ℹ️</span>
+            <span class="material-symbols-outlined">info</span>
             <span class="fab-tooltip">About This Tool</span>
         </button>
         <button class="fab" onclick="openSimilarToolsModal()" aria-label="Similar tools">
-            <span>🔗</span>
+            <span class="material-symbols-outlined">apps</span>
             <span class="fab-tooltip">Similar Tools</span>
         </button>
     </div>
@@ -947,15 +988,15 @@
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <span>✂️</span>
+                    <span class="material-symbols-outlined">content_cut</span>
                     <span>About PDF Splitter</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>💡</span>
+                        <span class="material-symbols-outlined">lightbulb</span>
                         <span>What Does This Tool Do?</span>
                     </h3>
                     <p>
@@ -965,7 +1006,7 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>🚀</span>
+                        <span class="material-symbols-outlined">rocket_launch</span>
                         <span>Key Features</span>
                     </h3>
                     <ul>
@@ -980,11 +1021,11 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>📝</span>
+                        <span class="material-symbols-outlined">checklist</span>
                         <span>How to Use</span>
                     </h3>
                     <ul>
-                        <li><strong>Step 1:</strong> Upload your PDF file (up to 50MB)</li>
+                        <li><strong>Step 1:</strong> Upload your PDF file (up to 20MB)</li>
                         <li><strong>Step 2:</strong> Click "Add Split" to create your first split</li>
                         <li><strong>Step 3:</strong> Enter page ranges (e.g., "1-5" or "1,3,5-7")</li>
                         <li><strong>Step 4:</strong> Give each split a name (optional)</li>
@@ -996,7 +1037,7 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>❓</span>
+                        <span class="material-symbols-outlined">help</span>
                         <span>Frequently Asked Questions</span>
                     </h3>
                     
@@ -1049,10 +1090,10 @@
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <span>🔗</span>
+                    <span class="material-symbols-outlined">apps</span>
                     <span>Similar Tools</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
@@ -1072,19 +1113,19 @@
         // ========================================
         const similarTools = [
             {
-                icon: '📄',
+                icon: 'description',
                 title: 'PDF Page Remover',
                 description: 'Remove specific pages from PDF files quickly and easily',
                 url: 'https://toolstudio.in/tools/3/pdf-page-remover'
             },
             {
-                icon: '{ }',
+                icon: 'data_object',
                 title: 'JSON Formatter',
                 description: 'Format, validate, and beautify JSON data instantly',
                 url: 'https://toolstudio.in/tools/5/json-formatter'
             },
             {
-                icon: '📖',
+                icon: 'book',
                 title: 'README Viewer',
                 description: 'Beautiful README.md viewer with live markdown rendering',
                 url: 'https://toolstudio.in/tools/1/readme-viewer'
@@ -1124,7 +1165,7 @@
             container.innerHTML = similarTools.map(tool => `
                 <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
                     <div class="tool-link-title">
-                        <span>${tool.icon}</span>
+                        <span class="material-symbols-outlined">${tool.icon}</span>
                         <span>${tool.title}</span>
                     </div>
                     <div class="tool-link-desc">${tool.description}</div>
@@ -1151,10 +1192,10 @@
             const icon = document.getElementById('theme-icon');
             const text = document.getElementById('theme-text');
             if (theme === 'dark') {
-                icon.textContent = '🌙';
+                icon.textContent = 'dark_mode';
                 text.textContent = 'Dark';
             } else {
-                icon.textContent = '☀️';
+                icon.textContent = 'light_mode';
                 text.textContent = 'Light';
             }
         }
@@ -1206,9 +1247,9 @@
                 return;
             }
             
-            // Validate file size (50MB)
-            if (file.size > 50 * 1024 * 1024) {
-                showToast('File size must be less than 50MB', 'error');
+            // Validate file size (20MB)
+            if (file.size > 20 * 1024 * 1024) {
+                showToast('File size must be less than 20MB', 'error');
                 return;
             }
             
@@ -1462,7 +1503,7 @@
                 return;
             }
             
-            showToast(`✓ Validation successful! ${validSplits.length} split(s) ready`, 'success');
+            showToast(`Validation successful! ${validSplits.length} split(s) ready`, 'success');
         };
         
         window.processSplits = async function() {
@@ -1555,7 +1596,7 @@
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
                 
-                showToast(`✓ PDF split into ${validSplits.length} files successfully!`, 'success');
+                showToast(`PDF split into ${validSplits.length} files successfully!`, 'success');
                 
             } catch (error) {
                 console.error('Error:', error);
