@@ -590,6 +590,17 @@
             color: var(--text-muted);
             text-align: right;
             margin-top: 6px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .char-count.warning {
+            color: #f59e0b;
+        }
+        
+        .char-count.danger {
+            color: var(--danger);
+            font-weight: 600;
         }
         
         /* Floating Action Buttons */
@@ -983,8 +994,8 @@ Paste or type your markdown content here...
 - ⚡ Real-time preview
 - 🌙 Dark theme
 
-Try typing some markdown!"></textarea>
-                <div class="char-count" id="char-count">0 characters</div>
+Try typing some markdown!" maxlength="500000"></textarea>
+                <div class="char-count" id="char-count">0 / 500,000 characters</div>
             </div>
             
             <!-- Preview Panel -->
@@ -1275,11 +1286,24 @@ Try typing some markdown!"></textarea>
         }
         
         // Update preview on input
+        let hasShownLimitWarning = false;
         input.addEventListener('input', function() {
             updatePreview();
             updateCharCount();
             // Auto-save to localStorage
             localStorage.setItem('readme-content', input.value);
+            
+            // Show warning when reaching 95% of limit
+            const percentage = (input.value.length / 500000) * 100;
+            if (percentage >= 95 && !hasShownLimitWarning) {
+                showToast('Approaching character limit!', 'danger', 'warning');
+                hasShownLimitWarning = true;
+            }
+            
+            // Reset warning flag when user goes back below 90%
+            if (percentage < 90) {
+                hasShownLimitWarning = false;
+            }
         });
         
         function updatePreview() {
@@ -1315,7 +1339,18 @@ Try typing some markdown!"></textarea>
         
         function updateCharCount() {
             const count = input.value.length;
-            charCount.textContent = `${count.toLocaleString()} characters`;
+            const maxLength = 500000;
+            const percentage = (count / maxLength) * 100;
+            
+            charCount.textContent = `${count.toLocaleString()} / ${maxLength.toLocaleString()} characters`;
+            
+            // Update styling based on usage
+            charCount.classList.remove('warning', 'danger');
+            if (percentage >= 95) {
+                charCount.classList.add('danger');
+            } else if (percentage >= 80) {
+                charCount.classList.add('warning');
+            }
         }
         
         window.clearEditor = function() {
