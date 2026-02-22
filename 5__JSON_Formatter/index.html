@@ -316,12 +316,44 @@
             background: #dc2626;
         }
         
-        textarea {
+        .input-editor-wrap {
             flex: 1;
-            width: 100%;
+            display: flex;
+            min-height: 0;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .input-editor-wrap:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        #input-line-numbers {
+            width: 46px;
+            padding: 12px 8px;
+            border-right: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: right;
+            user-select: none;
+            white-space: pre;
+            overflow: hidden;
+            opacity: 0.75;
+        }
+        
+        #json-input {
+            flex: 1;
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-radius: 0;
             padding: 12px;
             color: var(--text);
             font-family: 'Monaco', 'Courier New', monospace;
@@ -331,18 +363,17 @@
             transition: all 0.3s ease;
         }
         
-        textarea:focus {
+        #json-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            box-shadow: none;
         }
         
-        textarea::placeholder {
+        #json-input::placeholder {
             color: var(--text-muted);
         }
         
-        textarea.error {
-            border-color: var(--danger);
+        #json-input.error {
+            background: rgba(239, 68, 68, 0.06);
         }
         
         #output {
@@ -390,13 +421,21 @@
             margin-right: 6px;
             color: var(--text-muted);
             user-select: none;
-            display: inline-block;
-            width: 16px;
-            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1;
+            border-radius: 4px;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
         
         .toggle:hover {
             color: var(--primary);
+            background: rgba(99, 102, 241, 0.14);
         }
         
         /* JSON Syntax Highlighting */
@@ -410,7 +449,8 @@
         }
         
         .json-number { 
-            color: #facc15; 
+            color: #8b5cf6;
+            font-weight: 600;
         }
         
         .json-boolean { 
@@ -497,29 +537,79 @@
             }
         }
         
-        .indent-control {
+        .search-control {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             background: var(--bg-input);
             padding: 4px 8px;
             border-radius: 6px;
             border: 1px solid var(--border);
         }
         
-        .indent-control label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        
-        .indent-control input {
-            width: 50px;
-            padding: 2px 6px;
+        .search-control input {
+            width: 150px;
+            padding: 3px 8px;
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 4px;
             color: var(--text);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        
+        .search-control input:focus {
+            border-color: var(--primary);
+        }
+        
+        .search-counter {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .btn-icon {
+            background: transparent;
+            border: none;
+            padding: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-icon:hover:not(:disabled) {
+            background: var(--bg-hover);
+            color: var(--primary);
+        }
+        
+        .btn-icon:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .btn-icon .material-symbols-outlined {
+            font-size: 20px;
+        }
+        
+        .search-highlight {
+            background: rgba(196, 181, 253, 0.45) !important;
+            color: var(--text) !important;
+            border-radius: 4px;
+            padding: 0 2px;
+            box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.28) inset;
+        }
+        
+        .search-highlight-active {
+            background: rgba(167, 139, 250, 0.62) !important;
+            color: #1f2937 !important;
+            border-radius: 4px;
+            padding: 0 2px;
+            box-shadow: 0 0 0 1px rgba(109, 40, 217, 0.35) inset;
         }
         
         /* Floating Action Buttons */
@@ -941,7 +1031,9 @@
                         </button>
                     </div>
                 </div>
-                <textarea id="json-input" placeholder='Paste your JSON here...
+                <div class="input-editor-wrap">
+                    <div id="input-line-numbers">1</div>
+                    <textarea id="json-input" placeholder='Paste your JSON here...
 
 Example:
 {
@@ -949,6 +1041,7 @@ Example:
   "tools": ["JSON Formatter", "PDF Editor"],
   "active": true
 }'></textarea>
+                </div>
                 <div class="error-message" id="input-error"></div>
                 <div class="stats">
                     <div class="stat-item">
@@ -967,6 +1060,10 @@ Example:
                         <span class="stat-label">Valid:</span>
                         <span class="stat-value" id="validity">-</span>
                     </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Limit:</span>
+                        <span class="stat-value" id="char-limit">500,000</span>
+                    </div>
                 </div>
             </div>
             
@@ -977,9 +1074,15 @@ Example:
                         <span class="material-symbols-outlined">auto_awesome</span>
                         <span>Formatted JSON</span>
                     </div>
-                    <div class="indent-control">
-                        <label for="indent-size">Indent:</label>
-                        <input type="number" id="indent-size" min="1" max="8" value="2">
+                    <div class="search-control" id="search-control" style="display: none;">
+                        <input type="text" id="search-input" placeholder="Search..." autocomplete="off">
+                        <button class="btn-icon" onclick="previousMatch()" id="prev-btn" disabled title="Previous match">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <span class="search-counter" id="search-counter">0/0</span>
+                        <button class="btn-icon" onclick="nextMatch()" id="next-btn" disabled title="Next match">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
                     </div>
                     <div class="btn-group">
                         <button class="btn-secondary" onclick="expandAll()" id="expand-btn" style="display: none;">
@@ -1048,7 +1151,7 @@ Example:
                         <li><strong>Format & Beautify:</strong> Make minified JSON readable with proper indentation</li>
                         <li><strong>Minify JSON:</strong> Compress formatted JSON by removing whitespace</li>
                         <li><strong>Validate Syntax:</strong> Instantly check if your JSON is valid</li>
-                        <li><strong>Custom Indentation:</strong> Choose indent size from 1-8 spaces</li>
+                        <li><strong>Search & Navigate:</strong> Search through JSON with case-insensitive matching, auto-expand collapsed nodes, and navigate between matches</li>
                         <li><strong>Expand All:</strong> Quick control to open all nodes at once</li>
                         <li><strong>Copy & Download:</strong> Easy export options for your formatted JSON</li>
                         <li><strong>Real-time Stats:</strong> Track character count, line count, file size, and validity</li>
@@ -1062,11 +1165,11 @@ Example:
                     </h3>
                     <ul>
                         <li><strong>Step 1:</strong> Paste your JSON data into the input panel on the left</li>
-                        <li><strong>Step 2:</strong> Choose your preferred indent size (default is 2 spaces)</li>
-                        <li><strong>Step 3:</strong> Click "Format" to beautify or "Minify" to compress</li>
-                        <li><strong>Step 4:</strong> View the formatted result in the interactive tree view on the right</li>
-                        <li><strong>Step 5:</strong> Click the ▶ and ▼ arrows to collapse/expand JSON nodes</li>
-                        <li><strong>Step 6:</strong> Use "Expand All" to open all collapsed nodes at once</li>
+                        <li><strong>Step 2:</strong> Click "Format" to beautify or "Minify" to compress</li>
+                        <li><strong>Step 3:</strong> View the formatted result in the interactive tree view on the right</li>
+                        <li><strong>Step 4:</strong> Click the ▸ and ▾ arrows to collapse/expand JSON nodes</li>
+                        <li><strong>Step 5:</strong> Use the search box to find text within JSON (case-insensitive)</li>
+                        <li><strong>Step 6:</strong> Navigate between search results using ◀ and ▶ arrows</li>
                         <li><strong>Step 7:</strong> Use "Copy" to copy to clipboard or "Download" to save as file</li>
                     </ul>
                 </div>
@@ -1247,21 +1350,30 @@ Example:
         // ========================================
         const input = document.getElementById('json-input');
         const output = document.getElementById('output');
+        const inputLineNumbers = document.getElementById('input-line-numbers');
         const inputError = document.getElementById('input-error');
         const toast = document.getElementById('toast');
+        const MAX_JSON_CHARS = 500000;
+        let hasShownLimitWarning = false;
         
         // Load saved JSON from localStorage
         const savedJSON = localStorage.getItem('json-input');
         if (savedJSON) {
             input.value = savedJSON;
+            enforceCharacterLimit();
             updateStats();
         }
         
         // Auto-save input
         input.addEventListener('input', function() {
+            enforceCharacterLimit();
             localStorage.setItem('json-input', input.value);
             updateStats();
             hideMessages();
+        });
+        
+        input.addEventListener('scroll', function() {
+            inputLineNumbers.scrollTop = input.scrollTop;
         });
         
         // Auto-completion for brackets, quotes, and tab handling
@@ -1370,8 +1482,29 @@ Example:
         
         function updateStats() {
             const text = input.value;
+            const lineCount = Math.max(text.split('\n').length, 1);
             document.getElementById('char-count').textContent = text.length.toLocaleString();
-            document.getElementById('line-count').textContent = (text.split('\n').length).toLocaleString();
+            document.getElementById('line-count').textContent = lineCount.toLocaleString();
+            updateInputLineNumbers(lineCount);
+        }
+        
+        function enforceCharacterLimit() {
+            if (input.value.length <= MAX_JSON_CHARS) {
+                hasShownLimitWarning = false;
+                return;
+            }
+            
+            input.value = input.value.slice(0, MAX_JSON_CHARS);
+            if (!hasShownLimitWarning) {
+                showError(`Maximum ${MAX_JSON_CHARS.toLocaleString()} characters allowed.`);
+                showToast(`Input trimmed to ${MAX_JSON_CHARS.toLocaleString()} characters.`, true);
+                hasShownLimitWarning = true;
+            }
+        }
+        
+        function updateInputLineNumbers(lineCount) {
+            const numbers = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
+            inputLineNumbers.textContent = numbers;
         }
         
         function hideMessages() {
@@ -1446,7 +1579,7 @@ Example:
 
             const toggle = document.createElement("span");
             toggle.className = "toggle";
-            toggle.textContent = "▼ ";
+            toggle.textContent = "▾";
             
             // Add key if it exists
             if (key !== undefined) {
@@ -1498,7 +1631,7 @@ Example:
 
             toggle.onclick = () => {
                 node.collapsed = !node.collapsed;
-                toggle.textContent = node.collapsed ? "▶ " : "▼ ";
+                toggle.textContent = node.collapsed ? "▸" : "▾";
 
                 node.children.forEach(child => {
                     setVisibility(child, !node.collapsed);
@@ -1556,12 +1689,15 @@ Example:
                 
                 buildNode(parsed, 0, output, false, undefined);
                 
-                // Show expand button
+                // Show expand button and search control
                 document.getElementById('expand-btn').style.display = 'flex';
+                document.getElementById('search-control').style.display = 'flex';
+                
+                // Clear previous search
+                clearSearch();
                 
                 // Calculate stats based on formatted JSON
-                const indent = parseInt(document.getElementById('indent-size').value) || 2;
-                const formatted = JSON.stringify(parsed, null, indent);
+                const formatted = JSON.stringify(parsed, null, 2);
                 updateOutputStats(formatted, true);
                 input.classList.remove('error');
                 
@@ -1591,8 +1727,9 @@ Example:
                 currentOutputMode = 'minified';
                 allNodes = []; // Clear nodes
                 
-                // Hide expand button for minified view
+                // Hide expand button and search control for minified view
                 document.getElementById('expand-btn').style.display = 'none';
+                document.getElementById('search-control').style.display = 'none';
                 
                 updateOutputStats(minified, true);
                 input.classList.remove('error');
@@ -1609,7 +1746,7 @@ Example:
             allNodes.forEach(node => {
                 if (node.collapsed) {
                     node.collapsed = false;
-                    node.toggle.textContent = "▼ ";
+                    node.toggle.textContent = "▾";
                     node.bracket.textContent = node.isArray ? "[" : "{";
                     node.children.forEach(child => {
                         setVisibility(child, true);
@@ -1619,7 +1756,201 @@ Example:
             showToast('✓ All nodes expanded!');
         };
         
-        // Collapse all nodes
+        // ========================================
+        // SEARCH FUNCTIONALITY
+        // ========================================
+        let searchMatches = [];
+        let currentMatchIndex = -1;
+        let searchDebounceTimer = null;
+        const searchInput = document.getElementById('search-input');
+        const searchCounter = document.getElementById('search-counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        // Search input event listener
+        searchInput.addEventListener('input', function() {
+            if (searchDebounceTimer) {
+                clearTimeout(searchDebounceTimer);
+            }
+            searchDebounceTimer = setTimeout(() => {
+                performSearch();
+            }, 500);
+        });
+        
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            
+            // If debounce is pending, run search immediately.
+            if (searchDebounceTimer) {
+                clearTimeout(searchDebounceTimer);
+                searchDebounceTimer = null;
+                performSearch();
+            }
+            
+            // Move to next result and wrap to first automatically.
+            if (searchMatches.length > 0) {
+                nextMatch();
+            }
+        });
+        
+        function performSearch() {
+            const query = searchInput.value.trim();
+            clearSearch();
+            
+            if (!query || currentOutputMode !== 'formatted') {
+                return;
+            }
+            
+            // Get all text nodes in the JSON viewer
+            const textNodes = [];
+            const walker = document.createTreeWalker(
+                output,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode: function(node) {
+                        // Skip line numbers and toggle buttons
+                        if (node.parentElement.classList.contains('line-number') ||
+                            node.parentElement.classList.contains('toggle')) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                }
+            );
+            
+            while (walker.nextNode()) {
+                textNodes.push(walker.currentNode);
+            }
+            
+            // Search through text nodes (case insensitive)
+            const searchQuery = query.toLowerCase();
+            textNodes.forEach(textNode => {
+                const text = textNode.textContent;
+                const lowerText = text.toLowerCase();
+                let index = lowerText.indexOf(searchQuery);
+                
+                if (index !== -1) {
+                    // Found a match - split and wrap with highlights
+                    const parent = textNode.parentElement;
+                    const fragment = document.createDocumentFragment();
+                    let lastIndex = 0;
+                    
+                    while (index !== -1) {
+                        // Add text before match
+                        if (index > lastIndex) {
+                            fragment.appendChild(document.createTextNode(text.substring(lastIndex, index)));
+                        }
+                        
+                        // Add highlighted match
+                        const highlight = document.createElement('span');
+                        highlight.className = 'search-highlight';
+                        highlight.textContent = text.substring(index, index + query.length);
+                        fragment.appendChild(highlight);
+                        searchMatches.push(highlight);
+                        
+                        // Expand collapsed parent nodes
+                        expandParentNodes(parent);
+                        
+                        lastIndex = index + query.length;
+                        index = lowerText.indexOf(searchQuery, lastIndex);
+                    }
+                    
+                    // Add remaining text
+                    if (lastIndex < text.length) {
+                        fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+                    }
+                    
+                    // Replace original text node
+                    parent.replaceChild(fragment, textNode);
+                }
+            });
+            
+            // Update counter and buttons
+            updateSearchUI();
+            
+            // Jump to first match
+            if (searchMatches.length > 0) {
+                currentMatchIndex = 0;
+                highlightCurrentMatch();
+            }
+        }
+        
+        function nodeContainsLine(node, targetLine) {
+            if (node.line === targetLine) {
+                return true;
+            }
+            return node.children.some(child => nodeContainsLine(child, targetLine));
+        }
+        
+        function expandParentNodes(element) {
+            const targetLine = element.closest('.json-line-container');
+            if (!targetLine) return;
+            
+            allNodes.forEach(node => {
+                if (node.collapsed && nodeContainsLine(node, targetLine)) {
+                    node.collapsed = false;
+                    node.toggle.textContent = "▾";
+                    node.bracket.textContent = node.isArray ? "[" : "{";
+                    node.children.forEach(child => setVisibility(child, true));
+                }
+            });
+        }
+        
+        function clearSearch() {
+            // Remove all highlights
+            searchMatches.forEach(highlight => {
+                const parent = highlight.parentElement;
+                if (parent) {
+                    parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                    parent.normalize(); // Merge adjacent text nodes
+                }
+            });
+            searchMatches = [];
+            currentMatchIndex = -1;
+            updateSearchUI();
+        }
+        
+        function updateSearchUI() {
+            if (searchMatches.length === 0) {
+                searchCounter.textContent = '0/0';
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+            } else {
+                searchCounter.textContent = `${currentMatchIndex + 1}/${searchMatches.length}`;
+                prevBtn.disabled = false;
+                nextBtn.disabled = false;
+            }
+        }
+        
+        function highlightCurrentMatch() {
+            // Remove active highlight from all
+            searchMatches.forEach(match => {
+                match.className = 'search-highlight';
+            });
+            
+            // Add active highlight to current
+            if (currentMatchIndex >= 0 && currentMatchIndex < searchMatches.length) {
+                const currentMatch = searchMatches[currentMatchIndex];
+                currentMatch.className = 'search-highlight-active';
+                currentMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+        
+        window.nextMatch = function() {
+            if (searchMatches.length === 0) return;
+            currentMatchIndex = (currentMatchIndex + 1) % searchMatches.length;
+            highlightCurrentMatch();
+            updateSearchUI();
+        };
+        
+        window.previousMatch = function() {
+            if (searchMatches.length === 0) return;
+            currentMatchIndex = (currentMatchIndex - 1 + searchMatches.length) % searchMatches.length;
+            highlightCurrentMatch();
+            updateSearchUI();
+        };
+        
         function updateOutputStats(text, valid) {
             const bytes = new Blob([text]).size;
             document.getElementById('output-size').textContent = formatBytes(bytes);
@@ -1652,8 +1983,7 @@ Example:
                 let text;
                 
                 if (currentOutputMode === 'formatted') {
-                    const indent = parseInt(document.getElementById('indent-size').value) || 2;
-                    text = JSON.stringify(parsed, null, indent);
+                    text = JSON.stringify(parsed, null, 2);
                 } else {
                     text = JSON.stringify(parsed);
                 }
@@ -1681,8 +2011,7 @@ Example:
                 let text;
                 
                 if (currentOutputMode === 'formatted') {
-                    const indent = parseInt(document.getElementById('indent-size').value) || 2;
-                    text = JSON.stringify(parsed, null, indent);
+                    text = JSON.stringify(parsed, null, 2);
                 } else {
                     text = JSON.stringify(parsed);
                 }
@@ -1718,8 +2047,9 @@ Example:
             updateOutputStats('', false);
             input.classList.remove('error');
             
-            // Hide expand button
+            // Hide expand button and search control
             document.getElementById('expand-btn').style.display = 'none';
+            document.getElementById('search-control').style.display = 'none';
         };
         
         window.loadExample = function() {
