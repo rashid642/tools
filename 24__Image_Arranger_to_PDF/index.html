@@ -254,6 +254,13 @@
             opacity: 0.5;
             transform: scale(0.95);
         }
+
+        .image-item.drop-target {
+            outline: 3px dashed var(--primary);
+            outline-offset: -3px;
+            transform: scale(1.03);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+        }
         
         .image-item img {
             width: 100%;
@@ -1344,145 +1351,85 @@
             hideAlerts();
         }
         
-        // Drag and Drop for Reordering (Desktop & Mobile)
+        // Drag and Drop for Reordering (Desktop only)
         let draggedElement = null;
-        let draggedIndex = -1;
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let isTouchDragging = false;
+        let gridListenersAdded = false;
+        const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
         function setupDragAndDrop() {
             const items = document.querySelectorAll('.image-item');
             
-            items.forEach((item, index) => {
-                // Desktop drag events
+            if (isMobile) {
+                items.forEach(item => {
+                    item.setAttribute('draggable', 'false');
+                    item.style.cursor = 'default';
+                });
+                return;
+            }
+            
+            items.forEach((item) => {
                 item.addEventListener('dragstart', (e) => {
                     draggedElement = item;
-                    draggedIndex = index;
                     item.classList.add('dragging');
                     e.dataTransfer.effectAllowed = 'move';
                 });
                 
                 item.addEventListener('dragend', () => {
                     item.classList.remove('dragging');
+                    document.querySelectorAll('.image-item.drop-target').forEach(el => 
+                        el.classList.remove('drop-target'));
                     draggedElement = null;
-                    draggedIndex = -1;
                 });
                 
                 item.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     e.dataTransfer.dropEffect = 'move';
-                    
                     if (!draggedElement || item === draggedElement) return;
                     
-                    // Determine if we should insert before or after based on position
-                    const itemRect = item.getBoundingClientRect();
-                    const itemCenter = itemRect.left + itemRect.width / 2;
-                    const draggedCenter = e.clientX;
-                    
-                    if (draggedCenter < itemCenter) {
-                        item.parentNode.insertBefore(draggedElement, item);
-                    } else {
-                        item.parentNode.insertBefore(draggedElement, item.nextSibling);
-                    }
+                    document.querySelectorAll('.image-item.drop-target').forEach(el => 
+                        el.classList.remove('drop-target'));
+                    item.classList.add('drop-target');
+                });
+                
+                item.addEventListener('dragleave', () => {
+                    item.classList.remove('drop-target');
                 });
                 
                 item.addEventListener('drop', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    updateImageOrder();
+                    item.classList.remove('drop-target');
+                    
+                    if (!draggedElement || item === draggedElement) return;
+                    
+                    const draggedId = draggedElement.getAttribute('data-id');
+                    const targetId = item.getAttribute('data-id');
+                    const dragIdx = uploadedImages.findIndex(i => i.id == draggedId);
+                    const targetIdx = uploadedImages.findIndex(i => i.id == targetId);
+                    
+                    if (dragIdx !== -1 && targetIdx !== -1) {
+                        [uploadedImages[dragIdx], uploadedImages[targetIdx]] = 
+                            [uploadedImages[targetIdx], uploadedImages[dragIdx]];
+                    }
+                    
+                    draggedElement = null;
+                    renderImages();
+                });
+            });
+            
+            if (!gridListenersAdded) {
+                imagesGrid.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
                 });
                 
-                // Mobile touch events
-                item.addEventListener('touchstart', (e) => {
-                    // Don't interfere with clicks on buttons or inputs
-                    if (e.target.closest('.image-remove') || e.target.closest('.image-order') || 
-                        e.target.closest('.image-reorder-controls')) {
-                        return;
-                    }
-                    
-                    const touch = e.touches[0];
-                    touchStartX = touch.clientX;
-                    touchStartY = touch.clientY;
-                    
-                    // Wait a bit to distinguish between tap and drag
-                    setTimeout(() => {
-                        if (!isTouchDragging && Math.abs(touch.clientX - touchStartX) < 10 && 
-                            Math.abs(touch.clientY - touchStartY) < 10) {
-                            draggedElement = item;
-                            draggedIndex = index;
-                            item.classList.add('dragging');
-                            isTouchDragging = true;
-                        }
-                    }, 200);
-                }, { passive: true });
-                
-                item.addEventListener('touchmove', (e) => {
-                    if (!isTouchDragging || !draggedElement) return;
-                    
+                imagesGrid.addEventListener('drop', (e) => {
                     e.preventDefault();
-                    const touch = e.touches[0];
-                    
-                    // Find element under touch point
-                    const elementAtPoint = document.elementFromPoint(touch.clientX, touch.clientY);
-                    const targetItem = elementAtPoint?.closest('.image-item');
-                    
-                    if (targetItem && targetItem !== draggedElement) {
-                        const targetRect = targetItem.getBoundingClientRect();
-                        const targetCenter = targetRect.left + targetRect.width / 2;
-                        
-                        if (touch.clientX < targetCenter) {
-                            targetItem.parentNode.insertBefore(draggedElement, targetItem);
-                        } else {
-                            targetItem.parentNode.insertBefore(draggedElement, targetItem.nextSibling);
-                        }
-                    }
-                }, { passive: false });
-                
-                item.addEventListener('touchend', () => {
-                    if (isTouchDragging && draggedElement) {
-                        draggedElement.classList.remove('dragging');
-                        updateImageOrder();
-                    }
-                    draggedElement = null;
-                    draggedIndex = -1;
-                    isTouchDragging = false;
-                }, { passive: true });
-                
-                item.addEventListener('touchcancel', () => {
-                    if (draggedElement) {
-                        draggedElement.classList.remove('dragging');
-                    }
-                    draggedElement = null;
-                    draggedIndex = -1;
-                    isTouchDragging = false;
-                }, { passive: true });
-            });
-            
-            // Desktop drag events on grid container
-            imagesGrid.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'move';
-            });
-            
-            imagesGrid.addEventListener('drop', (e) => {
-                e.preventDefault();
-                updateImageOrder();
-            });
-        }
-        
-        function updateImageOrder() {
-            const items = document.querySelectorAll('.image-item');
-            const newOrder = [];
-            
-            items.forEach(item => {
-                const id = item.getAttribute('data-id');
-                const img = uploadedImages.find(i => i.id == id);
-                if (img) newOrder.push(img);
-            });
-            
-            uploadedImages = newOrder;
-            renderImages();
+                    document.querySelectorAll('.image-item.drop-target').forEach(el => 
+                        el.classList.remove('drop-target'));
+                });
+                gridListenersAdded = true;
+            }
         }
         
         // PDF Generation
