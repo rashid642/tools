@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Merger - Combine Multiple PDFs into One | Tool Studio</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Free PDF merger tool to combine multiple PDF files into one. Upload PDFs, reorder them with drag & drop, and merge them instantly. Fast, secure, and easy to use.">
@@ -80,6 +81,23 @@
             --shadow: rgba(0, 0, 0, 0.3);
         }
 
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 22px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            font-feature-settings: 'liga';
+            vertical-align: middle;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: var(--bg);
@@ -144,6 +162,10 @@
             background: var(--bg-hover);
         }
 
+        .theme-toggle .material-symbols-outlined {
+            font-size: 1rem;
+        }
+
         /* Container */
         .container {
             flex: 1;
@@ -181,6 +203,10 @@
         .upload-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
+        }
+
+        .upload-icon .material-symbols-outlined {
+            font-size: 3rem;
         }
 
         .upload-section h2 {
@@ -277,6 +303,11 @@
 
         .btn:hover {
             background: var(--bg-hover);
+        }
+
+        .btn .material-symbols-outlined,
+        .icon-btn .material-symbols-outlined {
+            font-size: 1rem;
         }
 
         .btn-primary {
@@ -784,11 +815,11 @@
     <!-- Header -->
     <header>
         <div class="header-left">
-            <span class="emoji">📋</span>
+            <span class="material-symbols-outlined">picture_as_pdf</span>
             <h1>PDF Merger</h1>
         </div>
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-            <span id="theme-icon">🌙</span>
+            <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
             <span id="theme-text">Dark</span>
         </button>
     </header>
@@ -797,9 +828,9 @@
     <main class="container">
         <!-- Upload Section -->
         <div class="upload-section" id="uploadSection">
-            <div class="upload-icon">📤</div>
+            <div class="upload-icon"><span class="material-symbols-outlined">upload_file</span></div>
             <h2>Upload PDF Files</h2>
-            <p>Drag & drop PDF files here, or click to select (multiple files supported)</p>
+            <p>Drag & drop PDF files here, or click to select (total size limit: 20MB)</p>
             <input 
                 type="file" 
                 id="fileInput" 
@@ -817,18 +848,21 @@
         <div class="files-section" id="filesSection">
             <div class="files-header">
                 <div>
-                    <h2>📚 Your PDF Files</h2>
+                    <h2><span class="material-symbols-outlined">folder_open</span> Your PDF Files</h2>
                     <span class="files-count" id="filesCount">0 files</span>
                 </div>
                 <div class="files-actions">
                     <button class="btn" onclick="addMoreFiles()">
-                        ➕ Add More
+                        <span class="material-symbols-outlined">add</span>
+                        <span>Add More</span>
                     </button>
                     <button class="btn btn-primary" onclick="mergePDFs()" id="mergeBtn">
-                        🔗 Merge PDFs
+                        <span class="material-symbols-outlined">merge_type</span>
+                        <span>Merge PDFs</span>
                     </button>
                     <button class="btn btn-danger" onclick="clearAll()">
-                        🗑️ Clear All
+                        <span class="material-symbols-outlined">delete</span>
+                        <span>Clear All</span>
                     </button>
                 </div>
             </div>
@@ -853,10 +887,10 @@
     <!-- Floating Action Buttons -->
     <div class="fab-container">
         <button class="fab" onclick="openModal('about-modal')" title="About this tool" aria-label="About this tool">
-            ℹ️
+            <span class="material-symbols-outlined">info</span>
         </button>
         <button class="fab" onclick="openModal('similar-tools-modal')" title="Similar tools" aria-label="Similar tools">
-            🔧
+            <span class="material-symbols-outlined">apps</span>
         </button>
     </div>
 
@@ -865,15 +899,15 @@
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <span>📋</span>
+                    <span class="material-symbols-outlined">picture_as_pdf</span>
                     <span>About PDF Merger</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('about-modal')" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>💡</span>
+                        <span class="material-symbols-outlined">lightbulb</span>
                         <span>What Does This Tool Do?</span>
                     </h3>
                     <p>
@@ -883,7 +917,7 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>🚀</span>
+                        <span class="material-symbols-outlined">rocket_launch</span>
                         <span>Key Features</span>
                     </h3>
                     <ul>
@@ -899,7 +933,7 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>📝</span>
+                        <span class="material-symbols-outlined">checklist</span>
                         <span>How to Use</span>
                     </h3>
                     <ul>
@@ -913,7 +947,7 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>🔒</span>
+                        <span class="material-symbols-outlined">lock</span>
                         <span>Privacy & Security</span>
                     </h3>
                     <p>
@@ -923,7 +957,7 @@
                 
                 <div class="modal-section">
                     <h3 class="modal-section-title">
-                        <span>❓</span>
+                        <span class="material-symbols-outlined">help</span>
                         <span>FAQs</span>
                     </h3>
                     <div class="faq-item">
@@ -947,7 +981,7 @@
                             <strong>Q:</strong> What's the file size limit?
                         </div>
                         <div class="faq-answer">
-                            Each individual PDF can be up to 50MB. The total merged file size depends on your uploads.
+                            The total size of all uploaded PDFs must not exceed 20MB.
                         </div>
                     </div>
                     <div class="faq-item">
@@ -968,10 +1002,10 @@
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <span>🔗</span>
+                    <span class="material-symbols-outlined">apps</span>
                     <span>Similar Tools</span>
                 </h2>
-                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close">✕</button>
+                <button class="modal-close" onclick="closeModal('similar-tools-modal')" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
             </div>
             <div class="modal-content">
                 <div class="modal-section">
@@ -986,7 +1020,7 @@
         // Configuration
         const toolId = '10'; // PDF Merger tool ID
         const apiBaseUrl = 'https://toolstudio.in'; // Always use production backend
-        const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB per file
+        const MAX_TOTAL_FILE_SIZE = 20 * 1024 * 1024; // 20MB total across all files
 
         // State
         let pdfFiles = [];
@@ -1011,7 +1045,7 @@
             body.classList.toggle('dark-theme');
             const isDark = body.classList.contains('dark-theme');
             
-            themeIcon.textContent = isDark ? '☀️' : '🌙';
+            themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
             themeText.textContent = isDark ? 'Light' : 'Dark';
             
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
@@ -1050,14 +1084,15 @@
 
         // Handle Files
         function handleFiles(files) {
-            // Validate files
+            // Validate files and enforce total size limit
             for (const file of files) {
                 if (file.type !== 'application/pdf') {
                     showToast(`${file.name} is not a PDF file`, 'error');
                     continue;
                 }
-                if (file.size > MAX_FILE_SIZE) {
-                    showToast(`${file.name} exceeds 50MB limit`, 'error');
+                const currentTotal = pdfFiles.reduce((sum, f) => sum + f.size, 0);
+                if (currentTotal + file.size > MAX_TOTAL_FILE_SIZE) {
+                    showToast(`Total upload size cannot exceed 20MB`, 'error');
                     continue;
                 }
                 pdfFiles.push(file);
@@ -1080,7 +1115,7 @@
             filesList.innerHTML = pdfFiles.map((file, index) => `
                 <div class="file-item" draggable="true" data-index="${index}">
                     <div class="file-order">${index + 1}</div>
-                    <span class="file-icon">📄</span>
+                    <span class="file-icon"><span class="material-symbols-outlined">description</span></span>
                     <div class="file-info">
                         <div class="file-name">${escapeHtml(file.name)}</div>
                         <div class="file-size">${formatFileSize(file.size)}</div>
@@ -1242,7 +1277,8 @@
             const toastIcon = document.getElementById('toastIcon');
             const toastMessage = document.getElementById('toastMessage');
             
-            toastIcon.textContent = type === 'success' ? '✓' : '⚠️';
+            toastIcon.className = 'material-symbols-outlined';
+            toastIcon.textContent = type === 'success' ? 'check_circle' : 'warning';
             toastMessage.textContent = message;
             
             toast.className = `toast ${type} active`;
@@ -1255,25 +1291,25 @@
         // Similar Tools Configuration
         const similarTools = [
             {
-                icon: '📄',
+                icon: 'description',
                 title: 'PDF Page Remover',
                 description: 'Remove specific pages from PDF files quickly and easily',
                 url: 'https://toolstudio.in/tools/3/pdf-page-remover'
             },
             {
-                icon: '✂️',
+                icon: 'content_cut',
                 title: 'PDF Splitter',
                 description: 'Split PDF into multiple documents with custom page ranges',
                 url: 'https://toolstudio.in/tools/6/pdf-splitter'
             },
             {
-                icon: '⚖️',
+                icon: 'compare_arrows',
                 title: 'Text Diff Comparison',
                 description: 'Compare two texts side-by-side with color-coded differences',
                 url: 'https://toolstudio.in/tools/9/text-diff-comparison'
             },
             {
-                icon: '📝',
+                icon: 'data_object',
                 title: 'JSON Formatter',
                 description: 'Format and validate JSON data with custom indentation',
                 url: 'https://toolstudio.in/tools/5/json-formatter'
@@ -1286,7 +1322,7 @@
                 toolsList.innerHTML = similarTools.map(tool => `
                     <a href="${tool.url}" class="tool-link" target="_blank" rel="noopener noreferrer">
                         <div class="tool-link-title">
-                            <span>${tool.icon}</span>
+                            <span class="material-symbols-outlined">${tool.icon}</span>
                             <span>${tool.title}</span>
                         </div>
                         <div class="tool-link-desc">${tool.description}</div>
