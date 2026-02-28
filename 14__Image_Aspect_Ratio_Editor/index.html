@@ -387,6 +387,7 @@
             z-index: 5;
             background: transparent;
             box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            touch-action: none;
         }
         
         .crop-handle {
@@ -397,6 +398,7 @@
             border: 2px solid var(--primary);
             border-radius: 50%;
             z-index: 6;
+            touch-action: none;
         }
         
         .crop-handle.nw { top: -7px; left: -7px; cursor: nw-resize; }
@@ -729,6 +731,15 @@
                 font-size: 0.85rem;
                 gap: 5px;
             }
+            
+            .crop-handle {
+                width: 24px;
+                height: 24px;
+            }
+            .crop-handle.nw { top: -12px; left: -12px; }
+            .crop-handle.ne { top: -12px; right: -12px; }
+            .crop-handle.sw { bottom: -12px; left: -12px; }
+            .crop-handle.se { bottom: -12px; right: -12px; }
             
             .upload-area {
                 padding: 40px 20px;
@@ -1374,7 +1385,6 @@
         function setupCropBoxEvents() {
             const cropBoxEl = document.getElementById('cropBox');
             
-            // Get position relative to canvas
             function getCanvasCoords(clientX, clientY) {
                 const canvasRect = canvas.getBoundingClientRect();
                 return {
@@ -1383,46 +1393,75 @@
                 };
             }
             
-            // Dragging the crop box
-            cropBoxEl.addEventListener('mousedown', function(e) {
-                if (e.target.classList.contains('crop-handle')) {
+            function handlePointerDown(clientX, clientY, target) {
+                if (target.classList.contains('crop-handle')) {
                     isResizing = true;
-                    resizeHandle = e.target.classList[1];
-                } else if (e.target.classList.contains('crop-box')) {
+                    resizeHandle = target.classList[1];
+                } else if (target.classList.contains('crop-box') || target.closest('.crop-box')) {
                     isDragging = true;
                 }
-                const coords = getCanvasCoords(e.clientX, e.clientY);
+                const coords = getCanvasCoords(clientX, clientY);
                 dragStartX = coords.x;
                 dragStartY = coords.y;
+            }
+            
+            function handlePointerMove(clientX, clientY) {
+                if (!isDragging && !isResizing) return;
+                
+                const coords = getCanvasCoords(clientX, clientY);
+                const dx = coords.x - dragStartX;
+                const dy = coords.y - dragStartY;
+                
+                if (isDragging) {
+                    cropBox.x += dx;
+                    cropBox.y += dy;
+                    constrainCropBox();
+                } else if (isResizing) {
+                    handleResize(dx, dy);
+                }
+                
+                updateCropBox();
+                dragStartX = coords.x;
+                dragStartY = coords.y;
+            }
+            
+            function handlePointerUp() {
+                isDragging = false;
+                isResizing = false;
+                resizeHandle = null;
+            }
+            
+            // Mouse events
+            cropBoxEl.addEventListener('mousedown', function(e) {
+                handlePointerDown(e.clientX, e.clientY, e.target);
                 e.preventDefault();
                 e.stopPropagation();
             });
             
             document.addEventListener('mousemove', function(e) {
-                if (isDragging || isResizing) {
-                    const coords = getCanvasCoords(e.clientX, e.clientY);
-                    const dx = coords.x - dragStartX;
-                    const dy = coords.y - dragStartY;
-                    
-                    if (isDragging) {
-                        cropBox.x += dx;
-                        cropBox.y += dy;
-                        constrainCropBox();
-                    } else if (isResizing) {
-                        handleResize(dx, dy);
-                    }
-                    
-                    updateCropBox();
-                    dragStartX = coords.x;
-                    dragStartY = coords.y;
-                }
+                handlePointerMove(e.clientX, e.clientY);
             });
             
-            document.addEventListener('mouseup', function() {
-                isDragging = false;
-                isResizing = false;
-                resizeHandle = null;
-            });
+            document.addEventListener('mouseup', handlePointerUp);
+            
+            // Touch events
+            cropBoxEl.addEventListener('touchstart', function(e) {
+                const touch = e.touches[0];
+                handlePointerDown(touch.clientX, touch.clientY, e.target);
+                e.preventDefault();
+                e.stopPropagation();
+            }, { passive: false });
+            
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging || isResizing) {
+                    const touch = e.touches[0];
+                    handlePointerMove(touch.clientX, touch.clientY);
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            document.addEventListener('touchend', handlePointerUp);
+            document.addEventListener('touchcancel', handlePointerUp);
         }
 
         function handleResize(dx, dy) {
