@@ -829,7 +829,11 @@
         <section class="text-panel">
             <div class="text-header">
                 <h2>📝 Your Text</h2>
-                <span class="char-count" id="charCount">0 / 50,000 characters</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button class="nav-btn" id="searchBtn" onclick="triggerSearch()" style="display: none; padding: 4px 10px; font-size: 0.75rem;">🔍 Search</button>
+                    <button class="nav-btn" id="editBtn" onclick="enableEditing()" style="display: none; padding: 4px 10px; font-size: 0.75rem;">✏️ Edit</button>
+                    <span class="char-count" id="charCount">0 / 50,000 characters</span>
+                </div>
             </div>
             <textarea 
                 class="text-input" 
@@ -837,6 +841,7 @@
                 placeholder="Paste or type your text here... (Max 50,000 characters)"
                 maxlength="50000"
                 oninput="handleTextInput()"
+                onblur="handleTextBlur()"
             ></textarea>
             <div class="text-display" id="textDisplay" style="display: none;"></div>
         </section>
@@ -990,6 +995,7 @@
         // State
         let searchStates = [];
         let currentText = '';
+        let isEditing = false;
 
         // Initialize
         function init() {
@@ -1075,7 +1081,11 @@
             }
 
             currentText = textInput.value;
-            performSearch();
+            if (!isEditing) {
+                performSearch();
+            } else {
+                updateSearchBtnVisibility();
+            }
         }
 
         // Search Input Handler
@@ -1083,7 +1093,11 @@
             const searchInput = document.getElementById(`search-${index}`);
             searchStates[index].term = searchInput.value;
             searchStates[index].currentIndex = -1;
-            performSearch();
+            if (!isEditing) {
+                performSearch();
+            } else {
+                updateSearchBtnVisibility();
+            }
         }
 
         // Search Keydown Handler (Enter to navigate)
@@ -1094,26 +1108,63 @@
             }
         }
 
+        function enableEditing() {
+            isEditing = true;
+            document.getElementById('textInput').style.display = 'block';
+            document.getElementById('textDisplay').style.display = 'none';
+            document.getElementById('editBtn').style.display = 'none';
+            updateSearchBtnVisibility();
+            document.getElementById('textInput').focus();
+        }
+
+        function triggerSearch() {
+            isEditing = false;
+            currentText = document.getElementById('textInput').value;
+            performSearch();
+        }
+
+        function handleTextBlur(e) {
+            if (e.relatedTarget && e.relatedTarget.id === 'searchBtn') return;
+            isEditing = false;
+            currentText = document.getElementById('textInput').value;
+            performSearch();
+        }
+
+        function updateSearchBtnVisibility() {
+            const hasText = document.getElementById('textInput').value.trim().length > 0;
+            const hasTerms = searchStates.some(s => s.term.trim());
+            const textareaVisible = document.getElementById('textInput').style.display !== 'none';
+            document.getElementById('searchBtn').style.display = (hasText && hasTerms && textareaVisible) ? 'inline-flex' : 'none';
+        }
+
         // Perform Search
         function performSearch() {
+            const searchBtn = document.getElementById('searchBtn');
+            const editBtn = document.getElementById('editBtn');
+
             if (!currentText) {
                 document.getElementById('textInput').style.display = 'block';
                 document.getElementById('textDisplay').style.display = 'none';
+                editBtn.style.display = 'none';
+                searchBtn.style.display = 'none';
                 return;
             }
 
-            // Check if any search term exists
             const hasSearchTerms = searchStates.some(state => state.term.trim());
             
             if (!hasSearchTerms) {
                 document.getElementById('textInput').style.display = 'block';
                 document.getElementById('textDisplay').style.display = 'none';
+                editBtn.style.display = 'none';
+                searchBtn.style.display = 'none';
                 return;
             }
 
             // Show display, hide input
             document.getElementById('textInput').style.display = 'none';
             document.getElementById('textDisplay').style.display = 'block';
+            editBtn.style.display = 'inline-flex';
+            searchBtn.style.display = 'none';
 
             // Get options
             const caseSensitive = document.getElementById('caseSensitive').checked;
@@ -1191,19 +1242,23 @@
                 });
             });
 
-            // Sort by position
-            highlights.sort((a, b) => a.start - b.start);
+            // Sort by start position, then by search index (lower search index = higher priority)
+            highlights.sort((a, b) => a.start - b.start || a.searchIndex - b.searchIndex);
 
-            // Build highlighted text
+            // Build highlighted text, skipping/trimming overlapping regions
             let result = '';
             let lastIndex = 0;
 
             highlights.forEach(highlight => {
-                // Add text before highlight
-                result += escapeHtml(currentText.substring(lastIndex, highlight.start));
+                if (highlight.end <= lastIndex) return;
 
-                // Add highlighted text
-                const highlightedText = escapeHtml(currentText.substring(highlight.start, highlight.end));
+                const effectiveStart = Math.max(highlight.start, lastIndex);
+
+                if (effectiveStart > lastIndex) {
+                    result += escapeHtml(currentText.substring(lastIndex, effectiveStart));
+                }
+
+                const highlightedText = escapeHtml(currentText.substring(effectiveStart, highlight.end));
                 const className = `highlight-${highlight.searchIndex + 1}${highlight.isCurrent ? ' highlight-current' : ''}`;
                 result += `<span class="${className}" data-search="${highlight.searchIndex}" data-match="${highlight.matchIndex}">${highlightedText}</span>`;
 
@@ -1252,7 +1307,6 @@
 
         // Clear All
         function clearAll() {
-            // Clear all search inputs
             searchStates.forEach((state, index) => {
                 state.term = '';
                 state.matches = [];
@@ -1263,9 +1317,11 @@
                 document.getElementById(`next-${index}`).disabled = true;
             });
 
-            // Show input, hide display
+            isEditing = false;
             document.getElementById('textInput').style.display = 'block';
             document.getElementById('textDisplay').style.display = 'none';
+            document.getElementById('editBtn').style.display = 'none';
+            document.getElementById('searchBtn').style.display = 'none';
         }
 
         // Escape HTML
